@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+<!-- JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<title>{% block title %}{% endblock %}</title>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="{% url 'home' %}">
+    {% if user.is_authenticated %}
+    {{user}}
+  {% else %}
+  Djagno
+  {% endif %}</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item {% if active == 'home' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item {% if active == 'iupload' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'iupload' %}">Upload <span class="sr-only">(current)</span></a>
+      </li>
+        {% if user.is_authenticated %}
+
+        {% else %}
+      <li class="nav-item {% if active == 'home' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'home' %}">Register <span class="sr-only">(current)</span></a>
+      </li>
+       {% endif %}
+    </ul>
+{% if user.is_authenticated %}
+<form class="form-inline" method="get" action="{% url 'search' %}">
+  {% csrf_token %}
+    <input class="form-control mr-sm-2" type="search" placeholder="Search for Friends" {% if search %}value="{{search}}" {% endif %} name="set" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+    {% endif %}
+  </div>
+</nav>
+</head>
+<body>
+<div class="container">
+{% block content %}
+{% endblock %}
+</div>
+</body>
+</html>

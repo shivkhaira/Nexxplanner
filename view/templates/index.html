@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<h1>Hello World!</h1>
+<form method="post">
+    {% csrf_token %}
+     {{form1}}<br>
+    {{form}}
+
+    <input type="submit">
+</form>
+{% if register %}
+<p>Registration Successful</p>
+{% endif %}
+{% endblock %}
