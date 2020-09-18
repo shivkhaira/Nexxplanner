@@ -41,6 +41,3 @@ def iupload(request):
 
     return render(request,'upload.html',{'form':Uinsta()})
 
-
-def hello(request):
-    return render(request,'hello.html',{})

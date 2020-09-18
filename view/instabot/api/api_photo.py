@@ -188,7 +188,8 @@ def upload_photo(
             media = self.last_json.get("media")
             self.expose()
             if options.get("rename"):
-                os.rename(photo, "{fname}.REMOVE_ME".format(fname=photo))
+                pass
+                #os.rename(photo, "{fname}.REMOVE_ME".format(fname=photo))
             return media
     return False
 

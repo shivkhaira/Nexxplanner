@@ -1,10 +1,9 @@
-from instabot import Bot
+from .instabot import Bot
 from PIL import Image
 import os
 import PIL
 import numpy as np
 import shutil
-
 def crop(x, y, data, w, h):
     x = int(x)
     y = int(y)

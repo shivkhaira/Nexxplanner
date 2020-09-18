@@ -7,7 +7,7 @@ import random
 import signal
 import time
 
-from instabot import utils
+#from instabot import utils
 
 # from instabot.api.api import API
 from ..api import API
@@ -269,13 +269,13 @@ class Bot(object):
         whitelist_file = os.path.join(base_path, whitelist_file)
 
         # Database files
-        self.followed_file = utils.file(followed_file)
-        self.unfollowed_file = utils.file(unfollowed_file)
-        self.skipped_file = utils.file(skipped_file)
-        self.friends_file = utils.file(friends_file)
-        self.comments_file = utils.file(comments_file)
-        self.blacklist_file = utils.file(blacklist_file)
-        self.whitelist_file = utils.file(whitelist_file)
+        #self.followed_file = utils.file(followed_file)
+        #self.unfollowed_file = utils.file(unfollowed_file)
+        #self.skipped_file = utils.file(skipped_file)
+        #self.friends_file = utils.file(friends_file)
+        #self.comments_file = utils.file(comments_file)
+        #self.blacklist_file = utils.file(blacklist_file)
+        #self.whitelist_file = utils.file(whitelist_file)
 
         self.proxy = proxy
         self.verbosity = verbosity

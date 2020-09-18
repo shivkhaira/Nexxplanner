@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import django_heroku
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,7 +25,7 @@ SECRET_KEY = '63myy=ly83&c4fa42(nzfkq+vqzzd@+4no$z1bsvn-@k=$ck#$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['http://django-env.eba-5itrsp7q.us-west-2.elasticbeanstalk.com/']
 
 
 # Application definition
@@ -77,17 +77,9 @@ WSGI_APPLICATION = 'github.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'python',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '3306',   #my port is 3306
-
-    },
-'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES';",
-        }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
 
 
@@ -133,7 +125,6 @@ MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 CRONJOBS = [
-    ('*/1 * * * *', 'view.cron.cron_job')
+    ('*/2 * * * *', 'view.cron.cron_job')
 ]
 
-django_heroku.settings(locals())
