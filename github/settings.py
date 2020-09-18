@@ -75,9 +75,17 @@ WSGI_APPLICATION = 'github.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
-DATABASE_URL = 'postgresql://<postgresql>'
-DATABASES = {'default': dj_database_url.config(default=DATABASE_URL)}
+
+db_config = dj_database_url.config()
+if db_config:
+    DATABASES['default'] =  db_config
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
