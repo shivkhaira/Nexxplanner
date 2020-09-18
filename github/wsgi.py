@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/3.0/howto/deployment/wsgi/
 import os
 import sys
 
-sys.path.insert(0, '/opt/python/current/app')
+sys.path.insert(0, '/opt/python/current/app/github')
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'github.settings'
 
