@@ -33,11 +33,13 @@ def iupload(request):
             pic=Iupload.objects.get(id=data.id)
             p = Insta.objects.get(id=1)
             img = str(pic.file)
-            multiprocessing.Process(target=Int.up, args=(p.username,p.password,'media/'+img,data.caption)).start()
-            #threading.Thread(target=Int.up, args=(p.username,p.password,'media/'+img,data.caption)).start()
+            #multiprocessing.Process(target=Int.up, args=(p.username,p.password,'media/'+img,data.caption)).start()
+            threading.Thread(target=Int.up, args=(p.username,p.password,'media/'+img,data.caption)).start()
             return render(request, 'upload.html', {'form': Uinsta()})
         else:
             return redirect('home')
 
     return render(request,'upload.html',{'form':Uinsta()})
 
+def hello(request):
+    return render(request,'hello.html',{})
