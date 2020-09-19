@@ -6,7 +6,6 @@ files:
         content: |
 
 
-            * * * * * source /opt/python/run/venv/bin/activate && cd /opt/python/current/app/ && python manage.py cronjb > $HOME/cron-sqs.log 2>&1
-
+            * * * * * source /opt/python/run/venv/bin/activate && cd /opt/python/current/app/ && python send.py
 
 
