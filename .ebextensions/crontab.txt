@@ -6,6 +6,6 @@ files:
         content: |
 
 
-            * * * * * source /opt/python/run/venv/bin/activate && cd /opt/python/current/app/ && python send.py
+            0 0 * * * source /opt/python/run/venv/bin/activate && cd /opt/python/current/app/ && python send.py
 
 
