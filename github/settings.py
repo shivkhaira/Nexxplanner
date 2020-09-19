@@ -25,7 +25,7 @@ SECRET_KEY = '63myy=ly83&c4fa42(nzfkq+vqzzd@+4no$z1bsvn-@k=$ck#$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['django-env.eba-9avmw3pr.us-west-2.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['django-env.eba-9avmw3pr.us-west-2.elasticbeanstalk.com','127.0.0.1']
 
 
 # Application definition
@@ -141,4 +141,11 @@ MEDIA_URL = '/media/'
 CRONJOBS = [
     ('*/2 * * * *', 'view.cron.cron_job')
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'smtpmail005@gmail.com'
+EMAIL_HOST_PASSWORD = 'hpage1998'
 
