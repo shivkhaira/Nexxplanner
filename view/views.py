@@ -11,6 +11,7 @@ import multiprocessing
 
 
 from django.core.mail import send_mail
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -44,4 +45,5 @@ def iupload(request):
     return render(request,'upload.html',{'form':Uinsta()})
 
 def hello(request):
-   send_mail("hello paul", "comment tu vas?", "shivsinghkhaira@gmail.com", ['shivsinghkhaira@gmail.com'])
+   res = send_mail("hello paul", "view page", "shivsinghkhaira@gmail.com", ['shivsinghkhaira@gmail.com'])
+   return HttpResponse('%s'%res)
