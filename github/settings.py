@@ -145,6 +145,6 @@ AWS_ACCESS_KEY_ID = 'AKIA4WO4TY4BDYLJUMV3'
 AWS_SECRET_ACCESS_KEY = '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'
 
 CRONJOBS = [
-    ('* * * * *', 'view.myscript.handle'),
+    
     ('* * * * *','send')
 ]
