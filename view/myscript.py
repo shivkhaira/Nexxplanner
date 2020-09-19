@@ -18,4 +18,4 @@ def handle():
     email_from = "shivsinghkhaira@gmail.com"
     recipient_list = ['shivsinghkhaira@gmail.com']
     send_mail(subject, message, email_from, recipient_list)
-    
+
