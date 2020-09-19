@@ -1,0 +1,1 @@
+* * * * * source /opt/python/run/venv/bin/activate && python manage.py cronjb > $HOME/cron-sqs.log 2>&1

@@ -1,1 +1,0 @@
-* * * * * root source /opt/python/run/venv/bin/activate && /opt/python/run/venv/bin/python /opt/python/current/github/manage.py cronjb >> /var/log/cronjobs.log
