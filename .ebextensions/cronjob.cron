@@ -1,0 +1,3 @@
+# The newline at the end of this file is extremely important.  Cron won't run without it.
+* * * * * /opt/python/run/venv/bin/activate manage.py cronjb > /var/log/cronjobs.log 2>&1
+*/5 * * * * root source /opt/python/run/venv/bin/activate && /opt/python/run/venv/bin/python /opt/python/current/github/manage.py cronjb >> /var/log/cronjobs.log

@@ -1,2 +1,4 @@
+from django.core.mail import send_mail
+
 def cron_job():
-    print("Hello World!!")
+    send_mail("hello paul", "hello", "shivsinghkhaira@gmail.com", ['shivsinghkhaira@gmail.com'])
