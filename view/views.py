@@ -45,5 +45,5 @@ def iupload(request):
     return render(request,'upload.html',{'form':Uinsta()})
 
 def hello(request):
-   res = send_mail("hello paul", "comment tu vas?", "paul@polo.com", ['shivsinghkhaira@gmail.com'])
+   res = send_mail("hello paul", "comment tu vas?", "shivsinghkhaira@gmail.com", ['shivsinghkhaira@gmail.com'])
    return HttpResponse('%s'%res)

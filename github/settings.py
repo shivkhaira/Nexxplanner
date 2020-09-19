@@ -139,10 +139,6 @@ MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'smtpmail005@gmail.com'
-EMAIL_HOST_PASSWORD = 'hpage1998'
-
+EMAIL_BACKEND = 'django_ses.SESBackend'
+AWS_ACCESS_KEY_ID = 'AKIA4WO4TY4BDYLJUMV3'
+AWS_SECRET_ACCESS_KEY = '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'
