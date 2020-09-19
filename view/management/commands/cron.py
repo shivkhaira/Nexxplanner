@@ -6,5 +6,4 @@ from django.http import HttpResponse
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        res = send_mail("hello paul", "comment tu vas?", "paul@polo.com", ['shivsinghkhaira@gmail.com'])
-        return HttpResponse('%s' % res)
+        print("K")
