@@ -4,16 +4,9 @@ from django.core.mail import send_mail
 import os
 import requests
 
+from .models import Pro,Insta,Iupload
+settings.configure()
 
-
-if __name__ == '__main__' and __package__ is None:
-    os.sys.path.append(
-        os.path.dirname(
-            os.path.dirname(
-                os.path.abspath(__file__))))
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "github.settings")
-
-from view.models import Insta
 
 name=Insta.objects.get(id=1)
 subject = 'welcome to GFG world '+name.username
