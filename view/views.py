@@ -45,6 +45,4 @@ def iupload(request):
     return render(request,'upload.html',{'form':Uinsta()})
 
 def hello(request):
-   res = send_mail("hello paul", "view page", "shivsinghkhaira@gmail.com", ['shivsinghkhaira@gmail.com'])
-   multiprocessing.Process(target=Int.up, args=('cherlongjeff', 'samsungm5330', 'media/images/2.jpg', 'Go')).start()
-   return HttpResponse('%s'%res)
+   return render(request,'hello.html',{})
