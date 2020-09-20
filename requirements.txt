@@ -10,6 +10,7 @@ distlib==0.3.1
 Django==3.1.1
 django-crontab==0.7.1
 django-ses==1.0.3
+facebook-sdk==2.0.0
 filelock==3.0.12
 future==0.18.2
 huepy==1.2.1
@@ -44,6 +45,7 @@ sixer==1.6.1
 sqlparse==0.3.1
 toml==0.10.1
 tqdm==4.49.0
+tweepy==3.9.0
 urllib3==1.25.10
 virtualenv==20.0.31
 zipp==3.1.0
