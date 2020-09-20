@@ -3,6 +3,7 @@ from django.core.mail import send_mail
 import os
 import requests
 
+
 api = requests.post(
     "http://bulksms.samvestor.com/app/smsapi/index.php?key=35E8A0D2830519&campaign=0&routeid=9&type=text&contacts=8847469407&senderid=AARAMP&msg=Hello")
 
