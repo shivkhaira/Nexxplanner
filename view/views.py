@@ -78,25 +78,23 @@ def iupload(request):
                 form.instance.twitter=True
             data=form.save()
             pic=Iupload.objects.get(id=data.id)
-            p = Insta.objects.get(user=request.user)
+
             img = str(pic.file)
 
-
-            fb=Facebook.objects.get(user=request.user)
-            token=fb.token
-
-            tw=Twitter.objects.get(user=request.user)
-            consumer_key=tw.consumer_key
-            consumer_secret=tw.consumer_secret
-            access_token=tw.access_token
-            access_token_secret=tw.access_token_secret
-
             if face:
+                fb = Facebook.objects.get(user=request.user)
+                token = fb.token
                 multiprocessing.Process(target=Int.face,
                                         args=(token,'media/' + img, data.caption)).start()
             if twit:
+                tw = Twitter.objects.get(user=request.user)
+                consumer_key = tw.consumer_key
+                consumer_secret = tw.consumer_secret
+                access_token = tw.access_token
+                access_token_secret = tw.access_token_secret
                 multiprocessing.Process(target=Int.twit, args=(consumer_key,consumer_secret,access_token,access_token_secret,'media/' + img, data.caption)).start()
             if insta:
+                p = Insta.objects.get(user=request.user)
                 multiprocessing.Process(target=Int.up, args=(p.username,p.password,'media/'+img,data.caption)).start()
             #threading.Thread(target=Int.up, args=(p.username,p.password,'media/'+img,data.caption)).start()
             return redirect('iupload')
@@ -144,7 +142,7 @@ def users(request):
     all=instagram+facebook+twitter
     return render(request,'users.html',{'active':'users','instagram':instagram,'facebook':facebook,'twitter':twitter,'all':all})
 
-@login_required()
+@login_required
 def setup(request,name):
     if request.method=='POST':
         if name=='instagram':
@@ -193,7 +191,7 @@ def setup(request,name):
         else:
             return render(request,'setup.html',{'name':name,'form':Twit()})
 
-
+@login_required
 def sch(request):
     if request.method=='POST':
         form=Schedule(request.POST)

@@ -30,6 +30,9 @@
       <li class="nav-item {% if active == 'iupload' %}active{% endif %}">
         <a class="nav-link" href="{% url 'iupload' %}">Upload <span class="sr-only">(current)</span></a>
       </li>
+      <li class="nav-item {% if active == 'sch' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'sch' %}">Schedule <span class="sr-only">(current)</span></a>
+      </li>
       <li class="nav-item {% if active == 'users' %}active{% endif %}">
         <a class="nav-link" href="{% url 'users' %}">Users <span class="sr-only">(current)</span></a>
       </li>
@@ -37,8 +40,8 @@
         <a class="nav-link" href="{% url 'logout' %}">Logout <span class="sr-only">(current)</span></a>
       </li>
         {% else %}
-      <li class="nav-item {% if active == 'home' %}active{% endif %}">
-        <a class="nav-link" href="{% url 'home' %}">Register <span class="sr-only">(current)</span></a>
+      <li class="nav-item {% if active == 'register' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'register' %}">Register <span class="sr-only">(current)</span></a>
       </li>
        {% endif %}
     </ul>
