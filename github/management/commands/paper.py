@@ -33,15 +33,17 @@ class Command(BaseCommand):
                 data=Iupload.objects.get(id=id)
                 if data.facebook:
                     multiprocessing.Process(target=Int.face,
-                                            args=(token, 'media/' + data.file, data.caption)).start()
+                                            args=(token, 'media/' + str(data.file), data.caption)).start()
                 if data.twitter:
                     multiprocessing.Process(target=Int.twit, args=(
-                    consumer_key, consumer_secret, access_token, access_token_secret, 'media/' + data.file,
+                    consumer_key, consumer_secret, access_token, access_token_secret, 'media/' + str(data.file),
                     data.caption)).start()
                 if data.instagram:
                     multiprocessing.Process(target=Int.up,
-                                            args=(username, password, 'media/' + data.file, data.caption)).start()
-
+                                            args=(username, password, 'media/' + str(data.file), data.caption)).start()
+                yep=Save.objects.get(id=i.id)
+                yep.done=True
+                yep.save()
             else:
                 print(False)
 

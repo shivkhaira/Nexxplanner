@@ -240,30 +240,26 @@ def check(request):
     for i in pending:
         dt = datetime.combine(i.sdate, i.stime)
         if curr >= dt:
-            insta = Insta.objects.get(user=i.user)
-            face = Facebook.objects.get(user=i.user)
-            twit = Twitter.objects.get(user=i.user)
-            username = insta.username
-            password = insta.password
-            token = face.token
-            consumer_key = twit.consumer_key
-            consumer_secret = twit.consumer_secret
-            access_token = twit.access_token
-            access_token_secret = twit.access_token_secret
             data = Iupload.objects.get(id=i.fid)
-            print(data.file)
-            print(data.caption)
             if data.facebook:
-                pass
-                #multiprocessing.Process(target=Int.face,args=(token, 'media/' + data.file, data.caption)).start()
+                face = Facebook.objects.get(user=i.user)
+                token = face.token
+                multiprocessing.Process(target=Int.face,args=(token, 'media/' + str(data.file), data.caption)).start()
             if data.twitter:
-                pass
-                #multiprocessing.Process(target=Int.twit, args=(consumer_key, consumer_secret, access_token, access_token_secret, 'media/' + data.file,data.caption)).start()
+                twit = Twitter.objects.get(user=i.user)
+                consumer_key = twit.consumer_key
+                consumer_secret = twit.consumer_secret
+                access_token = twit.access_token
+                access_token_secret = twit.access_token_secret
+                multiprocessing.Process(target=Int.twit, args=(consumer_key, consumer_secret, access_token, access_token_secret, 'media/' + str(data.file),data.caption)).start()
             if data.instagram:
-                pass
-                #multiprocessing.Process(target=Int.up, args=(username, password, 'media/' + data.file, data.caption)).start()
-
-
+                insta = Insta.objects.get(user=i.user)
+                username = insta.username
+                password = insta.password
+                multiprocessing.Process(target=Int.up, args=(username, password, 'media/' + str(data.file), data.caption)).start()
+            yep=Save.objects.get(id=i.id)
+            yep.done=True
+            yep.save()
     context = {
         'data': pending
     }
