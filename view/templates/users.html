@@ -1,0 +1,32 @@
+{% extends 'base.html'%}
+{% block title %}Users {% endblock %}
+
+
+{% block content %}
+
+<h3>Welcome {{request.user.username}}</h3>
+
+<hr>
+
+{% if instagram == 0 %}
+<li>
+    <a href="{% url 'setup' 'instagram' %}">Setup Instagram</a></li>
+{% endif %}
+
+{% if facebook == 0 %}
+
+<li><a href="{% url 'setup' 'facebook' %}">Setup Facebook</a></li>
+{% endif %}
+
+{% if twitter == 0 %}
+
+<li><a href="{% url 'setup' 'twitter' %}">Setup Twitter</a></li>
+
+{% endif %}
+
+{% if all == 0 %}
+{% else %}
+<a href="{% url 'iupload' %}">Upload</a>
+{% endif %}
+{% endblock %}
+

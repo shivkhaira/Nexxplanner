@@ -26,11 +26,16 @@
         <li class="nav-item {% if active == 'home' %}active{% endif %}">
         <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
       </li>
+        {% if user.is_authenticated %}
       <li class="nav-item {% if active == 'iupload' %}active{% endif %}">
         <a class="nav-link" href="{% url 'iupload' %}">Upload <span class="sr-only">(current)</span></a>
       </li>
-        {% if user.is_authenticated %}
-
+      <li class="nav-item {% if active == 'users' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'users' %}">Users <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item {% if active == 'logout' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'logout' %}">Logout <span class="sr-only">(current)</span></a>
+      </li>
         {% else %}
       <li class="nav-item {% if active == 'home' %}active{% endif %}">
         <a class="nav-link" href="{% url 'home' %}">Register <span class="sr-only">(current)</span></a>

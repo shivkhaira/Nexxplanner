@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 
-{% block title %}Upload{% endblock %}
+{% block title %}Schedule{% endblock %}
 
 {% block content %}
-
+<br>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{form}}
-<br>
+    {{form}}<br>
+    <br>
+    <br>
     {% if instagram == 1 %}
     <input type="checkbox" name="instagram" class="example" value="1"> Instagram<br>
     {% endif %}
@@ -17,11 +18,12 @@
     {% if facebook == 1 %}
     <input type="checkbox" name="twitter" class="example" value="1"> Twitter<br>
     {% endif %}
+    <br>
+     <input type="checkbox" id="select-all" name="sall"> Select All<br>
+<br>
+    {{form1}}
     <input type="submit">
 </form>
-<hr>
-    <input type="checkbox" id="select-all" name="sall"> Select All<br>
-
 <script>
     document.getElementById('select-all').onclick = function() {
   var checkboxes = document.getElementsByClassName("example");
@@ -30,5 +32,6 @@
   }
 }
 </script>
-{{file}}
+<hr>
+
 {% endblock %}

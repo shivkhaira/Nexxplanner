@@ -149,3 +149,21 @@ CRONJOBS = [
     ('* * * * *','view.myscript.handle'),
 ('* * * * *','view.myscript')
 ]
+
+LOGIN_URL = '/login/'
+
+LOGIN_REDIRECT_URL = "/users/"
+
+
+DEFAULT_FROM_EMAIL="shivsinghkhaira@gmail.com"
+
+DATE_INPUT_FORMATS = ['%d-%m-%Y']
+
+TIME_INPUT_FORMATS = [
+    '%I:%M:%S %p',  # 6:22:44 PM
+    '%I:%M %p',  # 6:22 PM
+    '%I %p',  # 6 PM
+    '%H:%M:%S',     # '14:30:59'
+    '%H:%M:%S.%f',  # '14:30:59.000200'
+    '%H:%M',        # '14:30'
+]

@@ -1,17 +1,37 @@
 {% extends 'base.html' %}
 
-{% block title %}Index{% endblock %}
+{% block title %}
+Home
+{% endblock %}
 
 {% block content %}
-<h1>Hello World!</h1>
-<form method="post">
-    {% csrf_token %}
-     {{form1}}<br>
-    {{form}}
-
-    <input type="submit">
-</form>
-{% if register %}
-<p>Registration Successful</p>
+{% if messages %}
+{% for i in messages %}
+<div class="
+{% if i.tags == 'error' %}
+alert alert-danger alert-dismissible fade show
+{% elif i.tags == 'warning' %}
+alert alert-warning alert-dismissible fade show
+{% elif i.tags == 'success' %}
+alert alert-success alert-dismissible fade show
 {% endif %}
+" role="alert">{{i}}
+ <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button></div>
+{% endfor %}
+{% endif %}
+<h1>Login</h1>
+
+       <form class="form-horizontal" name="LoginForm" method="post">
+        {% csrf_token %}
+
+      {{form}}
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-danger">Login</button>
+            </div>
+        </div>
+        </form>
+
 {% endblock %}
