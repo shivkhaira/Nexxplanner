@@ -8,7 +8,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         subject = 'welcome to GFG world'
-        message = f'Mangno'
+        message = 'Mangno'
         email_from = 'shivsinghkhaira@gmail.com'
         recipient_list = ['shivsinghkhaira@gmail.com', ]
         send_mail(subject, message, email_from, recipient_list)
