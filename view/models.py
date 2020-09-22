@@ -43,7 +43,7 @@ class Insta(models.Model):
 class Facebook(models.Model):
 
 
-    token=models.CharField(max_length=200)
+    token=models.CharField(max_length=1000)
     user=models.CharField(max_length=50,default='None')
 
 

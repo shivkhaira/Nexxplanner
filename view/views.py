@@ -54,7 +54,8 @@ def register(request):
             Pro.objects.create(user=f.username)
             messages.success(request, 'Account created successfully')
             return redirect('register')
-
+        else:
+            return render(request, 'register.html', {'form': form})
 
     f = Ureg()
     return render(request, 'register.html', {'form': f})
