@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
-from .form import Finsta,Uinsta,Ureg,Face,Twit,Schedule
+from .form import Finsta,Uinsta,Ureg,Face,Twit,Schedule,Customauth
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .autobot import Int
@@ -12,12 +12,12 @@ import multiprocessing
 from django.http import Http404
 from django.db.models import Q
 from django.core.mail import send_mail
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from datetime import date,datetime
 import time
 # Create your views here.
 
-
+@login_required
 def home(request):
     if request.user.is_authenticated:
         return redirect('users')
@@ -40,10 +40,32 @@ def home(request):
                   template_name="index.html",
                   context={"form": form, 'active': 'login'})
 
+
+def logind(request):
+    if request.user.is_authenticated:
+        return redirect('users')
+    if request.method == 'POST':
+        form = Customauth(request=request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return JsonResponse({'status': str(request.user)})
+            else:
+                return JsonResponse({'status': 'no'})
+        else:
+            return JsonResponse({'status': 'no'})
+    form = Customauth()
+    return render(request=request,
+                  template_name="login.html",
+                  context={"form": form, 'active': 'login'})
+
 @ login_required (login_url='/login/', redirect_field_name=None)
 def logoutt(request):
         logout(request)
-        return redirect("register")
+        return redirect("login")
 
 def register(request):
 
@@ -53,12 +75,12 @@ def register(request):
             f=form.save()
             Pro.objects.create(user=f.username)
             messages.success(request, 'Account created successfully')
-            return redirect('register')
+            return render(request, 'register.html', {'form': form,'register':1})
         else:
             return render(request, 'register.html', {'form': form})
 
     f = Ureg()
-    return render(request, 'register.html', {'form': f})
+    return render(request, 'register.html', {'form': f,'active':'register'})
 
 @login_required
 def iupload(request):

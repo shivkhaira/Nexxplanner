@@ -2,28 +2,20 @@ from .models import Pro,Insta,Iupload,Facebook,Twitter,Save
 from django.contrib.auth.models import User
 from django import forms
 from django.core.exceptions import ValidationError
-from django.conf import settings
+from django.contrib.auth.forms import AuthenticationForm,PasswordResetForm
 
+class Customauth(AuthenticationForm):
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'input100', 'name':'username','placeholder':'Username','id':'username'}))
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'input100', 'name':'password','placeholder':'Password','id':'password'}))
 
 class Ureg(forms.Form):
-    username = forms.CharField(label='Enter Username', min_length=4, max_length=150)
-    email = forms.EmailField(label='Enter email')
-    password1 = forms.CharField(label='Enter password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput)
-    def __init__(self, *args, **kwargs):
-        super(Ureg, self).__init__(*args, **kwargs)
-        self.fields['password1'].label = "Password"
-        self.fields['password2'].widget.attrs.update({'placeholder': ('Repeat password')})
-        self.fields['password2'].widget.attrs.update({'class': ('form-control')})
-        self.fields['password1'].widget.attrs.update({'class': ('form-control')})
-        self.fields['password1'].widget.attrs.update({'placeholder': ('Password')})
-        self.fields['username'].widget.attrs.update({'placeholder': ('Username')})
-        self.fields['username'].widget.attrs.update({'class': ('form-control')})
-        self.fields['password1'].help_text = None
-        self.fields['password2'].help_text = None
-        self.fields['username'].help_text = None
-        self.fields['email'].widget.attrs.update({'placeholder': ('Email')})
-        self.fields['email'].widget.attrs.update({'class': ('form-control')})
+    username = forms.CharField(label='Enter Username', min_length=4, max_length=150,widget=forms.TextInput(attrs={'class':'form__input','placeholder':'Username'}))
+    email = forms.EmailField(label='Enter email',widget=forms.EmailInput(attrs={'class':'form__input','placeholder':'Email'}))
+    password1 = forms.CharField(label='Enter password', widget=forms.PasswordInput(attrs={'class':'form__input','placeholder':'Password'}))
+    password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput(attrs={'class':'form__input','placeholder':'Confirm Password'}))
+
     def clean_username(self):
         username = self.cleaned_data['username'].lower()
         r = User.objects.filter(username=username)
@@ -73,12 +65,12 @@ class Uinsta(forms.ModelForm):
 class Face(forms.ModelForm):
     class Meta:
         model=Facebook
-        fields=["token"]
+        fields=["token","page_id"]
 
 class Twit(forms.ModelForm):
     class Meta:
         model=Twitter
-        fields=['consumer_key','consumer_secret','access_token','access_token_secret']
+        fields=['consumer_key','consumer_secret','access_token','access_token_secret','username']
 
     def __init__(self, *args, **kwargs):
         super(Twit, self).__init__(*args, **kwargs)
@@ -93,3 +85,7 @@ class Schedule(forms.ModelForm):
     class Meta:
         model=Save
         fields=['sdate','stime']
+
+class ResetP(PasswordResetForm):
+    new_password1=forms.CharField(widget=forms.PasswordInput(attrs={'class':'InputStyle','autocomplete':'new_password','required':'1'}))
+    new_password2=forms.CharField(widget=forms.PasswordInput(attrs={'class':'InputStyle','autocomplete':'new_password','required':'1'}))

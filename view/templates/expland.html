@@ -1,0 +1,230 @@
+
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+
+  <meta charset="UTF-8">
+
+
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+
+<style>
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0;
+  background-color: #f5f5f5;
+  font-family: 'Roboto', sans-serif;
+}
+body.no-scroll {
+  overflow: hidden;
+}
+
+h1 {
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.fsm {
+  margin: 10vh 5vw;
+  background-color: blue;
+  height: 100px;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #f5f5f5;
+  font-size: 1.5rem;
+  border-radius: 10px;
+  transition: 1s;
+  cursor: pointer;
+}
+.fsm .fa {
+  transition: 1s;
+  color: #f5f5f5;
+  font-size: 2.5vw;
+}
+.fsm .fa:before {
+  color: #f5f5f5;
+}
+.fsm .modal-content {
+  height: 0;
+  width: 0;
+  margin: 0;
+}
+.fsm h1.modal-content {
+  opacity: 0;
+  transition: 1s;
+}
+.fsm.apple {
+  background: linear-gradient(135deg, #83458e 0%, #608dc9 100%);
+}
+.fsm.pied {
+  background: linear-gradient(135deg, #6ecdc7 0%, #c7e4ec 100%);
+}
+.fsm.codepen {
+  background: linear-gradient(135deg, #778899 0%, #DCDCDC 100%);
+}
+.fsm.google {
+  background: linear-gradient(135deg, #4285f4 0%, #ea4335 100%);
+}
+.fsm.growing h1.modal-content {
+  height: auto;
+  margin: 0;
+  opacity: 0;
+  transition-delay: 0.5s;
+}
+.fsm.full-screen {
+  height: 100vh;
+  z-index: 100;
+  margin: 0;
+  border-radius: 0;
+}
+.fsm.full-screen .fa {
+  font-size: 10vw;
+}
+.fsm.full-screen .modal-content {
+  height: auto;
+  width: auto;
+  margin: inital;
+}
+.fsm.full-screen h1.modal-content {
+  transition-delay: 0.5s;
+  opacity: 1;
+}
+.fsm.shrinking h1.modal-content {
+  transition-delay: 0s;
+  transition: 0.5s;
+  opacity: 0;
+  display: block;
+}
+.fsm-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+}
+</style>
+
+
+
+</head>
+
+<body translate="no" >
+  <h1>Fullscreen Expanding Div</h1>
+
+<div id="fsm_container" class="fsm-container">
+	<div class="fsm apple">
+		<i class="fa fa-apple"></i>
+		<h1 class="modal-content">Apple</h1>
+	</div>
+	<div class="fsm pied">
+		<i class="fa fa-pied-piper"></i>
+		<h1 class="modal-content">Pied Piper</h1>
+	</div>
+	<div class="fsm codepen">
+		<i class="fa fa-codepen"></i>
+		<h1 class="modal-content">CodePen</h1>
+	</div>
+	<div class="fsm google">
+		<i class="fa fa-sign-in"></i>
+		<h1 class="modal-content">Google</h1>
+	</div>
+</div>
+    <script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
+
+
+
+      <script id="rendered-js" >
+// JS available on https://github.com/colinlohner/FSM-JS
+
+
+//Setup
+var fsmActual = document.createElement('div');
+fsmActual.setAttribute('id', 'fsm_actual');
+document.body.appendChild(fsmActual);
+var $fsm = document.querySelectorAll('.fsm');;
+var $fsmActual = document.querySelector('#fsm_actual');
+$fsmActual.style.position = "absolute";
+
+var position = {};
+var size = {};
+
+
+//modal action stuffs
+var openFSM = function (event) {
+  var $this = event.currentTarget;
+  position = $this.getBoundingClientRect();
+  size = {
+    width: window.getComputedStyle($this).width,
+    height: window.getComputedStyle($this).height };
+
+
+  $fsmActual.style.position = "absolute";
+  $fsmActual.style.top = position.top + 'px';
+  $fsmActual.style.left = position.left + 'px';
+  $fsmActual.style.height = size.height;
+  $fsmActual.style.width = size.width;
+  $fsmActual.style.margin = $this.style.margin;
+
+  setTimeout(function () {
+    $fsmActual.innerHTML = $this.innerHTML;
+    var classes = $this.classList.value.split(' ');
+    for (var i = 0; i < classes.length; i++) {if (window.CP.shouldStopExecution(0)) break;
+      $fsmActual.classList.add(classes[i]);
+    }window.CP.exitedLoop(0);
+    $fsmActual.classList.add('growing');
+    $fsmActual.style.height = '100vh';
+    $fsmActual.style.width = '100vw';
+    $fsmActual.style.top = '0';
+    $fsmActual.style.left = '0';
+    $fsmActual.style.margin = '0';
+  }, 1);
+
+  setTimeout(function () {
+    $fsmActual.classList.remove('growing');
+    $fsmActual.classList.add('full-screen');
+  }, 1000);
+};
+
+var closeFSM = function (event) {
+  var $this = event.currentTarget;
+
+  $this.style.height = size.height;
+  $this.style.width = size.width;
+  $this.style.top = position.top + 'px';
+  $this.style.left = position.left + 'px';
+  $this.style.margin = '0';
+  $this.classList.remove('full-screen');
+  $this.classList.add('shrinking');
+
+  setTimeout(function () {
+    while ($this.firstChild) {if (window.CP.shouldStopExecution(1)) break;$this.removeChild($this.firstChild);}window.CP.exitedLoop(1);
+    var classList = $this.classList;
+    while (classList.length > 0) {if (window.CP.shouldStopExecution(2)) break;
+      classList.remove(classList.item(0));
+    }window.CP.exitedLoop(2);
+    $this.style = '';;
+  }, 1000);
+};
+
+for (var i = 0; i < $fsm.length; i++) {if (window.CP.shouldStopExecution(3)) break;
+  $fsm[i].addEventListener("click", openFSM);
+}window.CP.exitedLoop(3);
+$fsmActual.addEventListener("click", closeFSM);
+//# sourceURL=pen.js
+    </script>
+
+
+
+</body>
+
+</html>
+

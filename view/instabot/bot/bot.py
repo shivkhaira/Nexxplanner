@@ -183,7 +183,7 @@ class Bot(object):
         blocked_actions_sleep_delay=random.randint(600, 1200),
         verbosity=True,
         device=None,
-        save_logfile=True,
+        save_logfile=False,
         log_filename=None,
         loglevel_file=logging.DEBUG,
         loglevel_stream=logging.INFO,

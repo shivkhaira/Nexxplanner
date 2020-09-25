@@ -87,17 +87,12 @@ class Int:
         bot.upload_photo(pici, caption=caption)
         bot.logout()
         shutil.rmtree(dd)
-
+        
     def face(token,pic,caption):
-        page_access_token = "EAAKuZCOV5iuEBABG7XeqTy7Fyp7aDrtwfdrUkRF8mZCZCxFbZBeJtJZAVK6EPfih19ZCm4UxtkZBZBscq07jxaXUZCZCfIJr5Q4UFCniBURfrOKfUoN0Ab54ZBxEHNQdboKqZAnN3IZCIf5FwXTvZBGGkkk16at3pKPt1G1RCGXNK9XdYfUgZDZD"
-        graph = facebook.GraphAPI(page_access_token)
+        graph = facebook.GraphAPI(token)
         graph.put_photo(open(pic,'rb'),message=caption)
 
     def twit(consumer_key,consumer_secret,access_token,access_token_secret,pic,caption):
-        consumer_key = "iYZI295ISSEV3JbDwnNGnWUDX"
-        consumer_secret = "Xn9tiYRtq3i5PbzWc1d1oZYX6sTcGGgtCDH4hnqAxZPiKm5QV7"
-        access_token = "1019098989956775936-tly7ewKTrnG0nQuIIhgLjr7lyommn1"
-        access_token_secret = "6m6IpcwyVzx7TUin7tVMO9yQP4RkaCw5deactmPZ2Wktj"
 
         # authentication of consumer key and secret
         auth = tweepy.OAuthHandler(consumer_key, consumer_secret)

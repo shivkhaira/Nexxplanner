@@ -44,6 +44,7 @@ class Facebook(models.Model):
 
 
     token=models.CharField(max_length=1000)
+    page_id=models.CharField(max_length=100,default=0)
     user=models.CharField(max_length=50,default='None')
 
 
@@ -57,6 +58,7 @@ class Twitter(models.Model):
     consumer_secret=models.CharField(max_length=200)
     access_token=models.CharField(max_length=200)
     access_token_secret=models.CharField(max_length=200)
+    username=models.CharField(max_length=100,default='admin')
     user=models.CharField(max_length=50,default='None')
 
 

@@ -133,8 +133,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, "..", "www", "static")
+STATIC_ROOT = os.path.join(BASE_DIR,"static")
+
 STATIC_URL = '/static/'
+
 
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -144,11 +146,7 @@ EMAIL_BACKEND = 'django_ses.SESBackend'
 AWS_ACCESS_KEY_ID = 'AKIA4WO4TY4BDYLJUMV3'
 AWS_SECRET_ACCESS_KEY = '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'
 
-CRONJOBS = [
 
-    ('* * * * *','view.myscript.handle'),
-('* * * * *','view.myscript')
-]
 
 LOGIN_URL = '/login/'
 
