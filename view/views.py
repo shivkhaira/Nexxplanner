@@ -6,15 +6,17 @@ from .form import Finsta,Uinsta,Ureg,Face,Twit,Schedule,Customauth
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .autobot import Int
-from .models import Insta,Iupload,Pro,Facebook,Twitter,Save
-from datetime import datetime
+from .models import Insta,Iupload,Pro,Facebook,Twitter,Save,Insta_data
 import multiprocessing
 from django.http import Http404
 from django.db.models import Q
 from django.core.mail import send_mail
 from django.http import HttpResponse,JsonResponse
 from datetime import date,datetime
-import time
+from .instabot import Bot
+import os
+import requests
+import tweepy
 # Create your views here.
 
 @login_required
@@ -176,6 +178,7 @@ def setup(request,name):
                 rec=Pro.objects.get(user=request.user)
                 rec.instagram=True
                 rec.save()
+                Insta_data.objects.create(user=request.user)
                 return redirect('users')
         elif name=='facebook':
             form=Face(request.POST)
@@ -285,3 +288,74 @@ def check(request):
         'data': pending
     }
     return render(request,'pending.html',context)
+@login_required
+def temp(request):
+    data = Pro.objects.get(user=request.user)
+    if data.instagram:
+        isoc=Insta_data.objects.get(user=request.user)
+        postno=isoc.post
+        followers=isoc.followers
+        instagram = 1
+    else:
+        instagram = 0
+        postno=0
+        followers=0
+
+    if data.facebook:
+        ifac=Facebook.objects.get(user=request.user)
+        token=ifac.token
+        page_id=ifac.page_id
+        apid = requests.get("https://graph.facebook.com/"+page_id+"?access_token="+token+"&fields=fan_count,published_posts.limit(1).summary(total_count).since(1)")
+        print(apid)
+        fan_count=apid.json()['fan_count']
+        face_post=apid.json()['published_posts']['summary']['total_count']
+
+        facebook = 1
+    else:
+        facebook = 0
+        fan_count=0
+        face_post=0
+
+    if data.twitter:
+        itwit=Twitter.objects.get(user=request.user)
+        consumer_key = itwit.consumer_key
+        consumer_secret = itwit.consumer_secret
+        access_token = itwit.access_token
+        access_token_secret =itwit.access_token_secret
+
+        # authentication of consumer key and secret
+        auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+
+        # authentication of access token and secret
+        auth.set_access_token(access_token, access_token_secret)
+        apix = tweepy.API(auth)
+        userd = apix.get_user(itwit.username)
+        tfollow=userd.followers_count
+        tcount=userd.statuses_count
+        twitter = 1
+
+    else:
+        tfollow=0
+        tcount=0
+        twitter = 0
+
+    all=instagram+facebook+twitter
+    context={'tfollow':tfollow,'tcount':tcount,'instagram':instagram,'facebook':facebook,'twitter':twitter,'all':all,'ipost':postno,'ifollow':followers,'face_post':face_post,'face_likes':fan_count}
+    return render(request,'reset.html',context)
+
+def insta_data(request):
+    op=Insta_data.objects.get(user=request.user)
+    isoc = Insta.objects.get(user=request.user)
+    dd = os.path.join('ttemp', str(isoc.username))
+    bot = Bot(base_path=dd)
+    bot.login(username=isoc.username,
+              password=isoc.password, is_threaded=True)
+    user = bot.get_user_id_from_username(isoc.username)
+    pdata = bot.get_user_info(user)
+    postno = pdata['media_count']
+    followers = pdata['follower_count']
+    op.post=postno
+    op.followers=followers
+    op.save()
+    opp=[1,2,3]
+    return render(request,'pending.html',{'data':opp})

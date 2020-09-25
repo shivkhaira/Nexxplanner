@@ -41,5 +41,7 @@ urlpatterns = [
 
     path('setup/<name>',views.setup,name='setup'),
     path('schedule/',views.sch,name='sch'),
-    path('pending/',views.check,name='pending')
+    path('pending/',views.check,name='pending'),
+    path('temp/',views.temp,name='temp'),
+    path('stats/',views.insta_data,name='stats'),
 ]

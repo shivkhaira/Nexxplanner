@@ -65,6 +65,14 @@ class Twitter(models.Model):
     def __str__(self):
         return str(self.user)
 
+class Insta_data(models.Model):
+
+    post=models.IntegerField(default=0)
+    followers=models.IntegerField(default=0)
+    user=models.CharField(max_length=50)
+
+    def __str__(self):
+        return str(self.user)
 
 class Iupload(models.Model):
 

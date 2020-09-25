@@ -1,6 +1,123 @@
-<h2>Reset Password</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">submit</button>
-</form>
+  <!-- sidebar-wrapper  -->
+ {% extends 'head.html' %}
+
+  {% block main %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+      .insta
+      {
+  padding:5%;
+  }
+  .insta:hover
+  {
+opacity:0.8;
+  }
+  </style>
+    <div class="container-fluid">
+
+      <h2 class="text-center">HOME</h2>
+      <hr style="height:2px;border-width:0;color:white;background-color:white">
+      <div class="row">
+        <div class="form-group col-md-12">
+            {% if instagram == 0 %}
+            <div class="card rounded-0 p-0 shadow-sm">
+              <a href="{% url 'setup' 'instagram' %}" class="btn btn-large btn-danger insta">
+<div class="hero-button text-center">
+
+            <i class="fa fa-instagram" style="font-size:58px;color:white"></i><br>
+             Set Up Instagram
+
+
+</div>  </a></div>
+            {% endif %}
+              {% if facebook == 0 %}
+             <div class="card rounded-0 p-0 shadow-sm">
+         <a href="{% url 'setup' 'facebook' %}" class="btn btn-large btn-primary insta">
+<div class="hero-button text-center">
+
+            <i class="fa fa-facebook" style="font-size:58px;color:white"></i><br>
+             Set Up Facebook
+
+
+</div>  </a></div>
+
+{% endif %}
+              {% if twitter == 0 %}
+             <div class="card rounded-0 p-0 shadow-sm">
+         <a href="{% url 'setup' 'twitter' %}" class="btn btn-large btn-default insta" style="background-color:#00ccff;color:white">
+<div class="hero-button text-center">
+
+            <i class="fa fa-twitter" style="font-size:58px;color:white"></i><br>
+             Set Up Twitter
+
+
+</div>  </a></div>
+             <hr style="height:2px;border-width:0;color:white;background-color:white">
+            <br>
+{% endif %}
+
+ {% if all > 0 %}
+<br>
+              <div class="card rounded-0 p-0 shadow-sm">
+         <a href="{% url 'iupload' %}" class="btn btn-large btn-default insta" style="background-color:#2820C7;color:white">
+<div class="hero-button text-center">
+
+            <i class="fa fa-upload" style="font-size:58px;color:white"></i><br>
+             Upload a Post
+</div>  </a></div>
+                          <div class="card rounded-0 p-0 shadow-sm">
+         <a href="{% url 'sch' %}" class="btn btn-large btn-default insta" style="background-color:#AB0F0F;color:white">
+<div class="hero-button text-center">
+
+            <i class="fa fa-clock" style="font-size:58px;color:white"></i><br>
+             Schedule a Post
+</div>  </a></div>
+            {% endif %}
+        </div>
+      </div>
+        {% if all > 0 %}
+
+      <h5>Stats</h5>
+      <hr>
+      <div class="row">
+          {% if instagram == 1 %}
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+          <div class="card rounded-0 p-0 shadow-sm">
+            <div class="card-body text-center">
+              <h5 class="card-title" style="color:black">Instagram Stats</h5>
+              <p class="btn btn-primary btn-md">Posts: {{ipost}}</p>
+              <p class="btn btn-success btn-md">Followers: {{ifollow}}</p>
+                <p><span style="font-size:small;">It may take some to update</span></p>
+            </div>
+          </div>
+        </div>
+          {% endif %}
+          {% if facebook == 1 %}
+         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+          <div class="card rounded-0 p-0 shadow-sm">
+            <div class="card-body text-center">
+              <h5 class="card-title" style="color:black">Facebook Stats</h5>
+              <p class="btn btn-primary btn-md">Posts: {{face_post}}</p>
+              <p class="btn btn-success btn-md">Likes: {{face_likes}}</p>
+            </div>
+          </div>
+        </div>
+{% endif %}
+          {% if twitter == 1 %}
+           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+          <div class="card rounded-0 p-0 shadow-sm">
+            <div class="card-body text-center">
+              <h5 class="card-title" style="color:black">Twitter Stats</h5>
+              <p class="btn btn-primary btn-md">Tweets: {{tcount}}</p>
+              <p class="btn btn-success btn-md">Followers: {{ifollow}}</p>
+            </div>
+          </div>
+        </div>
+          {% endif %}
+
+      </div>
+      <hr>
+{% endif %}
+
+
+  {% endblock %}
