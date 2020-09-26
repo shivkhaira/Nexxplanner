@@ -65,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'view.context_processors.data',
             ],
         },
     },
@@ -138,16 +139,24 @@ STATIC_ROOT = os.path.join(BASE_DIR,"static")
 STATIC_URL = '/static/'
 
 #STATICFILES_DIRS=[os.path.join(BASE_DIR,'static'),]
-MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
 
 
 EMAIL_BACKEND = 'django_ses.SESBackend'
 AWS_ACCESS_KEY_ID = 'AKIA4WO4TY4BDYLJUMV3'
 AWS_SECRET_ACCESS_KEY = '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'
 
+#AWS_STORAGE_BUCKET_NAME = 'django-python'
+#AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
+#AWS_S3_OBJECT_PARAMETERS = {
+#    'CacheControl': 'max-age=86400',
+#}
 
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+#AWS_PUBLIC_MEDIA_LOCATION = 'media/public'
+#DEFAULT_FILE_STORAGE = 'github.storage_backends.PublicMediaStorage'
 LOGIN_URL = '/login/'
 
 LOGIN_REDIRECT_URL = "/users/"

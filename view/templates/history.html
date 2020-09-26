@@ -1,0 +1,63 @@
+ {% extends 'head.html' %}
+  {% block title %}Scheduled Posts{% endblock %}
+  {% block main %}
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+  label
+  {
+  color:white;
+  }
+  #myTable_info
+  {
+  color:white;
+  }
+  #myTable_next,#myTable_previous
+  {
+ color:white;
+  }
+</style>
+  <div class="container-fluid">
+
+      <h2 class="text-center">Scheduled Posts</h2>
+      <hr style="height:2px;border-width:0;color:white;background-color:white">
+      <div class="row">
+        <div class="form-group col-md-12">
+
+  <table id="myTable" class="table table-dark" style="color:black">
+  <thead style="color:white">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Date</th>
+      <th scope="col">Scheduled Date-Time</th>
+      <th scope="col">Caption</th>
+      <th scope="col">Social Platform</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for i in up %}
+    <tr>
+        <th scope="row">{{forloop.counter}}</th>
+      <td>{{i.ndate}}</td>
+        <td>{% if i.done %} <i class="fa fa-dot-circle" style="color:green"></i>  {% else %} <i class="fa fa-dot-circle" style="color:red"></i> {% endif %}{{i.sdate}} {{i.stime}}</td>
+      <td>{{i.caption}}</td>
+      <td class="text-center">{% if i.instagram %}<i class="fa fa-instagram"></i>{% endif %}
+      {% if i.facebook %}<i class="fa fa-facebook"></i>{% endif %}
+        {% if i.twitter %}<i class="fa fa-twitter-square"></i>{% endif %}
+      </td>
+        <td><a href="{% url 'download' i.fid %}">Download</a>{% if i.done == 0 %} | <a href="{% url 'delp' i.id %}">Delete</a>{% endif %}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+</div></div>
+
+
+<script>
+$(document).ready(function(){
+    $('#myTable').dataTable();
+});
+</script>
+
+ {% endblock %}

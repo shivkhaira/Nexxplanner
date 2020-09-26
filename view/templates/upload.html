@@ -1,27 +1,78 @@
-{% extends 'base.html' %}
+  <!-- sidebar-wrapper  -->
+ {% extends 'head.html' %}
+  {% block title %}Upload Post{% endblock %}
+  {% block main %}
 
-{% block title %}Upload{% endblock %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+      .insta
+      {
+  padding:5%;
+  }
+  .insta:hover
+  {
+opacity:0.8;
+  }
+  </style>
+    <div class="container-fluid">
 
-{% block content %}
+      <h2 class="text-center">Upload Post</h2>
 
+      <hr style="height:2px;border-width:0;color:white;background-color:white">
+
+      <div class="row">
+        <div class="form-group col-md-12">
+ {% if non_select %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Select where to upload the post</strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+            {% endif %}
+             {% if uploaded %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>Your post will be posted momentarily.... :)</strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+            {% endif %}
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{form}}
 <br>
+    Upload To-<br>
     {% if instagram == 1 %}
-    <input type="checkbox" name="instagram" class="example" value="1"> Instagram<br>
-    {% endif %}
-    {% if facebook == 1 %}
-    <input type="checkbox" name="facebook" class="example" value="1"> Facebook<br>
+    <p class="text-center"><input type="checkbox" name="instagram" id="instagram" class="example" value="1">
+        <label for="instagram" class="btn btn-danger"> Instagram</label>
+        {% endif %}
+         {% if facebook == 1 %}
+        <br><br>
+   <input type="checkbox" name="facebook" id="facebook" class="example" value="1">
+        <label for="facebook" class="btn btn-primary"> Facebook</label>
     {% endif %}
     {% if twitter == 1 %}
-    <input type="checkbox" name="twitter" class="example" value="1"> Twitter<br>
-    {% endif %}
-    <input type="submit">
-</form>
-<hr>
-    <input type="checkbox" id="select-all" name="sall"> Select All<br>
+        <br><br>
+    <input type="checkbox" name="twitter" id="twitter" class="example" value="1">
+        <label for="twitter" class="btn btn-primary" style="background-color:#00ccff;color:white"> Twitter</label>
+        {% endif %}
+        <br><br>
+        <input type="checkbox" id="select-all" name="sall"> <label for="select-all" class="btn btn-warning"> Select all</label><br>
+</p>
 
+    <input type="submit" class="btn btn-primary btn btn-primary btn-block">
+</form>
+
+<hr>
+
+<script>
+// Add the following code if you want the name of the file appear on select
+$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+</script>
 <script>
     document.getElementById('select-all').onclick = function() {
   var checkboxes = document.getElementsByClassName("example");
@@ -30,5 +81,10 @@
   }
 }
 </script>
-{{file}}
-{% endblock %}
+
+
+      </div>
+      <hr>
+
+  {% endblock %}
+

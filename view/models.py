@@ -6,21 +6,8 @@ from datetime import datetime
 # Create your models here.
 
 class Pro(models.Model):
-    def file_change(instance, filename):
-        upload_to = 'images/'
-        ext = filename.split('.')[-1]
-        # get filename
-        if instance.pk:
-            filename = '{}.{}'.format(instance.pk, ext)
-        else:
-            # set filename as random string
-            filename = '{}.{}'.format(uuid4().hex, ext)
-        # return the whole path to the file
-
-        return os.path.join(upload_to, filename)
 
     user = models.CharField(max_length=40)
-    pic = models.ImageField(upload_to=file_change,default='images/image.png')
     activated = models.BooleanField(default=False)
     instagram=models.BooleanField(default=False)
     facebook=models.BooleanField(default=False)
@@ -30,7 +17,6 @@ class Pro(models.Model):
         return str(self.user)
 
 class Insta(models.Model):
-
 
     username=models.CharField(max_length=50)
     password=models.CharField(max_length=50)
@@ -96,6 +82,7 @@ class Iupload(models.Model):
     twitter=models.BooleanField(default=False)
     users=models.CharField(max_length=50,default='None')
     done=models.BooleanField(default=False)
+    date=models.DateTimeField(default=datetime.now())
 
     def __str__(self):
         return str(self.users)+str(self.id)

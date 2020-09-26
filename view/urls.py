@@ -1,14 +1,16 @@
 from django.urls import path,include
 from . import views
 from django.contrib.auth import views as auth_views
-from .form import Customauth,ResetP
+from django.conf import settings
+
+
 urlpatterns = [
 
     path('',views.home,name='home'),
     path('iupload/',views.iupload,name='iupload'),
     path('register/',views.register,name='register'),
     path('logout/',views.logoutt,name='logout'),
-    path('users/',views.users,name='users'),
+    path('users/',views.temp,name='users'),
     #path("login/", auth_views.LoginView.as_view(template_name="login.html",authentication_form=Customauth, redirect_authenticated_user=True), name="login"),
     path("login/", views.logind, name="login"),
     #path('accounts/', include('django.contrib.auth.urls')),
@@ -40,8 +42,16 @@ urlpatterns = [
          ),name='password_reset_done'),
 
     path('setup/<name>',views.setup,name='setup'),
+    path('update/<name>',views.update,name='update'),
     path('schedule/',views.sch,name='sch'),
     path('pending/',views.check,name='pending'),
     path('temp/',views.temp,name='temp'),
     path('stats/',views.insta_data,name='stats'),
+    path('delete/<name>',views.delete,name='delete'),
+    path('post_history/',views.post_history,name='post_history'),
+    path('sch_history/',views.history,name='history'),
+    path('delete_p/<id>',views.deletep,name='delp'),
+    path('download/<id>',views.download_image,name='download')
+
 ]
+

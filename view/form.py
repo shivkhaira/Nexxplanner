@@ -57,17 +57,33 @@ class Finsta(forms.ModelForm):
         fields=['username','password']
 
 class Uinsta(forms.ModelForm):
-
+    file=forms.ImageField(widget=forms.FileInput(attrs={'class':'form-control'}))
+    caption=forms.CharField(widget=forms.Textarea(attrs={'class':'form-control','rows':'8','placeholder':'Enter Your Caption'}))
     class Meta:
         model=Iupload
         fields=["file","caption"]
 
 class Face(forms.ModelForm):
+    token = forms.CharField(max_length=500,widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Token', 'autofocus': '1'}))
+    page_id = forms.CharField(max_length=100,widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Page ID'}))
+
     class Meta:
         model=Facebook
         fields=["token","page_id"]
 
 class Twit(forms.ModelForm):
+    consumer_key = forms.CharField(max_length=500, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'Consumer Key', 'autofocus': '1'}))
+    consumer_secret = forms.CharField(max_length=100,
+                              widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Consumer Scret'}))
+    access_token = forms.CharField(max_length=500, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'Access Token', 'autofocus': '1'}))
+    access_token_secret = forms.CharField(max_length=100,
+                              widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Access Token Secret'}))
+    username = forms.CharField(max_length=100,
+                                          widget=forms.TextInput(
+                                              attrs={'class': 'form-control', 'placeholder': 'Twitter Username'}))
+
     class Meta:
         model=Twitter
         fields=['consumer_key','consumer_secret','access_token','access_token_secret','username']
@@ -78,6 +94,7 @@ class Twit(forms.ModelForm):
         self.fields['consumer_secret'].label = "Consumer Secret"
         self.fields['access_token'].label = "Access Token"
         self.fields['access_token_secret'].label = "Access Token Secret"
+        self.fields['username'].label = "Twitter Username"
 
 class Schedule(forms.ModelForm):
     sdate=forms.DateTimeField(widget=forms.DateInput(attrs={'class':'form-control','type':'date'}))
@@ -85,6 +102,11 @@ class Schedule(forms.ModelForm):
     class Meta:
         model=Save
         fields=['sdate','stime']
+
+    def __init__(self, *args, **kwargs):
+        super(Schedule, self).__init__(*args, **kwargs)
+        self.fields['sdate'].label = "Schedule Date"
+        self.fields['stime'].label = "Schedule Time"
 
 class ResetP(PasswordResetForm):
     new_password1=forms.CharField(widget=forms.PasswordInput(attrs={'class':'InputStyle','autocomplete':'new_password','required':'1'}))

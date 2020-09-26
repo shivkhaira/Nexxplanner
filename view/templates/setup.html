@@ -1,13 +1,41 @@
-{% extends 'base.html'%}
-{% block title %}Setup | {{name}}{% endblock %}
+  <!-- sidebar-wrapper  -->
+ {% extends 'head.html' %}
+  {% block title %}Setup | {{name|title}} {% endblock %}
+  {% block main %}
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+      .insta
+      {
+  padding:5%;
+  }
+  .insta:hover
+  {
+opacity:0.8;
+  }
+  </style>
+    <div class="container-fluid">
 
-{% block content %}
-
-<form method="post">
+      <h2 class="text-center">Setup | {{name|title}}</h2>
+      <hr style="height:2px;border-width:0;color:white;background-color:white">
+      <div class="row">
+        <div class="form-group col-md-12">
+           <form method="post">
     {% csrf_token %}
     {{form}}
-    <input type="submit"><br>
+               <br>
+    <input type="submit" class="btn btn-primary btn btn-primary btn-block"><br>
 </form>
 
-{% endblock %}
+            {% if isu %}
+
+            <a href="{% url 'delete' name %}" class="btn btn-danger">Remove Account</a>
+
+
+{% endif %}
+
+      </div>
+      <hr>
+
+  {% endblock %}
+
