@@ -343,19 +343,22 @@ def temp(request):
     return render(request,'reset.html',context)
 
 def insta_data(request):
-    op=Insta_data.objects.all()
+    op=Insta.objects.all()
     for i in op:
-        dd = os.path.join('ttemp', str(i.username))
+        username=i.username
+        password=i.password
+        dd = os.path.join('ttemp', str(username))
         bot = Bot(base_path=dd)
-        bot.login(username=i.username,
-                  password=i.password, is_threaded=True)
-        user = bot.get_user_id_from_username(i.username)
+        bot.login(username=username,
+                  password=password, is_threaded=True)
+        user = bot.get_user_id_from_username(username)
         pdata = bot.get_user_info(user)
         postno = pdata['media_count']
         followers = pdata['follower_count']
-        op.post=postno
-        op.followers=followers
-        op.save()
+        exp=Insta_data.objects.get(user=i.user)
+        exp.post=postno
+        exp.followers=followers
+        exp.save()
     opp=[1,2,3]
     return render(request,'pending.html',{'data':opp})
 
