@@ -279,7 +279,7 @@ def check(request):
                 password = insta.password
                 multiprocessing.Process(target=Int.up, args=(username, password, 'media/' + str(data.file), data.caption)).start()
             yep=Save.objects.get(id=i.id)
-            qte=Iupload.objects(id=i.fid)
+            qte=Iupload.objects.get(id=i.fid)
             qte.done=True
             qte.save()
             yep.done=True
