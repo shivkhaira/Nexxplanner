@@ -329,15 +329,15 @@ def temp(request):
         # authentication of access token and secret
         auth.set_access_token(access_token, access_token_secret)
         apix = tweepy.API(auth)
-        userd = apix.get_user(itwit.username)
+        userd = apix.get_user('shivkhaira')
         tfollow=userd.followers_count
         tcount=userd.statuses_count
-        twitter = 1
+
 
     else:
         tfollow=0
         tcount=0
-        twitter = 0
+
 
     context={'tfollow':tfollow,'tcount':tcount,'ipost':postno,'ifollow':followers,'face_post':face_post,'face_likes':fan_count}
     return render(request,'reset.html',context)
