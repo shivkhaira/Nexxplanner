@@ -220,10 +220,12 @@ document.getElementById("mes").hidden=true;
 			 }
 			 else
 			 {
+        var next = json['next'];
+
 			 document.getElementById("hpage").innerHTML ="Welcome "+st;
 			 openNav();
 			   setTimeout(function(){
-            window.location.href = "{% url 'users' %}";
+            window.location.href = '{{next}}';
          }, 3000);
 			 }
 
@@ -234,7 +236,6 @@ document.getElementById("mes").hidden=true;
     }
     });
 });
-
 </script>
 	<script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
 <!--===============================================================================================-->

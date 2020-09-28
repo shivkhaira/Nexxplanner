@@ -46,6 +46,10 @@ def home(request):
 
 
 def logind(request):
+    if request.GET.get('next'):
+        next = request.GET.get('next')
+    else:
+        next='/users/'
     if request.user.is_authenticated:
         return redirect('users')
     if request.method == 'POST':
@@ -62,7 +66,8 @@ def logind(request):
         else:
             return JsonResponse({'status': 'no'})
     form = Customauth()
-    return render(request, "login.html", {"form": form})
+   
+    return render(request, "login.html", {"form": form,'next':next})
 
 @ login_required (login_url='/login/', redirect_field_name=None)
 def logoutt(request):
@@ -295,7 +300,7 @@ def temp(request):
         isoc=Insta_data.objects.get(user=request.user)
         postno=isoc.post
         followers=isoc.followers
-        instagram = 1
+       
     else:
         instagram = 0
         postno=0
@@ -310,7 +315,7 @@ def temp(request):
         fan_count=apid.json()['fan_count']
         face_post=apid.json()['published_posts']['summary']['total_count']
 
-        facebook = 1
+        
     else:
         facebook = 0
         fan_count=0
@@ -444,7 +449,7 @@ def download_image(request, id):
     if img.users==request.user.username:
         image_buffer = open('media/'+str(img.file), "rb").read()
         content_type = magic.from_buffer(image_buffer, mime=True)
-        response = HttpResponse(image_buffer, content_type=content_type);
+        response = HttpResponse(image_buffer, content_type=content_type)
         response['Content-Disposition'] = 'attachment; filename="%s"' % filename
         return response
 
