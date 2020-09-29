@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login, logout
 from wsgiref.util import FileWrapper
 import mimetypes
+import threading
 from django.contrib.auth.forms import AuthenticationForm
 from .form import Finsta,Uinsta,Ureg,Face,Twit,Schedule,Customauth
 from django.contrib.auth.decorators import login_required
@@ -260,7 +261,6 @@ def sch(request):
     return render(request,'schedule.html',{'form':Uinsta(),'form1':Schedule()})
 
 def check(request):
-
     curr = (datetime.now())
     pending = Save.objects.filter(done=False)
     for i in pending:
@@ -300,9 +300,10 @@ def temp(request):
         isoc=Insta_data.objects.get(user=request.user)
         postno=isoc.post
         followers=isoc.followers
-       
+        #multiprocessing.Process(target=Int.insta_data,args=(request.user.username)).start()
+        threading.Thread(target=Int.insta_data, args=(request.user.username,)).start()
+
     else:
-        instagram = 0
         postno=0
         followers=0
 
