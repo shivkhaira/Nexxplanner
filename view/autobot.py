@@ -118,3 +118,4 @@ class Int:
         exp.post = postno
         exp.followers = followers
         exp.save()
+        shutil.rmtree(dd)
