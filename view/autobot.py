@@ -6,7 +6,7 @@ import numpy as np
 import shutil
 import facebook
 import tweepy
-from .models import Insta,Insta_data
+
 def crop(x, y, data, w, h):
     x = int(x)
     y = int(y)
@@ -103,15 +103,13 @@ class Int:
 
         api.update_with_media(filename=pic, status=caption)
 
-    def insta_data(usernamed):
-        op = Insta.objects.get(user=usernamed)
-        username=op.username
-        password=op.password
-        dd = os.path.join('ttemp', str(username))
+    def insta_data(usernamed,user,pwd):
+        from .models import Insta_data
+        dd = os.path.join('ttemp', str(user))
         bot = Bot(base_path=dd)
-        bot.login(username=username, password=password, is_threaded=True)
-        user = bot.get_user_id_from_username(username)
-        pdata = bot.get_user_info(user)
+        bot.login(username=user, password=pwd, is_threaded=True)
+        usern = bot.get_user_id_from_username(user)
+        pdata = bot.get_user_info(usern)
         postno = pdata['media_count']
         followers = pdata['follower_count']
         exp = Insta_data.objects.get(user=usernamed)
