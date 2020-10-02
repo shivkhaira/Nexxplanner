@@ -4,11 +4,11 @@ from wsgiref.util import FileWrapper
 import mimetypes
 import threading
 from django.contrib.auth.forms import AuthenticationForm
-from .form import Finsta,Uinsta,Ureg,Face,Twit,Schedule,Customauth
+from .form import Finsta,Uinsta,Ureg,Face,Twit,Schedule,Customauth,SetProfie
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .autobot import Int
-from .models import Insta,Iupload,Pro,Facebook,Twitter,Save,Insta_data
+from .models import Insta,Iupload,Pro,Facebook,Twitter,Save,Insta_data,Profile
 import multiprocessing
 from django.http import Http404
 from django.db.models import Q
@@ -25,7 +25,7 @@ import magic
 @login_required
 def home(request):
     if request.user.is_authenticated:
-        return redirect('users')
+        return redirect('aws')
     if request.method == 'POST':
         form = AuthenticationForm(request=request, data=request.POST)
         if form.is_valid():
@@ -61,6 +61,7 @@ def logind(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
+                request.session['profile']=None
                 return JsonResponse({'status': str(request.user)})
             else:
                 return JsonResponse({'status': 'no'})
@@ -76,7 +77,8 @@ def logoutt(request):
         return redirect("login")
 
 def register(request):
-
+    if request.user.is_authenticated:
+        return  redirect('users')
     if request.method == 'POST':
         form = Ureg(request.POST)
         if form.is_valid():
@@ -92,7 +94,6 @@ def register(request):
 
 @login_required
 def iupload(request):
-
     if request.method=='POST':
         form=Uinsta(request.POST,request.FILES)
         if form.is_valid():
@@ -113,31 +114,32 @@ def iupload(request):
                 form.instance.facebook=True
             if twit:
                 form.instance.twitter=True
+            form.instance.profile=request.session['profile']
             data=form.save()
             pic=Iupload.objects.get(id=data.id)
 
             img = str(pic.file)
 
             if face:
-                fb = Facebook.objects.get(user=request.user)
+                fb = Facebook.objects.get(Q(user=request.user) & Q(profile=request.session['profile']))
                 token = fb.token
                 multiprocessing.Process(target=Int.face,
                                         args=(token,'media/' + img, data.caption)).start()
             if twit:
-                tw = Twitter.objects.get(user=request.user)
+                tw = Twitter.objects.get(Q(user=request.user) & Q(profile=request.session['profile']))
                 consumer_key = tw.consumer_key
                 consumer_secret = tw.consumer_secret
                 access_token = tw.access_token
                 access_token_secret = tw.access_token_secret
                 multiprocessing.Process(target=Int.twit, args=(consumer_key,consumer_secret,access_token,access_token_secret,'media/' + img, data.caption)).start()
             if insta:
-                p = Insta.objects.get(user=request.user)
+                p = Insta.objects.get(Q(user=request.user) & Q(profile=request.session['profile']))
                 multiprocessing.Process(target=Int.up, args=(p.username,p.password,'media/'+img,data.caption)).start()
             #threading.Thread(target=Int.up, args=(p.username,p.password,'media/'+img,data.caption)).start()
             return render(request,'upload.html',{'form':form,'uploaded':'1'})
         else:
             return redirect('home')
-    data=Pro.objects.get(user=request.user)
+    data=Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
     if data.instagram:
         instagram=1
     else:
@@ -159,73 +161,56 @@ def iupload(request):
     return render(request,'upload.html',{'form':Uinsta()})
 
 @login_required
-def users(request):
-    data=Pro.objects.get(user=request.user)
-    if data.instagram:
-        instagram=1
-    else:
-        instagram=0
-
-    if data.facebook:
-        facebook=1
-    else:
-        facebook=0
-
-    if data.twitter:
-        twitter=1
-    else:
-        twitter=0
-
-    all=instagram+facebook+twitter
-    return render(request,'users.html',{'active':'users','instagram':instagram,'facebook':facebook,'twitter':twitter,'all':all})
-
-@login_required
 def setup(request,name):
     if request.method=='POST':
         if name=='instagram':
             form=Finsta(request.POST)
             if form.is_valid():
-                form.instance.user=request.user
+                form.instance.user = request.user
+                form.instance.profile = request.session['profile']
                 form.save()
-                rec=Pro.objects.get(user=request.user)
-                rec.instagram=True
+                rec=Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
+                rec.instagram = True
                 rec.save()
-                Insta_data.objects.create(user=request.user)
-                return redirect('users')
+                if (Insta_data.objects.filter(Q(user=request.user) & Q(profile=request.session['profile']))).count()==0:
+                    Insta_data.objects.create(user=request.user,profile=request.session['profile'])
+                return redirect('aws')
         elif name=='facebook':
             form=Face(request.POST)
             if form.is_valid():
                 form.instance.user=request.user
+                form.instance.profile = request.session['profile']
                 form.save()
-                rec=Pro.objects.get(user=request.user)
+                rec=Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
                 rec.facebook=True
                 rec.save()
-                return redirect('users')
+                return redirect('aws')
         elif name=='twitter':
             form=Twit(request.POST)
             if form.is_valid():
                 form.instance.user=request.user
+                form.instance.profile = request.session['profile']
                 form.save()
-                rec=Pro.objects.get(user=request.user)
+                rec=Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
                 rec.twitter=True
                 rec.save()
-                return redirect('users')
+                return redirect('aws')
     if name=='instagram':
-        rec = Pro.objects.get(user=request.user)
+        rec = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
         if rec.instagram:
-            return redirect('users')
+            return redirect('aws')
         else:
             return render(request,'setup.html',{'name':name,'form':Finsta()})
     elif name=='facebook':
-        rec = Pro.objects.get(user=request.user)
+        rec =Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
         if rec.facebook:
-            return redirect('users')
+            return redirect('aws')
         else:
             return render(request,'setup.html',{'name':name,'form':Face()})
     elif name=='twitter':
-        rec = Pro.objects.get(user=request.user)
+        rec =Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
         if rec.twitter:
-            return redirect('users')
+            return redirect('aws')
         else:
             return render(request,'setup.html',{'name':name,'form':Twit()})
 
@@ -251,9 +236,11 @@ def sch(request):
                 uform.instance.facebook = True
             if twit:
                 uform.instance.twitter = True
+            uform.instance.profile = request.session['profile']
             data=uform.save()
             form.instance.fid=data.id
             form.instance.user=request.user
+            form.instance.profile = request.session['profile']
             form.save()
             return render(request,'schedule.html',{'uploaded':'1','form':Uinsta(),'form1':Schedule()})
         else:
@@ -268,18 +255,18 @@ def check(request):
         if curr >= dt:
             data = Iupload.objects.get(id=i.fid)
             if data.facebook:
-                face = Facebook.objects.get(user=i.user)
+                face = Facebook.objects.get(profile=i.profile)
                 token = face.token
                 multiprocessing.Process(target=Int.face,args=(token, 'media/' + str(data.file), data.caption)).start()
             if data.twitter:
-                twit = Twitter.objects.get(user=i.user)
+                twit = Twitter.objects.get(profile=i.profile)
                 consumer_key = twit.consumer_key
                 consumer_secret = twit.consumer_secret
                 access_token = twit.access_token
                 access_token_secret = twit.access_token_secret
                 multiprocessing.Process(target=Int.twit, args=(consumer_key, consumer_secret, access_token, access_token_secret, 'media/' + str(data.file),data.caption)).start()
             if data.instagram:
-                insta = Insta.objects.get(user=i.user)
+                insta = Insta.objects.get(profile=i.profile)
                 username = insta.username
                 password = insta.password
                 multiprocessing.Process(target=Int.up, args=(username, password, 'media/' + str(data.file), data.caption)).start()
@@ -293,14 +280,22 @@ def check(request):
         'data': pending
     }
     return render(request,'pending.html',context)
+
+@login_required
+def users(request):
+    session = Profile.objects.filter(user=request.user.username)
+    return render(request,'jump.html',{'sessions':session})
+
 @login_required
 def temp(request):
-    data = Pro.objects.get(user=request.user)
+    if request.session['profile']==None:
+        return redirect(users)
+    data = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
     if data.instagram:
-        isoc=Insta_data.objects.get(user=request.user)
+        isoc=Insta_data.objects.get(Q(user=request.user) & Q(profile=request.session['profile']))
         postno=isoc.post
         followers=isoc.followers
-        op = Insta.objects.get(user=request.user)
+        op = Insta.objects.get(Q(user=request.user) & Q(profile=request.session['profile']))
         username = op.username
         password = op.password
         #multiprocessing.Process(target=Int.insta_data,args=(request.user.username)).start()
@@ -311,14 +306,16 @@ def temp(request):
         followers=0
 
     if data.facebook:
-        ifac=Facebook.objects.get(user=request.user)
+        ifac=Facebook.objects.get(Q(user=request.user) & Q(profile=request.session['profile']))
         token=ifac.token
         page_id=ifac.page_id
-        apid = requests.get("https://graph.facebook.com/"+page_id+"?access_token="+token+"&fields=fan_count,published_posts.limit(1).summary(total_count).since(1)")
-
-        fan_count=apid.json()['fan_count']
-        face_post=apid.json()['published_posts']['summary']['total_count']
-
+        try:
+            apid = requests.get("https://graph.facebook.com/"+page_id+"?access_token="+token+"&fields=fan_count,published_posts.limit(1).summary(total_count).since(1)")
+            fan_count=apid.json()['fan_count']
+            face_post=apid.json()['published_posts']['summary']['total_count']
+        except:
+            fan_count=0
+            face_post=0
         
     else:
         facebook = 0
@@ -326,7 +323,7 @@ def temp(request):
         face_post=0
 
     if data.twitter:
-        itwit=Twitter.objects.get(user=request.user)
+        itwit=Twitter.objects.get(Q(user=request.user) & Q(profile=request.session['profile']))
         consumer_key = itwit.consumer_key
         consumer_secret = itwit.consumer_secret
         access_token = itwit.access_token
@@ -336,40 +333,54 @@ def temp(request):
         auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 
         # authentication of access token and secret
-        auth.set_access_token(access_token, access_token_secret)
-        apix = tweepy.API(auth)
-        userd = apix.get_user('shivkhaira')
-        tfollow=userd.followers_count
-        tcount=userd.statuses_count
+        try:
+            auth.set_access_token(access_token, access_token_secret)
+            apix = tweepy.API(auth)
+            userd = apix.get_user('shivkhaira')
+            tfollow=userd.followers_count
+            tcount=userd.statuses_count
+        except:
+            tfollow=0
+            tcount=0
 
 
     else:
         tfollow=0
         tcount=0
 
+    session=Profile.objects.filter(user=request.user.username)
 
-    context={'tfollow':tfollow,'tcount':tcount,'ipost':postno,'ifollow':followers,'face_post':face_post,'face_likes':fan_count}
+    context={'session':request.session['profile'],'tfollow':tfollow,'tcount':tcount,'ipost':postno,'ifollow':followers,'face_post':face_post,'face_likes':fan_count}
     return render(request,'reset.html',context)
 
-def insta_data(request):
-    op=Insta.objects.all()
-    for i in op:
-        username=i.username
-        password=i.password
-        dd = os.path.join('ttemp', str(username))
-        bot = Bot(base_path=dd)
-        bot.login(username=username,
-                  password=password, is_threaded=True)
-        user = bot.get_user_id_from_username(username)
-        pdata = bot.get_user_info(user)
-        postno = pdata['media_count']
-        followers = pdata['follower_count']
-        exp=Insta_data.objects.get(user=i.user)
-        exp.post=postno
-        exp.followers=followers
-        exp.save()
-    opp=[1,2,3]
-    return render(request,'pending.html',{'data':opp})
+@login_required
+def set_pro(request):
+    if request.method=='POST':
+        form=SetProfie(request.POST)
+        if form.is_valid():
+            form.instance.user=request.user.username
+            r=Profile.objects.filter(Q(name=request.POST.get('name')) & Q(user=request.user.username))
+            if r.count()>0 or request.POST.get('name')=='None':
+                return render(request, 'set_profile.html', {'form': form,'error':1})
+            form.save()
+            get=Pro.objects.get(user=request.user)
+            get.profile=get.profile+1
+            get.save()
+            return redirect('users')
+        else:
+            return render(request, 'set_profile.html', {'form': form})
+    return render(request,'set_profile.html',{'form':SetProfie()})
+
+
+@login_required
+def cool(request,name):
+    r=Profile.objects.filter(Q(name=name) & Q(user=request.user.username))
+    if r.count()>0:
+        request.session['profile']=name
+        return redirect('aws')
+    else:
+        return redirect('users')
+
 
 @login_required
 def update(request,name):
@@ -377,7 +388,7 @@ def update(request,name):
         if name=='instagram':
             form=Finsta(request.POST)
             if form.is_valid():
-                ipp=Insta.objects.get(user=request.user)
+                ipp=Insta.objects.get(Q(user=request.user) & Q(profile=request.session['profile']))
                 ipp.username=request.POST.get('username')
                 ipp.password=request.POST.get('password')
                 ipp.save()
@@ -385,7 +396,7 @@ def update(request,name):
         elif name=='facebook':
             form=Face(request.POST)
             if form.is_valid():
-                ipp = Facebook.objects.get(user=request.user)
+                ipp = Facebook.objects.get(Q(user=request.user) & Q(profile=request.session['profile']))
                 ipp.token = request.POST.get('token')
                 ipp.page_id = request.POST.get('page_id')
                 ipp.save()
@@ -393,33 +404,32 @@ def update(request,name):
         elif name=='twitter':
             form=Twit(request.POST)
             if form.is_valid():
-                ipp = Twitter.objects.get(user=request.user)
+                ipp = Twitter.objects.get(Q(user=request.user) & Q(profile=request.session['profile']))
                 ipp.consumer_key = request.POST.get('consumer_key')
                 ipp.consumer_secret = request.POST.get('consumer_secret')
                 ipp.access_token = request.POST.get('access_token')
                 ipp.access_token_secret = request.POST.get('access_token_secret')
                 ipp.username = request.POST.get('username')
                 ipp.save()
+    rec = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
     if name=='instagram':
-        rec = Pro.objects.get(user=request.user)
         if not rec.instagram:
             return redirect('users')
         else:
-            ipp=Insta.objects.get(user=request.user)
+            ipp=Insta.objects.get(Q(user=request.user)& Q(profile=request.session['profile']))
             return render(request,'setup.html',{'isu':1,'name':name,'form':Finsta(instance=ipp)})
     elif name=='facebook':
-        rec = Pro.objects.get(user=request.user)
+
         if not rec.facebook:
             return redirect('users')
         else:
-            ipp = Facebook.objects.get(user=request.user)
+            ipp = Facebook.objects.get(Q(user=request.user)& Q(profile=request.session['profile']))
             return render(request,'setup.html',{'isu':1,'name':name,'form':Face(instance=ipp)})
     elif name=='twitter':
-        rec = Pro.objects.get(user=request.user)
         if not rec.twitter:
             return redirect('users')
         else:
-            ipp = Twitter.objects.get(user=request.user)
+            ipp = Twitter.objects.get(Q(user=request.user)& Q(profile=request.session['profile']))
             return render(request,'setup.html',{'isu':1,'name':name,'form':Twit(instance=ipp)})
 
 def delete(request,name):
@@ -444,7 +454,7 @@ def delete(request,name):
 
 @login_required
 def post_history(request):
-    up=Iupload.objects.filter(Q(users=request.user) & Q(done=1))
+    up=Iupload.objects.filter(Q(users=request.user) & Q(done=1) & Q(profile=request.session['profile']))
     return render(request,'post_history.html',{'up':up})
 
 def download_image(request, id):
@@ -459,7 +469,7 @@ def download_image(request, id):
 
 def history(request):
 
-    up = Save.objects.filter(user=request.user)
+    up = Save.objects.filter(Q(user=request.user) & Q(profile=request.session['profile']))
     for i in up:
         gg=Iupload.objects.get(id=i.fid)
         i.ndate=gg.date

@@ -1,0 +1,36 @@
+  <!-- sidebar-wrapper  -->
+ {% extends 'head.html' %}
+{% block title %}Template{% endblock %}
+  {% block main %}
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+      .insta
+      {
+  padding:5%;
+  }
+  .insta:hover
+  {
+opacity:0.8;
+  }
+  </style>
+    <div class="container-fluid">
+
+      <h2 class="text-center">HOME</h2>
+      <hr style="height:2px;border-width:0;color:white;background-color:white">
+      <div class="row">
+        <div class="form-group col-md-12">
+          {% if profile == 0 %}
+            <a href="{% url 'setp' %}">Set up Profile</a>
+            {% else %}
+            {% for i in sessions %}
+          <li><a href="{% url 'cool' i.name %}">{{i.name}}</a></li>
+            {% endfor %}
+            <br>
+            <a href="{% url 'setp' %}">Set up Profile</a>
+            {% endif %}
+        </div>
+      </div>
+
+
+  {% endblock %}

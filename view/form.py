@@ -1,4 +1,4 @@
-from .models import Pro,Insta,Iupload,Facebook,Twitter,Save
+from .models import Pro,Insta,Iupload,Facebook,Twitter,Save,Profile
 from django.contrib.auth.models import User
 from django import forms
 from django.core.exceptions import ValidationError
@@ -111,3 +111,10 @@ class Schedule(forms.ModelForm):
 class ResetP(PasswordResetForm):
     new_password1=forms.CharField(widget=forms.PasswordInput(attrs={'class':'InputStyle','autocomplete':'new_password','required':'1'}))
     new_password2=forms.CharField(widget=forms.PasswordInput(attrs={'class':'InputStyle','autocomplete':'new_password','required':'1'}))
+
+
+class SetProfie(forms.ModelForm):
+    class Meta:
+        model=Profile
+        fields=['name']
+

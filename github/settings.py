@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['django-env.eba-834pk48p.ap-south-1.elasticbeanstalk.com','127.0.0.1']
 
@@ -161,7 +161,7 @@ MEDIA_URL = '/media/'
 #DEFAULT_FILE_STORAGE = 'github.storage_backends.PublicMediaStorage'
 LOGIN_URL = '/login/'
 
-LOGIN_REDIRECT_URL = "/users/"
+LOGIN_REDIRECT_URL = "/aws/"
 
 
 DEFAULT_FROM_EMAIL="shivsinghkhaira@gmail.com"
@@ -176,3 +176,5 @@ TIME_INPUT_FORMATS = [
     '%H:%M:%S.%f',  # '14:30:59.000200'
     '%H:%M',        # '14:30'
 ]
+
+SESSION_SAVE_EVERY_REQUEST=True

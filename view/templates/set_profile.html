@@ -1,0 +1,82 @@
+  <!-- sidebar-wrapper  -->
+ {% extends 'head.html' %}
+{% block title %}Template{% endblock %}
+  {% block main %}
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+      .insta
+      {
+  padding:5%;
+  }
+  .insta:hover
+  {
+opacity:0.8;
+  }
+  </style>
+    <div class="container-fluid">
+
+      <h2 class="text-center">HOME</h2>
+      <hr style="height:2px;border-width:0;color:white;background-color:white">
+      <div class="row">
+        <div class="form-group col-md-12">
+            {% if saved == 1%}
+            <p>Saved</p>
+            {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                {{form}}
+                <input type="submit" />
+                <br />
+                {% if error %}
+                Profile already exists
+                {% endif %}
+            </form>
+        </div>
+      </div>
+        {% if all > 0 %}
+
+      <h5>Stats</h5>
+      <hr>
+      <div class="row">
+          {% if instagram == 1 %}
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+          <div class="card rounded-0 p-0 shadow-sm">
+            <div class="card-body text-center">
+              <h5 class="card-title" style="color:black">Instagram Stats</h5>
+              <p class="btn btn-primary btn-md">Posts: {{ipost}}</p>
+              <p class="btn btn-success btn-md">Followers: {{ifollow}}</p>
+                <p><span style="font-size:small;">It may take some time to update</span></p>
+            </div>
+          </div>
+        </div>
+          {% endif %}
+          {% if facebook == 1 %}
+         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+          <div class="card rounded-0 p-0 shadow-sm">
+            <div class="card-body text-center">
+              <h5 class="card-title" style="color:black">Facebook Stats</h5>
+              <p class="btn btn-primary btn-md">Posts: {{face_post}}</p>
+              <p class="btn btn-success btn-md">Likes: {{face_likes}}</p>
+            </div>
+          </div>
+        </div>
+{% endif %}
+          {% if twitter == 1 %}
+           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+          <div class="card rounded-0 p-0 shadow-sm">
+            <div class="card-body text-center">
+              <h5 class="card-title" style="color:black">Twitter Stats{{youtube}}</h5>
+              <p class="btn btn-primary btn-md">Tweets: {{tcount}}</p>
+              <p class="btn btn-success btn-md">Followers: {{tfollow}}</p>
+            </div>
+          </div>
+        </div>
+          {% endif %}
+
+      </div>
+      <hr>
+{% endif %}
+
+
+  {% endblock %}

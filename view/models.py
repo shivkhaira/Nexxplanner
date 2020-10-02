@@ -9,10 +9,7 @@ class Pro(models.Model):
 
     user = models.CharField(max_length=40)
     activated = models.BooleanField(default=False)
-    instagram=models.BooleanField(default=False)
-    facebook=models.BooleanField(default=False)
-    twitter=models.BooleanField(default=False)
-
+    profile = models.IntegerField(default=0)
     def __str__(self):
         return str(self.user)
 
@@ -21,7 +18,7 @@ class Insta(models.Model):
     username=models.CharField(max_length=50)
     password=models.CharField(max_length=50)
     user=models.CharField(max_length=50,default='None')
-
+    profile = models.CharField(max_length=100)
 
     def __str__(self):
         return str(self.user)
@@ -32,7 +29,7 @@ class Facebook(models.Model):
     token=models.CharField(max_length=1000)
     page_id=models.CharField(max_length=100,default=0)
     user=models.CharField(max_length=50,default='None')
-
+    profile = models.CharField(max_length=100)
 
     def __str__(self):
         return str(self.user)
@@ -46,7 +43,7 @@ class Twitter(models.Model):
     access_token_secret=models.CharField(max_length=200)
     username=models.CharField(max_length=100,default='admin')
     user=models.CharField(max_length=50,default='None')
-
+    profile = models.CharField(max_length=100)
 
     def __str__(self):
         return str(self.user)
@@ -56,7 +53,7 @@ class Insta_data(models.Model):
     post=models.IntegerField(default=0)
     followers=models.IntegerField(default=0)
     user=models.CharField(max_length=50)
-
+    profile = models.CharField(max_length=100)
     def __str__(self):
         return str(self.user)
 
@@ -83,6 +80,7 @@ class Iupload(models.Model):
     users=models.CharField(max_length=50,default='None')
     done=models.BooleanField(default=False)
     date=models.DateTimeField(default=datetime.now())
+    profile = models.CharField(max_length=100)
 
     def __str__(self):
         return str(self.users)+str(self.id)
@@ -94,8 +92,20 @@ class Save(models.Model):
     fid=models.IntegerField(default=0)
     user=models.CharField(max_length=50,default='admin')
     done=models.BooleanField(default=False)
-
+    profile=models.CharField(max_length=100)
     def __str__(self):
         return str(self.user)
+
+
+class Profile(models.Model):
+    name=models.CharField(max_length=100)
+    user=models.CharField(max_length=100)
+    instagram=models.BooleanField(default=False)
+    facebook=models.BooleanField(default=False)
+    twitter=models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.name)
+
 
 
