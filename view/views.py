@@ -300,8 +300,8 @@ def temp(request):
         isoc=Insta_data.objects.get(user=request.user)
         postno=isoc.post
         followers=isoc.followers
-        #multiprocessing.Process(target=Int.insta_data,args=(request.user.username)).start()
-        threading.Thread(target=Int.insta_data, args=(request.user.username,)).start()
+        multiprocessing.Process(target=Int.insta_data,args=(request.user.username)).start()
+        #threading.Thread(target=Int.insta_data, args=(request.user.username,)).start()
 
     else:
         postno=0
