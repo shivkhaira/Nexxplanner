@@ -37,8 +37,8 @@ class Facebook(models.Model):
 class Twitter(models.Model):
 
 
-    consumer_key=models.CharField(max_length=200)
-    consumer_secret=models.CharField(max_length=200)
+    consumer_key=models.CharField(max_length=200,default="C9rcyMD5v6K9W0ZBcGFoGaaTW")
+    consumer_secret=models.CharField(max_length=200,default="Yu7Kz3bAiItGP6H0SpU6CLSD5b1NnKqYHpiyLq1sbwAHTHx2ES")
     access_token=models.CharField(max_length=200)
     access_token_secret=models.CharField(max_length=200)
     username=models.CharField(max_length=100,default='admin')

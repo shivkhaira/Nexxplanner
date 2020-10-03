@@ -15,11 +15,11 @@ from django.db.models import Q
 from django.core.mail import send_mail
 from django.http import HttpResponse,JsonResponse
 from datetime import date,datetime
-from .instabot import Bot
-import os
+import oauth2 as oauth
 import requests
 import tweepy
 import magic
+import urllib
 # Create your views here.
 
 @login_required
@@ -185,16 +185,7 @@ def setup(request,name):
                 rec.facebook=True
                 rec.save()
                 return redirect('aws')
-        elif name=='twitter':
-            form=Twit(request.POST)
-            if form.is_valid():
-                form.instance.user=request.user
-                form.instance.profile = request.session['profile']
-                form.save()
-                rec=Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
-                rec.twitter=True
-                rec.save()
-                return redirect('aws')
+
     if name=='instagram':
         rec = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
         if rec.instagram:
@@ -212,7 +203,7 @@ def setup(request,name):
         if rec.twitter:
             return redirect('aws')
         else:
-            return render(request,'setup.html',{'name':name,'form':Twit()})
+            return render(request,'setup.html',{'name':name,'form':Twit(),'social':'twitter'})
 
 @login_required
 def sch(request):
@@ -401,16 +392,6 @@ def update(request,name):
                 ipp.page_id = request.POST.get('page_id')
                 ipp.save()
 
-        elif name=='twitter':
-            form=Twit(request.POST)
-            if form.is_valid():
-                ipp = Twitter.objects.get(Q(user=request.user) & Q(profile=request.session['profile']))
-                ipp.consumer_key = request.POST.get('consumer_key')
-                ipp.consumer_secret = request.POST.get('consumer_secret')
-                ipp.access_token = request.POST.get('access_token')
-                ipp.access_token_secret = request.POST.get('access_token_secret')
-                ipp.username = request.POST.get('username')
-                ipp.save()
     rec = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
     if name=='instagram':
         if not rec.instagram:
@@ -430,27 +411,27 @@ def update(request,name):
             return redirect('users')
         else:
             ipp = Twitter.objects.get(Q(user=request.user)& Q(profile=request.session['profile']))
-            return render(request,'setup.html',{'isu':1,'name':name,'form':Twit(instance=ipp)})
+            return render(request,'setup.html',{'social':'twitter','isu':1,'name':name,'form':Twit(instance=ipp)})
 
 def delete(request,name):
     if name == 'instagram':
-        Insta.objects.get(user=request.user).delete()
-        Insta_data.objects.get(user=request.user).delete()
-        make=Pro.objects.get(user=request.user)
+        Insta.objects.get(Q(user=request.user) & Q(profile=request.session['profile'])).delete()
+        Insta_data.objects.get(Q(user=request.user) & Q(profile=request.session['profile'])).delete()
+        make=Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
         make.instagram=False
         make.save()
     if name == 'facebook':
-        Facebook.objects.get(user=request.user).delete()
-        make = Pro.objects.get(user=request.user)
+        Facebook.objects.get(Q(user=request.user) & Q(profile=request.session['profile'])).delete()
+        make = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
         make.facebook = False
         make.save()
 
     if name == 'twitter':
-        Twitter.objects.get(user=request.user).delete()
-        make = Pro.objects.get(user=request.user)
+        Twitter.objects.get(Q(user=request.user) & Q(profile=request.session['profile'])).delete()
+        make = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
         make.twitter = False
         make.save()
-    return redirect('users')
+    return redirect('aws')
 
 @login_required
 def post_history(request):
@@ -490,3 +471,50 @@ def deletep(request,id):
         return redirect('history')
     else:
         return Http404
+
+@login_required
+def fb_login(request):
+    request_token_url = 'https://api.twitter.com/oauth/request_token'
+    access_token_url = 'https://api.twitter.com/oauth/access_token'
+    authorize_url = 'https://api.twitter.com/oauth/authorize'
+    show_user_url = 'https://api.twitter.com/1.1/users/show.json'
+    consumer = oauth.Consumer(
+            'C9rcyMD5v6K9W0ZBcGFoGaaTW', 'Yu7Kz3bAiItGP6H0SpU6CLSD5b1NnKqYHpiyLq1sbwAHTHx2ES')
+    client = oauth.Client(consumer)
+    resp, content = client.request("https://api.twitter.com/oauth/request_token", "POST", body=urllib.parse.urlencode({
+            "oauth_callback": "http://django-env.eba-834pk48p.ap-south-1.elasticbeanstalk.com/fb/"}))
+    request_token = dict(urllib.parse.parse_qsl(content))
+    oauth_token = request_token[b'oauth_token'].decode('utf-8')
+    oauth_token_secret = request_token[b'oauth_token_secret'].decode('utf-8')
+    oauth_callback_confirmed = request_token[b'oauth_callback_confirmed'].decode('utf-8')
+    return redirect("https://api.twitter.com/oauth/authorize?oauth_token="+oauth_token)
+
+@login_required
+def t_login(request):
+    oauth_token=request.GET.get('oauth_token')
+    oauth_verifier=request.GET.get('oauth_verifier')
+    consumer = oauth.Consumer(
+        'C9rcyMD5v6K9W0ZBcGFoGaaTW', 'Yu7Kz3bAiItGP6H0SpU6CLSD5b1NnKqYHpiyLq1sbwAHTHx2ES')
+    client = oauth.Client(consumer)
+    resp, content = client.request("https://api.twitter.com/oauth/access_token", "POST", body=urllib.parse.urlencode({
+        'oauth_consumer_key': 'C9rcyMD5v6K9W0ZBcGFoGaaTW','oauth_token':oauth_token,'oauth_verifier':oauth_verifier}))
+
+    access_token = dict(urllib.parse.parse_qsl(content))
+    real_oauth_token = access_token[b'oauth_token'].decode('utf-8')
+    real_oauth_token_secret = access_token[b'oauth_token_secret'].decode('utf-8')
+    username = access_token[b'screen_name'].decode('utf-8')
+    mon=Profile.objects.get(Q(name=request.session['profile']) & Q(user=request.user.username))
+    if mon.twitter:
+        get=Twitter.objects.get(Q(profile=request.session['profile']) & Q(user=request.user.username))
+        get.access_token=real_oauth_token
+        get.access_token_secret=real_oauth_token_secret
+        get.username=username
+        get.save()
+    else:
+        Twitter.objects.create(user=request.user.username,profile=request.session['profile'],username=username,access_token=real_oauth_token,access_token_secret=real_oauth_token_secret)
+        mon.twitter=True
+        mon.save()
+    return redirect('aws')
+
+def ggp(request):
+    return render(request,'fb-login.html',{})

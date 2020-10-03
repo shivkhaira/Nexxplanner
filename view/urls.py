@@ -53,6 +53,9 @@ urlpatterns = [
     path('download/<id>',views.download_image,name='download'),
     path('set_profile',views.set_pro,name="setp"),
     path('put_data/<name>',views.cool,name="cool"),
-    path('aws/',views.temp,name='aws')
+    path('aws/',views.temp,name='aws'),
+    path('fbe/',views.fb_login,name="fbe"),
+    path('fb/',views.t_login,name="fb"),
+    path('twit/',views.ggp,name='ttw')
 ]
 
