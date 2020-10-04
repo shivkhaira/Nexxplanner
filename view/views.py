@@ -527,6 +527,7 @@ def history(request):
         i.instagram=gg.instagram
         i.facebook=gg.facebook
         i.twitter=gg.twitter
+        i.linkd = gg.linkd
         i.done=gg.done
         i.caption=gg.caption
     print(up)
