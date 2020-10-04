@@ -44,6 +44,7 @@
       <td class="text-center">{% if i.instagram %}<i class="fa fa-instagram"></i>{% endif %}
       {% if i.facebook %}<i class="fa fa-facebook"></i>{% endif %}
         {% if i.twitter %}<i class="fa fa-twitter-square"></i>{% endif %}
+        {% if i.linkd %}<i class="fa fa-linkedin-in"></i>{% endif %}
       </td>
         <td><a href="{% url 'download' i.fid %}">Download</a>{% if i.done == 0 %} | <a href="{% url 'delp' i.id %}">Delete</a>{% endif %}</td>
     </tr>
