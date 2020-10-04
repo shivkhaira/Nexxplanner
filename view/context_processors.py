@@ -10,11 +10,13 @@ def data(request):
             instagram=session.instagram
             facebook=session.facebook
             twitter=session.twitter
+            linkd=session.linkd
         else:
             instagram=0
             facebook=0
             twitter=0
+            linkd=0
             all=0
-        return {'session':request.session['profile'],'instagram': instagram,'facebook':facebook,'twitter':twitter,'all':all,'profile':user.profile}
+        return {'session':request.session['profile'],'linkd':linkd,'instagram': instagram,'facebook':facebook,'twitter':twitter,'all':all,'profile':user.profile}
     else:
         return {'none':0}

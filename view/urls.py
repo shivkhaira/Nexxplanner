@@ -56,6 +56,7 @@ urlpatterns = [
     path('aws/',views.temp,name='aws'),
     path('fbe/',views.fb_login,name="fbe"),
     path('fb/',views.t_login,name="fb"),
-    path('twit/',views.ggp,name='ttw')
+    path('twit/',views.ggp,name='ttw'),
+    path('linkd/',views.linkd,name='linkd'),
 ]
 

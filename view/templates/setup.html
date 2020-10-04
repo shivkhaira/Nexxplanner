@@ -24,6 +24,11 @@ opacity:0.8;
             <a href="{% url 'fbe' %}" class="btn btn-primary btn-social btn-twitter" style=" display: flex;
   align-items: center;
   justify-content: center;"><i class="fa fa-twitter"></i>Go To Twitter</a><br /><br>
+            {% elif social == 'linkd' %}
+              <a href="{% url 'linkd' %}" class="btn btn-primary btn-social btn-twitter" style=" display: flex;
+  align-items: center;
+  justify-content: center;"><i class="fa fa-linkedin" style="margin-right:1%">       </i>     Go To Linkedin</a><br /><br>
+
             {% else %}
            <form method="post">
     {% csrf_token %}

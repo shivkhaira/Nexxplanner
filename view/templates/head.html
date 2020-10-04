@@ -561,6 +561,11 @@ body {
                   <a href="{% url 'setup' 'twitter' %}">Setup Twitter</a>
                 </li>
                   {% endif %}
+                 {% if linkd == 0 %}
+                <li>
+                  <a href="{% url 'setup' 'linkd' %}">Setup Linkedin</a>
+                </li>
+                  {% endif %}
                   {% if all > 0 %}
                 <li>
                   <a href="{% url 'iupload' %}">Upload Post</a>
@@ -594,6 +599,11 @@ body {
                   {% if twitter == 1 %}
                 <li>
                   <a href="{% url 'update' 'twitter' %}">Update Twitter Details</a>
+                </li>
+                  {% endif %}
+                 {% if linkd == 1 %}
+                <li>
+                  <a href="{% url 'update' 'linkd' %}">Update Linkedin Details</a>
                 </li>
                   {% endif %}
 

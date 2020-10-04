@@ -57,6 +57,20 @@ opacity:0.8;
             <br>
 {% endif %}
 
+                 {% if linkd == 0 %}
+             <div class="card rounded-0 p-0 shadow-sm">
+         <a href="{% url 'setup' 'linkd' %}" class="btn btn-large btn-default insta" style="background-color:blue;color:white">
+<div class="hero-button text-center">
+
+            <i class="fa fa-linkedin-in" style="font-size:58px;color:white"></i><br>
+             Set Up Linkedin
+
+
+</div>  </a></div>
+             <hr style="height:2px;border-width:0;color:white;background-color:white">
+            <br>
+{% endif %}
+
  {% if all > 0 %}
 <br>
               <div class="card rounded-0 p-0 shadow-sm">

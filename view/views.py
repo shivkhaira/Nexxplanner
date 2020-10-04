@@ -8,7 +8,7 @@ from .form import Finsta,Uinsta,Ureg,Face,Twit,Schedule,Customauth,SetProfie
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .autobot import Int
-from .models import Insta,Iupload,Pro,Facebook,Twitter,Save,Insta_data,Profile
+from .models import Insta,Iupload,Pro,Facebook,Twitter,Save,Insta_data,Profile,LinkD
 import multiprocessing
 from django.http import Http404
 from django.db.models import Q
@@ -100,7 +100,8 @@ def iupload(request):
             insta = request.POST.get('instagram')
             face = request.POST.get('facebook')
             twit = request.POST.get('twitter')
-            if insta or face or twit:
+            linkd = request.POST.get('linkd')
+            if insta or face or twit or linkd:
                 abb=1
             else:
                 abb=0
@@ -114,11 +115,22 @@ def iupload(request):
                 form.instance.facebook=True
             if twit:
                 form.instance.twitter=True
+            if twit:
+                form.instance.linkd=True
+
             form.instance.profile=request.session['profile']
             data=form.save()
             pic=Iupload.objects.get(id=data.id)
 
             img = str(pic.file)
+
+
+            if linkd:
+                fb = LinkD.objects.get(Q(user=request.user.username) & Q(profile=request.session['profile']))
+                token = fb.access_token
+                urn=fb.urn
+                multiprocessing.Process(target=Int.linkd,
+                                        args=(token,urn,'media/' + img, data.caption)).start()
 
             if face:
                 fb = Facebook.objects.get(Q(user=request.user) & Q(profile=request.session['profile']))
@@ -154,7 +166,13 @@ def iupload(request):
         twitter=1
     else:
         twitter=0
-    all=instagram+facebook+twitter
+
+    if data.linkd:
+        linkd=1
+    else:
+        linkd=0
+
+    all=instagram+facebook+twitter+linkd
     if all == 0:
         return redirect('users')
 
@@ -204,6 +222,12 @@ def setup(request,name):
             return redirect('aws')
         else:
             return render(request,'setup.html',{'name':name,'form':Twit(),'social':'twitter'})
+    elif name=='linkd':
+        rec =Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
+        if rec.linkd:
+            return redirect('aws')
+        else:
+            return render(request,'setup.html',{'name':name,'form':Twit(),'social':'linkd'})
 
 @login_required
 def sch(request):
@@ -214,7 +238,8 @@ def sch(request):
             insta = request.POST.get('instagram')
             face = request.POST.get('facebook')
             twit = request.POST.get('twitter')
-            if insta or face or twit:
+            linkd = request.POST.get('linkd')
+            if insta or face or twit or linkd:
                 abb=1
             else:
                 abb=0
@@ -227,6 +252,8 @@ def sch(request):
                 uform.instance.facebook = True
             if twit:
                 uform.instance.twitter = True
+            if linkd:
+                uform.instance.linkd = True
             uform.instance.profile = request.session['profile']
             data=uform.save()
             form.instance.fid=data.id
@@ -236,6 +263,30 @@ def sch(request):
             return render(request,'schedule.html',{'uploaded':'1','form':Uinsta(),'form1':Schedule()})
         else:
             return Http404
+    data = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
+    if data.instagram:
+        instagram = 1
+    else:
+        instagram = 0
+
+    if data.facebook:
+        facebook = 1
+    else:
+        facebook = 0
+
+    if data.twitter:
+        twitter = 1
+    else:
+        twitter = 0
+
+    if data.linkd:
+        linkd = 1
+    else:
+        linkd = 0
+
+    all = instagram + facebook + twitter + linkd
+    if all == 0:
+        return redirect('users')
     return render(request,'schedule.html',{'form':Uinsta(),'form1':Schedule()})
 
 def check(request):
@@ -245,6 +296,12 @@ def check(request):
         dt = datetime.combine(i.sdate, i.stime)
         if curr >= dt:
             data = Iupload.objects.get(id=i.fid)
+            if data.linkd:
+                fb = LinkD.objects.get(Q(user=request.user.username) & Q(profile=request.session['profile']))
+                token = fb.access_token
+                urn = fb.urn
+                multiprocessing.Process(target=Int.linkd,
+                                        args=(token, urn, 'media/' + str(data.file), data.caption)).start()
             if data.facebook:
                 face = Facebook.objects.get(profile=i.profile)
                 token = face.token
@@ -395,23 +452,29 @@ def update(request,name):
     rec = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
     if name=='instagram':
         if not rec.instagram:
-            return redirect('users')
+            return redirect('aws')
         else:
             ipp=Insta.objects.get(Q(user=request.user)& Q(profile=request.session['profile']))
             return render(request,'setup.html',{'isu':1,'name':name,'form':Finsta(instance=ipp)})
     elif name=='facebook':
 
         if not rec.facebook:
-            return redirect('users')
+            return redirect('aws')
         else:
             ipp = Facebook.objects.get(Q(user=request.user)& Q(profile=request.session['profile']))
             return render(request,'setup.html',{'isu':1,'name':name,'form':Face(instance=ipp)})
     elif name=='twitter':
         if not rec.twitter:
-            return redirect('users')
+            return redirect('aws')
         else:
             ipp = Twitter.objects.get(Q(user=request.user)& Q(profile=request.session['profile']))
             return render(request,'setup.html',{'social':'twitter','isu':1,'name':name,'form':Twit(instance=ipp)})
+    elif name=='linkd':
+        if not rec.linkd:
+            return redirect('aws')
+        else:
+            ipp = LinkD.objects.get(Q(user=request.user)& Q(profile=request.session['profile']))
+            return render(request,'setup.html',{'social':'linkd','isu':1,'name':name,'form':Twit(instance=ipp)})
 
 def delete(request,name):
     if name == 'instagram':
@@ -431,6 +494,13 @@ def delete(request,name):
         make = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
         make.twitter = False
         make.save()
+
+    if name == 'linkd':
+        LinkD.objects.get(Q(user=request.user) & Q(profile=request.session['profile'])).delete()
+        make = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
+        make.linkd = False
+        make.save()
+
     return redirect('aws')
 
 @login_required
@@ -518,3 +588,30 @@ def t_login(request):
 
 def ggp(request):
     return render(request,'fb-login.html',{})
+
+@login_required
+def linkd(request):
+
+    if request.GET.get('code'):
+        code = request.GET.get('code')
+        data = requests.get("https://www.linkedin.com/oauth/v2/accessToken?grant_type=authorization_code&code=" + str(
+            code) + "&redirect_uri=http://django-env.eba-834pk48p.ap-south-1.elasticbeanstalk.com/linkd/&client_id=86uhfw4w57lw74&client_secret=VYbQfvNSmfOeTk4F")
+        x = data.json()
+        token=x['access_token']
+        usd=requests.get("https://api.linkedin.com/v2/me/?oauth2_access_token="+token)
+        y = usd.json()
+        urn=y['id']
+        mon = Profile.objects.get(Q(name=request.session['profile']) & Q(user=request.user.username))
+        if mon.linkd:
+            get = LinkD.objects.get(Q(profile=request.session['profile']) & Q(user=request.user.username))
+            get.access_token = token
+            get.urn = urn
+            get.save()
+        else:
+            LinkD.objects.create(user=request.user.username, profile=request.session['profile'],
+                                 access_token=token, urn=urn)
+            mon.linkd = True
+            mon.save()
+        return redirect('aws')
+    else:
+        return redirect("https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=86uhfw4w57lw74&scope=r_liteprofile%20r_emailaddress%20w_member_social&redirect_uri=http://django-env.eba-834pk48p.ap-south-1.elasticbeanstalk.com/linkd/")

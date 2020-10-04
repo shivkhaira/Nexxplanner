@@ -77,6 +77,7 @@ class Iupload(models.Model):
     instagram=models.BooleanField(default=False)
     facebook=models.BooleanField(default=False)
     twitter=models.BooleanField(default=False)
+    linkd = models.BooleanField(default=False)
     users=models.CharField(max_length=50,default='None')
     done=models.BooleanField(default=False)
     date=models.DateTimeField(default=datetime.now())
@@ -103,9 +104,15 @@ class Profile(models.Model):
     instagram=models.BooleanField(default=False)
     facebook=models.BooleanField(default=False)
     twitter=models.BooleanField(default=False)
+    linkd=models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.name)
 
+class LinkD(models.Model):
+    urn=models.CharField(max_length=100)
+    access_token=models.CharField(max_length=1500)
+    user=models.CharField(max_length=100)
+    profile=models.CharField(max_length=100)
 
 
