@@ -297,7 +297,7 @@ def check(request):
         if curr >= dt:
             data = Iupload.objects.get(id=i.fid)
             if data.linkd:
-                fb = LinkD.objects.get(Q(user=request.user.username) & Q(profile=request.session['profile']))
+                fb = LinkD.objects.get(profile=i.profile)
                 token = fb.access_token
                 urn = fb.urn
                 multiprocessing.Process(target=Int.linkd,
