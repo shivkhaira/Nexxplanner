@@ -347,7 +347,7 @@ def temp(request):
         username = op.username
         password = op.password
         #multiprocessing.Process(target=Int.insta_data,args=(request.user.username)).start()
-        threading.Thread(target=Int.insta_data, args=(request.user.username,username,password)).start()
+        threading.Thread(target=Int.insta_data, args=(request.user.username,username,password,request.session['profile'])).start()
 
     else:
         postno=0

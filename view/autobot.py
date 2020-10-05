@@ -8,8 +8,9 @@ import facebook
 import tweepy
 import requests
 import json
-import urllib
-
+from django.db.models import Q
+import random
+import string
 def crop(x, y, data, w, h):
     x = int(x)
     y = int(y)
@@ -83,13 +84,18 @@ def prepare_and_fix_photo(photo):
 class Int:
 
     def up(username,password,pic,caption):
-        dd = os.path.join('ttemp', str(username))
+        N=7
+        res = ''.join(random.choices(string.ascii_uppercase +
+                                     string.digits, k=N))
+        res=str(res)
+        os.mkdir('ttemp/'+res)
+        dd = os.path.join('ttemp',res , str(username))
         bot = Bot(base_path=dd)
         pici=prepare_and_fix_photo(pic)
         bot.login(username=username,password=password,is_threaded=True)
         bot.upload_photo(pici, caption=caption)
         bot.logout()
-        shutil.rmtree(dd)
+        shutil.rmtree('ttemp/'+res)
         
     def face(token,pic,caption):
         graph = facebook.GraphAPI(token)
@@ -106,20 +112,25 @@ class Int:
 
         api.update_with_media(filename=pic, status=caption)
 
-    def insta_data(usernamed,user,pwd):
+    def insta_data(usernamed,user,pwd,session):
         from .models import Insta_data
-        dd = os.path.join('ttemp', str(user))
+        N=7
+        res = ''.join(random.choices(string.ascii_uppercase +
+                                     string.digits, k=N))
+        res=str(res)
+        os.mkdir('stemp/'+res)
+        dd = os.path.join('stemp',res , str(user))
         bot = Bot(base_path=dd)
         bot.login(username=user, password=pwd, is_threaded=True)
         usern = bot.get_user_id_from_username(user)
         pdata = bot.get_user_info(usern)
         postno = pdata['media_count']
         followers = pdata['follower_count']
-        exp = Insta_data.objects.get(user=usernamed)
+        exp = Insta_data.objects.get(Q(user=usernamed) & Q(profile=session))
         exp.post = postno
         exp.followers = followers
         exp.save()
-        shutil.rmtree(dd)
+        shutil.rmtree('stemp/'+res)
 
     def linkd(token,urn,img,cpt):
         access_token =token
