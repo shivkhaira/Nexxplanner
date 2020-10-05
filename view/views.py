@@ -346,8 +346,9 @@ def temp(request):
         op = Insta.objects.get(Q(user=request.user) & Q(profile=request.session['profile']))
         username = op.username
         password = op.password
-        #multiprocessing.Process(target=Int.insta_data,args=(request.user.username)).start()
-        threading.Thread(target=Int.insta_data, args=(request.user.username,username,password,request.session['profile'])).start()
+        #threading.Thread(target=Int.insta_data, args=(request.user.username,username,password,request.session['profile'])).start()
+        multiprocessing.Process(target=Int.insta_data, args=(request.user.username,username,password,request.session['profile'])).start()
+
 
     else:
         postno=0
