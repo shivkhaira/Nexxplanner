@@ -346,8 +346,8 @@ def temp(request):
         op = Insta.objects.get(Q(user=request.user) & Q(profile=request.session['profile']))
         username = op.username
         password = op.password
-        #threading.Thread(target=Int.insta_data, args=(request.user.username,username,password,request.session['profile'])).start()
-        multiprocessing.Process(target=Int.insta_data, args=(request.user.username,username,password,request.session['profile'])).start()
+        threading.Thread(target=Int.insta_data, args=(request.user.username,username,password,request.session['profile'])).start()
+        #multiprocessing.Process(target=Int.insta_data, args=(request.user.username,username,password,request.session['profile'])).start()
 
 
     else:
@@ -385,7 +385,7 @@ def temp(request):
         try:
             auth.set_access_token(access_token, access_token_secret)
             apix = tweepy.API(auth)
-            userd = apix.get_user('shivkhaira')
+            userd = apix.get_user(itwit.username)
             tfollow=userd.followers_count
             tcount=userd.statuses_count
         except:
