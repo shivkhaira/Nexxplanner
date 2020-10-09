@@ -72,8 +72,8 @@ class Iupload(models.Model):
 
         return os.path.join(upload_to, filename)
 
-    file=models.ImageField(upload_to=file_change)
-    caption=models.CharField(max_length=250)
+    file=models.ImageField(upload_to=file_change,default='null')
+    caption=models.CharField(max_length=1000)
     instagram=models.BooleanField(default=False)
     facebook=models.BooleanField(default=False)
     twitter=models.BooleanField(default=False)

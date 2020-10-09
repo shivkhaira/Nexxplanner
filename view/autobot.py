@@ -97,9 +97,15 @@ class Int:
         bot.logout()
         shutil.rmtree('ttemp/'+res)
         
-    def face(token,pic,caption):
-        graph = facebook.GraphAPI(token)
-        graph.put_photo(open(pic,'rb'),message=caption)
+    def face(token,page_id,pic,caption):
+        if pic !="media/null":
+            graph = facebook.GraphAPI(token)
+            graph.put_photo(open(pic,'rb'),message=caption)
+        else:
+            graph = facebook.GraphAPI(token)
+            facebook_page_id = page_id
+            graph.put_object(facebook_page_id, "feed", message=caption)
+
 
     def twit(consumer_key,consumer_secret,access_token,access_token_secret,pic,caption):
 
@@ -109,8 +115,10 @@ class Int:
         # authentication of access token and secret
         auth.set_access_token(access_token, access_token_secret)
         api = tweepy.API(auth)
-
-        api.update_with_media(filename=pic, status=caption)
+        if pic !='media/null':
+            api.update_with_media(filename=pic, status=caption)
+        else:
+            api.update_status(status=caption)
 
     def insta_data(usernamed,user,pwd,session):
         from .models import Insta_data
@@ -134,96 +142,123 @@ class Int:
 
     def linkd(token,urn,img,cpt):
         access_token =token
-        urn = urn
-        h = {
-            'Authorization': 'Bearer ' + str(access_token),
-            'Content-Type': 'multipart/form-data',
-            'X-Restli-Protocol-Version': '2.0.0',
-
-        }
-
         author = f"urn:li:person:{urn}"
-        data = {
-            "registerUploadRequest": {
-                "recipes": [
-                    "urn:li:digitalmediaRecipe:feedshare-image"
-                ],
-                "owner": author,
-                "serviceRelationships": [
-                    {
-                        "relationshipType": "OWNER",
-                        "identifier": "urn:li:userGeneratedContent"
-                    }
-                ]
+        if img!='media/null':
+            h = {
+                'Authorization': 'Bearer ' + str(access_token),
+                'Content-Type': 'multipart/form-data',
+                'X-Restli-Protocol-Version': '2.0.0',
+
             }
-        }
 
-        z = requests.post('https://api.linkedin.com/v2/assets?action=registerUpload', headers=h, data=json.dumps(data))
 
-        aa = z.json()['value']['uploadMechanism']['com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest'][
-            'uploadUrl']
-        bb = z.json()['value']['asset']
-        asset = bb.replace('urn:li:digitalmediaAsset:', '')
-
-        data = {
-            "registerUploadRequest": {
-                "recipes": [
-                    "urn:li:digitalmediaRecipe:feedshare-image"
-                ],
-                "owner": author,
-                "serviceRelationships": [
-                    {
-                        "relationshipType": "OWNER",
-                        "identifier": "urn:li:userGeneratedContent"
-                    }
-                ]
-            }
-        }
-
-        headers = {
-            'Authorization': 'Bearer ' + str(access_token),
-            'X-Restli-Protocol-Version': '2.0.0',
-            'Content-Type': 'image/jpeg,image/png,image/gif',
-
-        }
-
-        res = requests.post(str(aa), data=open(img, 'rb'), headers=headers)
-
-        print(res)
-
-        headers = {
-            'content-type': 'application/json',
-            'X-Restli-Protocol-Version': '2.0.0',
-            'Content-Type': 'multipart/form-data',
-            'Authorization': 'Bearer ' + str(access_token),
-        }
-        data = {
-            "author": author,
-            "lifecycleState": "PUBLISHED",
-            "specificContent": {
-                "com.linkedin.ugc.ShareContent": {
-                    "shareCommentary": {
-                        "text": cpt
-                    },
-                    "shareMediaCategory": "IMAGE",
-                    "media": [
+            data = {
+                "registerUploadRequest": {
+                    "recipes": [
+                        "urn:li:digitalmediaRecipe:feedshare-image"
+                    ],
+                    "owner": author,
+                    "serviceRelationships": [
                         {
-                            "status": "READY",
-                            "description": {
-                                "text": "Center stage!"
-                            },
-                            "media": "urn:li:digitalmediaAsset:" + str(asset),
-                            "title": {
-                                "text": "LinkedIn Talent Connect 2018"
-                            }
+                            "relationshipType": "OWNER",
+                            "identifier": "urn:li:userGeneratedContent"
                         }
                     ]
                 }
-            },
-            "visibility": {
-                "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
             }
-        }
 
-        z = requests.post('https://api.linkedin.com/v2/ugcPosts', headers=headers, data=json.dumps(data))
-        print(z.text)
+            z = requests.post('https://api.linkedin.com/v2/assets?action=registerUpload', headers=h, data=json.dumps(data))
+
+            aa = z.json()['value']['uploadMechanism']['com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest'][
+                'uploadUrl']
+            bb = z.json()['value']['asset']
+            asset = bb.replace('urn:li:digitalmediaAsset:', '')
+
+            data = {
+                "registerUploadRequest": {
+                    "recipes": [
+                        "urn:li:digitalmediaRecipe:feedshare-image"
+                    ],
+                    "owner": author,
+                    "serviceRelationships": [
+                        {
+                            "relationshipType": "OWNER",
+                            "identifier": "urn:li:userGeneratedContent"
+                        }
+                    ]
+                }
+            }
+
+            headers = {
+                'Authorization': 'Bearer ' + str(access_token),
+                'X-Restli-Protocol-Version': '2.0.0',
+                'Content-Type': 'image/jpeg,image/png,image/gif',
+
+            }
+
+            res = requests.post(str(aa), data=open(img, 'rb'), headers=headers)
+
+            print(res)
+
+            headers = {
+                'content-type': 'application/json',
+                'X-Restli-Protocol-Version': '2.0.0',
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Bearer ' + str(access_token),
+            }
+            data = {
+                "author": author,
+                "lifecycleState": "PUBLISHED",
+                "specificContent": {
+                    "com.linkedin.ugc.ShareContent": {
+                        "shareCommentary": {
+                            "text": cpt
+                        },
+                        "shareMediaCategory": "IMAGE",
+                        "media": [
+                            {
+                                "status": "READY",
+                                "description": {
+                                    "text": "Center stage!"
+                                },
+                                "media": "urn:li:digitalmediaAsset:" + str(asset),
+                                "title": {
+                                    "text": "LinkedIn Talent Connect 2018"
+                                }
+                            }
+                        ]
+                    }
+                },
+                "visibility": {
+                    "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
+                }
+            }
+
+            z = requests.post('https://api.linkedin.com/v2/ugcPosts', headers=headers, data=json.dumps(data))
+            print(z.text)
+        else:
+            headers = {
+                'content-type': 'application/json',
+                'X-Restli-Protocol-Version': '2.0.0',
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Bearer ' + str(access_token),
+            }
+            data = {
+                "author": author,
+                "lifecycleState": "PUBLISHED",
+                "specificContent": {
+                    "com.linkedin.ugc.ShareContent": {
+                        "shareCommentary": {
+                            "text": cpt
+                        },
+                        "shareMediaCategory": "NONE"
+
+                    }
+                },
+                "visibility": {
+                    "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
+                }
+            }
+
+            z = requests.post('https://api.linkedin.com/v2/ugcPosts', headers=headers, data=json.dumps(data))
+            print(z.text)

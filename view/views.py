@@ -96,6 +96,10 @@ def register(request):
 def iupload(request):
     if request.method=='POST':
         form=Uinsta(request.POST,request.FILES)
+        if not request.POST.get('file') and request.POST.get('instagram'):
+            return render(request,'upload.html',{'form':form,'instap':'1'})
+        if request.POST.get('twitter') and len(request.POST.get('caption'))>280:
+            return render(request,'upload.html',{'form':form,'tlimit':'1'})
         if form.is_valid():
             insta = request.POST.get('instagram')
             face = request.POST.get('facebook')
@@ -135,8 +139,9 @@ def iupload(request):
             if face:
                 fb = Facebook.objects.get(Q(user=request.user) & Q(profile=request.session['profile']))
                 token = fb.token
+                page_id=fb.page_id
                 multiprocessing.Process(target=Int.face,
-                                        args=(token,'media/' + img, data.caption)).start()
+                                        args=(token,page_id,'media/' + img, data.caption)).start()
             if twit:
                 tw = Twitter.objects.get(Q(user=request.user) & Q(profile=request.session['profile']))
                 consumer_key = tw.consumer_key
@@ -234,6 +239,11 @@ def sch(request):
     if request.method=='POST':
         form=Schedule(request.POST)
         uform=Uinsta(request.POST,request.FILES)
+        if not request.POST.get('file') and request.POST.get('instagram'):
+            return render(request,'schedule.html',{'form':uform,'form1':form,'instap':'1'})
+        if request.POST.get('twitter') and len(request.POST.get('caption'))>280:
+            return render(request,'schedule.html',{'form':uform,'form1':form,'tlimit':'1'})
+
         if form.is_valid() and uform.is_valid():
             insta = request.POST.get('instagram')
             face = request.POST.get('facebook')
@@ -305,7 +315,8 @@ def check(request):
             if data.facebook:
                 face = Facebook.objects.get(profile=i.profile)
                 token = face.token
-                multiprocessing.Process(target=Int.face,args=(token, 'media/' + str(data.file), data.caption)).start()
+                page_id=face.page_id
+                multiprocessing.Process(target=Int.face,args=(token,page_id, 'media/' + str(data.file), data.caption)).start()
             if data.twitter:
                 twit = Twitter.objects.get(profile=i.profile)
                 consumer_key = twit.consumer_key

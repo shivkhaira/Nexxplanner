@@ -5,6 +5,33 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
+
+textarea {
+  width: 100%;
+  min-height: 100px;
+  resize: none;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  color: #666;
+  box-shadow: inset 0 0 0.25rem #ddd;
+  &:focus {
+    outline: none;
+    border: 1px solid darken(#ddd, 5%);
+    box-shadow: inset 0 0 0.5rem darken(#ddd, 5%);
+  }
+  &[placeholder] {
+    font-style: italic;
+    font-size: 0.875rem;
+  }
+}
+
+#the-count {
+  float: right;
+  padding: 0.1rem 0 0 0;
+  font-size: 0.875rem;
+}
+
       .insta
       {
   padding:5%;
@@ -30,6 +57,22 @@ opacity:0.8;
   </button>
 </div>
             {% endif %}
+            {% if instap %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Instagram Requires a photo to be upload</strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+            {% endif %}
+            {% if tlimit %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Tweet limit is 280 characters</strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+            {% endif %}
              {% if uploaded %}
             <div class="alert alert-success alert-dismissible fade show" role="alert">
   <strong>Your post will be posted momentarily.... :)</strong>
@@ -41,6 +84,10 @@ opacity:0.8;
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{form}}
+     <div id="the-count">
+    <span id="current">0</span>
+    <span id="maximum">/ 500</span>
+  </div>
 <br>
     Upload To-<br>
     {% if instagram == 1 %}
@@ -71,7 +118,46 @@ opacity:0.8;
 </form>
 
 <hr>
+<script>
+$('textarea').keyup(function() {
 
+  var characterCount = $(this).val().length,
+      current = $('#current'),
+      maximum = $('#maximum'),
+      theCount = $('#the-count');
+
+  current.text(characterCount);
+
+
+  /*This isn't entirely necessary, just playin around*/
+  if (characterCount < 70) {
+    current.css('color', '#666');
+  }
+  if (characterCount > 70 && characterCount < 90) {
+    current.css('color', '#6d5555');
+  }
+  if (characterCount > 90 && characterCount < 100) {
+    current.css('color', '#793535');
+  }
+  if (characterCount > 100 && characterCount < 120) {
+    current.css('color', '#841c1c');
+  }
+  if (characterCount > 120 && characterCount < 139) {
+    current.css('color', '#8f0001');
+  }
+
+  if (characterCount >= 140) {
+    maximum.css('color', '#8f0001');
+    current.css('color', '#8f0001');
+    theCount.css('font-weight','bold');
+  } else {
+    maximum.css('color','#666');
+    theCount.css('font-weight','normal');
+  }
+
+
+});
+</script>
 <script>
 // Add the following code if you want the name of the file appear on select
 $(".custom-file-input").on("change", function() {
