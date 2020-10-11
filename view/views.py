@@ -96,7 +96,7 @@ def register(request):
 def iupload(request):
     if request.method=='POST':
         form=Uinsta(request.POST,request.FILES)
-        if not request.POST.get('file') and request.POST.get('instagram'):
+        if len(request.FILES) == 0 and request.POST.get('instagram'):
             return render(request,'upload.html',{'form':form,'instap':'1'})
         if request.POST.get('twitter') and len(request.POST.get('caption'))>280:
             return render(request,'upload.html',{'form':form,'tlimit':'1'})
@@ -239,7 +239,7 @@ def sch(request):
     if request.method=='POST':
         form=Schedule(request.POST)
         uform=Uinsta(request.POST,request.FILES)
-        if not request.POST.get('file') and request.POST.get('instagram'):
+        if len(request.FILES) == 0 and request.POST.get('instagram'):
             return render(request,'schedule.html',{'form':uform,'form1':form,'instap':'1'})
         if request.POST.get('twitter') and len(request.POST.get('caption'))>280:
             return render(request,'schedule.html',{'form':uform,'form1':form,'tlimit':'1'})

@@ -121,6 +121,22 @@ opacity:0.8;
     <input type="submit" class="btn btn-primary btn btn-primary btn-block">
 </form>
 
+
+             <script>
+            $('form').submit(function(event){
+    validated = true;
+
+    if ($('#id_file').get(0).files.length === 0 && $('#instagram').prop('checked') == true) {
+        validated = false;
+        alert("Instagram requires a image to post");
+        // Or some div with image showing
+    }
+
+    if (validated != true) {
+        event.preventDefault();
+    }
+});
+</script>
             <script>
 $('textarea').keyup(function() {
 
