@@ -58,5 +58,6 @@ urlpatterns = [
     path('fb/',views.t_login,name="fb"),
     path('twit/',views.ggp,name='ttw'),
     path('linkd/',views.linkd,name='linkd'),
+    path('abhiraj/',views.abhiraj,name='abhi')
 ]
 

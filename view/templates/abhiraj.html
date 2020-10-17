@@ -1,0 +1,18 @@
+<h1>ABHIRAJ {{context}}</h1>
+{% if mess %}
+<h3>{{mess}}</h3>
+{% endif %}
+
+{% if form %}
+<hr>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="place" placeholder="Kind Words for Abhiraj" required><br><br>
+    <textarea name="mess" placeholder="Kind Message" rows="10" cols="25" reaquired></textarea><br><br>
+
+    <input type="submit">
+</form>
+
+<hr>
+{% endif %}
+<img src="{{image}}" />

@@ -143,9 +143,17 @@ STATIC_URL = '/static/'
 #STATICFILES_DIRS=[os.path.join(BASE_DIR,'static'),]
 
 
-EMAIL_BACKEND = 'django_ses.SESBackend'
+#EMAIL_BACKEND = 'django_ses.SESBackend'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'smtpmail005@gmail.com'
+EMAIL_HOST_PASSWORD ='hpage1998'
+
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = 'AWS_SECRET_ACCESS_KEY'
+AWS_SECRET_ACCESS_KEY =os.getenv("AWS_SECRET_ACCESS_KEY")
 
 #AWS_STORAGE_BUCKET_NAME = 'django-python'
 #AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME

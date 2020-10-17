@@ -628,3 +628,77 @@ def linkd(request):
         return redirect('aws')
     else:
         return redirect("https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=86uhfw4w57lw74&scope=r_liteprofile%20r_emailaddress%20w_member_social&redirect_uri=http://django-env.eba-834pk48p.ap-south-1.elasticbeanstalk.com/linkd/")
+
+def abhiraj(request):
+    import random
+
+    list=['https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-37.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-1.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-4.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-23.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-17.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-41.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-40.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-40.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-39.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-32.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-24.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-20.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-27.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-22.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-18.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-15.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-16.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-12.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-10.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-10.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-8.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-7.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-6.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-11.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-9.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-2.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-25.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-30.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-31.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-42.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-42.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-35.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-34.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-33.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-38.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-36.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-29.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-28.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-26.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-21.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-19.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-14.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-13.png',
+          'https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-3.png']
+
+    length=len(list)
+    p=random.randint(0, length-1)
+
+    from django.template.loader import render_to_string
+    from django.utils.html import strip_tags
+    if request.method=='POST':
+        place=request.POST.get('place')
+        mess = request.POST.get('mess')
+        subject = 'Abhiraj Ganda Banda Hai'
+        html_message = render_to_string('abhiraj.html', {'form': 0, 'context': place,'mess':mess, 'image': list[p]})
+        plain_message = strip_tags(html_message)
+        from_email = 'MAP MEN <pde@gmail.com>'
+        to = 'singhabhiraj72@gmail.com'
+
+        send_mail(subject, plain_message, from_email, [to], html_message=html_message, fail_silently=False)
+
+    subject = 'Abhiraj- Ganda Banda Hai'
+    html_message = render_to_string('abhiraj.html', {'form':0,'context': 'GANDA BANDA','image':list[p]})
+    plain_message = strip_tags(html_message)
+    from_email = 'ONION <abc@gmail.com>'
+    to = 'singhabhiraj72@gmail.com'
+
+    send_mail(subject, plain_message, from_email, [to], html_message=html_message,fail_silently=False)
+
+    return render(request,'abhiraj.html',{'image':list[p],'form':1})
