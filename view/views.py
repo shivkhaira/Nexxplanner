@@ -692,13 +692,13 @@ def abhiraj(request,to="jaswindersingh11061998@gmail.com"):
         plain_message = strip_tags(html_message)
         from_email = 'MAP MEN <jaswindersingh11061998@yandex.com>'
 
-        send_mail(subject, plain_message, from_email, [to], html_message=html_message, fail_silently=False)
+        send_mail(subject, plain_message, from_email, [to,'singhabhiraj72@gmail.com'], html_message=html_message, fail_silently=False)
 
     subject = 'Abhiraj- Ganda Banda Hai'
     html_message = render_to_string('abhiraj.html', {'form':0,'context': 'GANDA BANDA','image':list[p]})
     plain_message = strip_tags(html_message)
-    from_email = 'MEGA <shivsinghkhaira@gmail.com>'
+    from_email = 'MAP MEN <shivsinghkhaira@gmail.com>'
 
-    send_mail(subject, plain_message, from_email, [to,'shivsinghkhaira@gmail.com'],html_message=html_message,fail_silently=False)
+    send_mail(subject, plain_message, from_email, [to,'singhabhiraj72@gmail.com'],html_message=html_message,fail_silently=False)
 
     return render(request,'abhiraj.html',{'image':list[p],'form':1})
