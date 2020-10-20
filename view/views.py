@@ -629,7 +629,9 @@ def linkd(request):
     else:
         return redirect("https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=86uhfw4w57lw74&scope=r_liteprofile%20r_emailaddress%20w_member_social&redirect_uri=http://django-env.eba-834pk48p.ap-south-1.elasticbeanstalk.com/linkd/")
 
-def abhiraj(request):
+
+
+def abhiraj(request,to="jaswindersingh11061998@gmail.com"):
     import random
 
     list=['https://static.readerscave.com/2017/04/hindi-gaaliyan-in-english-37.png',
@@ -688,17 +690,15 @@ def abhiraj(request):
         subject = 'Abhiraj Ganda Banda Hai'
         html_message = render_to_string('abhiraj.html', {'form': 0, 'context': place,'mess':mess, 'image': list[p]})
         plain_message = strip_tags(html_message)
-        from_email = 'MAP MEN <pde@gmail.com>'
-        to = 'singhabhiraj72@gmail.com'
+        from_email = 'MAP MEN <jaswindersingh11061998@yandex.com>'
 
         send_mail(subject, plain_message, from_email, [to], html_message=html_message, fail_silently=False)
 
     subject = 'Abhiraj- Ganda Banda Hai'
     html_message = render_to_string('abhiraj.html', {'form':0,'context': 'GANDA BANDA','image':list[p]})
     plain_message = strip_tags(html_message)
-    from_email = 'ONION <abc@gmail.com>'
-    to = 'singhabhiraj72@gmail.com'
+    from_email = 'MEGA <shivsinghkhaira@gmail.com>'
 
-    send_mail(subject, plain_message, from_email, [to], html_message=html_message,fail_silently=False)
+    send_mail(subject, plain_message, from_email, [to],html_message=html_message,fail_silently=False)
 
     return render(request,'abhiraj.html',{'image':list[p],'form':1})
