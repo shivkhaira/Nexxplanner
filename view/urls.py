@@ -2,7 +2,7 @@ from django.urls import path,include
 from . import views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
-
+from django.conf.urls.static import static
 
 urlpatterns = [
 
@@ -59,6 +59,9 @@ urlpatterns = [
     path('twit/',views.ggp,name='ttw'),
     path('linkd/',views.linkd,name='linkd'),
     path('abhiraj/<to>',views.abhiraj,name='abhi'),
-    path('abhiraj/',views.abhiraj,name='abhi')
+    path('abhiraj/',views.abhiraj,name='abhi'),
+    path('terms/',views.terms,name='terms'),
+    path('privacy/',views.terms,name='privacy')
 ]
+
 

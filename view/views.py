@@ -530,6 +530,15 @@ def download_image(request, id):
         response['Content-Disposition'] = 'attachment; filename="%s"' % filename
         return response
 
+def terms(request):
+
+    filename='Terms and Conditions Nexxplanner.pdf'
+    image_buffer = open('media/Terms and Conditions Nexxplanner.pdf', "rb").read()
+    content_type = magic.from_buffer(image_buffer, mime=True)
+    response = HttpResponse(image_buffer, content_type=content_type)
+    response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+    return response
+
 def history(request):
 
     up = Save.objects.filter(Q(user=request.user) & Q(profile=request.session['profile']))
