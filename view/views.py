@@ -574,7 +574,7 @@ def fb_login(request):
             'C9rcyMD5v6K9W0ZBcGFoGaaTW', 'Yu7Kz3bAiItGP6H0SpU6CLSD5b1NnKqYHpiyLq1sbwAHTHx2ES')
     client = oauth.Client(consumer)
     resp, content = client.request("https://api.twitter.com/oauth/request_token", "POST", body=urllib.parse.urlencode({
-            "oauth_callback": "http://django-env.eba-834pk48p.ap-south-1.elasticbeanstalk.com/fb/"}))
+            "oauth_callback": "https://www.nexxplanner.com/fb/"}))
     request_token = dict(urllib.parse.parse_qsl(content))
     oauth_token = request_token[b'oauth_token'].decode('utf-8')
     oauth_token_secret = request_token[b'oauth_token_secret'].decode('utf-8')
@@ -617,7 +617,7 @@ def linkd(request):
     if request.GET.get('code'):
         code = request.GET.get('code')
         data = requests.get("https://www.linkedin.com/oauth/v2/accessToken?grant_type=authorization_code&code=" + str(
-            code) + "&redirect_uri=http://django-env.eba-834pk48p.ap-south-1.elasticbeanstalk.com/linkd/&client_id=86uhfw4w57lw74&client_secret=VYbQfvNSmfOeTk4F")
+            code) + "&redirect_uri=https://www.nexxplanner.com/linkd/&client_id=86uhfw4w57lw74&client_secret=VYbQfvNSmfOeTk4F")
         x = data.json()
         token=x['access_token']
         usd=requests.get("https://api.linkedin.com/v2/me/?oauth2_access_token="+token)
