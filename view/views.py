@@ -531,13 +531,7 @@ def download_image(request, id):
         return response
 
 def terms(request):
-
-    filename='Terms and Conditions Nexxplanner.pdf'
-    image_buffer = open('media/Terms and Conditions Nexxplanner.pdf', "rb").read()
-    content_type = magic.from_buffer(image_buffer, mime=True)
-    response = HttpResponse(image_buffer, content_type=content_type)
-    response['Content-Disposition'] = 'attachment; filename="%s"' % filename
-    return response
+    return render(request,'terms.html',{})
 
 def history(request):
 
