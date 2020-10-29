@@ -19,15 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0157e11e-09fe-4207-aa9b-9cdee9a59948" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../view/templates/fb-login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../view/templates/twitter-login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/../db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../view/templates/setup.html" beforeDir="false" afterPath="$PROJECT_DIR$/../view/templates/setup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../view/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../view/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../view/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../view/views.py" afterDir="false" />
-    </list>
+    <list default="true" id="0157e11e-09fe-4207-aa9b-9cdee9a59948" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -67,6 +59,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1601731148680">
