@@ -27,7 +27,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['django-env.eba-834pk48p.ap-south-1.elasticbeanstalk.com','127.0.0.1','localhost','django-env.eba-5hnxm2au.eu-west-2.elasticbeanstalk.com','nexxplanner.com','www.nexxplanner.com']
+ALLOWED_HOSTS = ['https://www.django-env.eba-5hnxm2au.eu-west-2.elasticbeanstalk.com/','127.0.0.1','localhost','django-env.eba-5hnxm2au.eu-west-2.elasticbeanstalk.com','nexxplanner.com','www.nexxplanner.com']
 
 
 # Application definition
