@@ -10,7 +10,7 @@
                         <!-- footer widget -->
                         <div class="footer-widget">
                             <div class="footer-logo">
-                                <a href="{% url 'home' %}}"><img src="assets/img/logo.png" alt=""></a>
+                                <a href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt=""></a>
                             </div>
                             <p>Lorem ipsum dolor sit ame consy ect etur adipisc de elit. Quisque act raqum nunc no dolor sit de
                                 amet.</p>
@@ -145,7 +145,7 @@ Hayes Middlesex, United Kingdom
     <script src="{% static 'js/menu.min.js' %}"></script>
 
     <!-- ===video popup=== -->
-    <script src="assets/plugins/Magnific-Popup/jquery.magnific-popup.min.js"></script>
+    <script src="{% static 'plugins/Magnific-Popup/jquery.magnific-popup.min.js' %}"></script>
 
     <!-- ====Counter js file=== -->
     <script src="{% static 'plugins/waypoints/jquery.counterup.min.js' %}"></script>

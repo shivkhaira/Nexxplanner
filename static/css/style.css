@@ -984,7 +984,7 @@ label input[type=radio] {
     margin-bottom: 20px;
 }
 .banner-inner-area.banner-area1:before{
-    background: url(../img/banner/main-base.png);
+    background: url(../images/banner/main-base.png);
     background-position: top right;
     background-repeat: no-repeat;
     height: 100%;
@@ -1129,7 +1129,7 @@ label input[type=radio] {
 
 /* home2 */
 .banner-inner-area.banner-area1.banner2:before {
-    background: url(../img/banner/base3.png);
+    background: url(../images/banner/base3.png);
     background-position: top right;
     background-repeat: no-repeat;
     height: 100%;
@@ -1361,7 +1361,7 @@ label input[type=radio] {
 }
 
 section.app-video {
-    background-image: url(../img/video-bg.jpg);
+    background-image: url(../images/video-bg.jpg);
     background-size: cover;
     background-position: 0% 78%;
     background-repeat: no-repeat;
@@ -1446,7 +1446,7 @@ section.app-video:before {
     height: 770px;
     margin: 0 auto;
     padding: 108px 70px;
-    background: url(../img/feature/mockup.png);
+    background: url(../images/feature/mockup.png);
     margin-top: 12px;
 }
 .app-carousel .owl-stage-outer {
@@ -2524,17 +2524,17 @@ h1 span {
 }
 /*21.01: pettrns*/
 .crypto-patern {
-    background-image: url(../img/Crypto_Pattern20.png);
+    background-image: url(../images/Crypto_Pattern20.png);
     background-repeat: repeat;
     background-position: top center;
 }
 .vpn-patern {
-    background-image: url(../img/VPN_Pattern.png);
+    background-image: url(../images/VPN_Pattern.png);
     background-repeat: repeat;
     background-position: top center;
 }
 .vc-patern {
-    background-image: url(../img/VC_Pattern.png);
+    background-image: url(../images/VC_Pattern.png);
     background-repeat: repeat;
     background-position: top center;
 }
