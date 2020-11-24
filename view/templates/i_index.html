@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+{% include 'index_head.html' %}
+
+{% if contact %}
+<script>alert('We will get back to you.')</script>
+{% endif %}
+<body>
+
+    {% include 'index_header.html' %}
+    <!-- home banner area -->
+    <div class="banner-area-inner">
+        <div class="banner-inner-area banner-area1">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-8 col-lg-6 col-xl-5">
+                        <!-- banner text -->
+                        <div class="banner-text-inner">
+                            <div class="banner-shape-wrap">
+                                <div class="banner-shape-inner">
+                                    <img src="{% static 'images/banner/shaps1.png' %}" alt="" class='shape shape1 rotate3d'>
+                                    <img src="{% static 'images/banner/shaps2.png' %}" alt="" class='shape shape2 rotate2d'>
+									<img src="{% static 'images/banner/smile.png' %} " alt="" class='shape shape22'>
+                                    <img src="{% static 'images/banner/shaps3.png' %}" alt="" class='shape shape3 rotate-2d'>
+                                    <img src="{% static 'images/banner/shaps4.png' %}" alt="" class='shape shape4 rotate3d'>
+                                    <img src="{% static 'images/banner/shaps5.png' %}" alt="" class='shape shape5 rotate2d'>
+                                    <img src="{% static 'images/banner/shaps6.png' %}" alt="" class='shape shape6 rotate-2d'>
+                                    <img src="{% static 'images/banner/shaps7.png' %}" alt="" class='shape shape7 rotate3d'>
+                                </div>
+                            </div>
+
+                            <h1>let’s Wow your online presence, with <span style="color:#ee9922">Nexx</span><span style="color:#0b6b8f">planner</span></h1>
+                            <p>Enhancing your web presence, making your social life much easier. Helping and saving your time.</p>
+                            <a href="#" class="btn">Get Started</a>
+                            <a href="#" class="btn">Discover More</a>
+                        </div>
+                        <!-- banner text -->
+                    </div>
+                    <div class="col-lg-5 offset-lg-1 col-md-4 offse-xl-2">
+                        <!-- banner image-->
+                        <div class="banner-image">
+                            <img src="{% static 'images/header.png' %}" alt="">
+                        </div>
+                        <!--End of banner image-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of home banner area -->
+	<!-- About Section -->
+	<section class="pb-110" id='about' style="padding-top:100px">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12 col-lg-8">
+                    <!-- section title -->
+                    <div class="section-title text-center">
+                        <h2>About Us</h2>
+                        <p>Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit lorem ipsum anim id est laborum perspiciatis unde.</p>
+                    </div>
+                    <!-- End of section title -->
+                </div>
+            </div>
+
+		</div>
+	</section>
+
+
+
+	  <!-- app video -->
+    <section  id="video" class="app-video" >
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- why bottle video -->
+                    <div class="theme-video-wrap">
+                        <a href="https://youtu.be/H_DZpfxVWy8" class="video-btn" data-popup="video"><i class="fa fa-play"></i></a>
+                    </div>
+                    <!-- end of why bottle video -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End of why bottol water -->
+
+    <!-- feature area -->
+    <section class="pb-110" id='features' style="padding-top:100px">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12 col-lg-8">
+                    <!-- section title -->
+                    <div class="section-title text-center">
+                        <h2>NexxPlanner Features</h2>
+                        <p>This application is designed to help you keep up-to-date with all your social media platforms making sure you stay ahead of your schedule. </p>
+                    </div>
+                    <!-- End of section title -->
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-xl-10 col-lg-12">
+                    <div class="feature-carousel owl-carousel">
+                        <!-- single feature inner -->
+                        <div class="single-feature-inner text-center">
+                            <div class="feature-icon"><img src="{% static 'images/icons/project-management.svg' %}" class="svg" alt=""></div>
+                            <h5>Time saver</h5>
+                            <p>Nexxplanner is there to make sure that it saves your time, it automatically posts your content on your social media platforms once you have scheduled it. Making it a hassle-free process for you.  </p>
+                        </div>
+                        <!-- End of single feature inner -->
+
+                        <!-- single feature inner -->
+                        <div class="single-feature-inner text-center">
+                            <div class="feature-icon"><img src="{% static 'images/icons/solution.svg' %}" class="svg" alt=""></div>
+                            <h5>Company Growth Strategy</h5>
+                            <p>Staying up-to-date with posting your content can be essential, regarding this Nexxplanner makes sure to do exactly that. Helping you grow your business.  </p>
+                        </div>
+                        <!-- End of single feature inner -->
+
+                        <!-- single feature inner -->
+                        <div class="single-feature-inner text-center">
+                            <div class="feature-icon"><img src="{% static 'images/icons/planning.svg' %}" class="svg" alt=""></div>
+                            <h5>Easy to operate</h5>
+                            <p>Nexxplanner is a very easy to operate and get through, we have made sure to design this in a way that makes it easy to navigate.  </p>
+                        </div>
+                        <!-- End of single feature inner -->
+
+                        <!-- single feature inner -->
+                        <div class="single-feature-inner text-center">
+                            <div class="feature-icon"><img src="{% static 'images/icons/goal.svg' %}" class="svg" alt=""></div>
+                            <h5>User-friendly</h5>
+                            <p>When designing and making this application we made sure that we keep our customers in mind therefore we have made it very user-friendly.</p>
+                        </div><!-- End of single feature inner -->
+                    </div><!--/.feature-carousel-->
+                </div><!--/.col-->
+            </div><!--/.row-->
+        </div><!--/.container-->
+    </section><!-- End of feature area -->
+
+    <!-- Counter up area -->
+<!-- /.End of Counter up area -->
+
+    <!-- interact user -->
+    <section class="bg-2 pt-120 pb-120" id='platform'>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 col-sm-7">
+                    <!-- user interact image -->
+                    <div class="user-interact-image">
+                        <img src="{% static 'images/user-interact.png' %}"  alt="">
+                    </div>
+                    <!-- End of user interact image -->
+                </div>
+                <div class="col-lg-5 col-sm-5">
+                    <!-- user ineract text -->
+                    <div class="user-interact-inner">
+                        <div class="interact-icon">
+                            <img src="{% static 'images/icons/teamwork.svg' %}" class="svg" alt="">
+                        </div>
+                        <h2>Interact With Your Users On Every Single Platform</h2>
+                        <p>
+                            Nexxplanner is an application that allows you to interact with all your users simultaneously. This making it easy for you to put out one post on all your different social media platforms. Via the planner you are able to set specific dates that you want to post your content on, this then posting the content automatically for you.
+                        </p>
+
+                    </div>
+                    <!--End of user ineract text -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- interact user -->
+
+    <!-- interact user -->
+    <section class="pt-120 pb-120">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-sm-5">
+                    <!-- user ineract text -->
+                    <div class="user-interact-inner">
+                        <div class="interact-icon">
+                            <img src="{% static 'images/icons/solution1.svg' %}" class="svg" alt="">
+                        </div>
+                        <h2>Interact With Your Users On Every Single Platform</h2>
+                        <p>
+                            There are many variations of passages of Lorem Ipsum available, but the majority have suffered
+                            alteration in some form,
+                            by injected humour.
+                        </p>
+                        <a href="#" class="btn">Get Started</a>
+                    </div>
+                    <!--End of user ineract text -->
+                </div>
+                <div class="col-lg-7 col-sm-7">
+                    <!-- user interact image -->
+                    <div class="user-interact-image type2">
+                        <img src="{% static 'images/user-interact2.png' %}"  alt="">
+                    </div>
+                    <!-- End of user interact image -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- interact user -->
+
+
+
+
+
+    <!-- app pricing plan -->
+    <section class="pb-90" id='pricing' style="padding-top:100px">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12 col-lg-8">
+
+                    <div class="section-title text-center">
+                        <h2>Choose Plans & Pricing</h2>
+                        <p>Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt    mollit lorem ipsum anim id est laborum perspiciatis unde.</p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="price-nav-wrap">
+
+                        <div class="price--nav-inner">
+                            <nav>
+                                <div class="nav info-tabs">
+                                    <a class="price--nav-item active" id="nav-contact-tab" data-toggle="tab" href="#month">Monthly</a>
+                                    <a class="price--nav-item" data-toggle="tab" href="#year">Yearly</a>
+                                </div>
+                            </nav>
+                        </div>
+
+                    </div>
+
+                    <div class="tab-content price-content">
+                        <div class="tab-pane fade active show" id="month" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-6 col-lg-4">
+
+                                    <div class="single-price-plan text-center">
+                                        <div class="single-price-top">
+                                            <h4>Standard</h4>
+                                            <span>$20</span>
+                                        </div>
+                                        <div class="single-price-body">
+                                            <div class="price-list">
+                                                <ul>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        10 pages
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        500 gb storage
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        10 sdd Database
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-times" aria-hidden="true"></i></span>
+                                                        Free coustom domain
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-times" aria-hidden="true"></i></span>
+                                                        24/7 free support
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <a href="#" class="btn">Get Started</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6 col-lg-4">
+
+                                    <div class="single-price-plan active text-center">
+                                        <div class="single-price-top">
+                                            <h4>Business</h4>
+                                            <span>$30</span>
+                                        </div>
+                                        <div class="single-price-body">
+                                            <div class="price-list">
+                                                <ul>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        10 pages
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        500 gb storage
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        10 sdd Database
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        Free coustom domain
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-times" aria-hidden="true"></i></span>
+                                                        24/7 free support
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <a href="#" class="btn">Get Started</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6 col-lg-4">
+
+                                    <div class="single-price-plan text-center">
+                                        <div class="single-price-top">
+                                            <h4>Professional</h4>
+                                            <span>$40</span>
+                                        </div>
+                                        <div class="single-price-body">
+                                            <div class="price-list">
+                                                <ul>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        10 pages
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        500 gb storage
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        10 sdd Database
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        Free coustom domain
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        24/7 free support
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <a href="#" class="btn">Get Started</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="year" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-6 col-lg-4">
+
+                                    <div class="single-price-plan text-center">
+                                        <div class="single-price-top">
+                                            <h4>Standard</h4>
+                                            <span>$200</span>
+                                        </div>
+                                        <div class="single-price-body">
+                                            <div class="price-list">
+                                                <ul>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        10 pages
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        500 gb storage
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        10 sdd Database
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-times" aria-hidden="true"></i></span>
+                                                        Free coustom domain
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-times" aria-hidden="true"></i></span>
+                                                        24/7 free support
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <a href="#" class="btn">Get Started</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6 col-lg-4">
+
+                                    <div class="single-price-plan active text-center">
+                                        <div class="single-price-top">
+                                            <h4>Business</h4>
+                                            <span>$300</span>
+                                        </div>
+                                        <div class="single-price-body">
+                                            <div class="price-list">
+                                                <ul>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        10 pages
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        500 gb storage
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        10 sdd Database
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        Free coustom domain
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-times" aria-hidden="true"></i></span>
+                                                        24/7 free support
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <a href="#" class="btn">Get Started</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6 col-lg-4">
+
+                                    <div class="single-price-plan text-center">
+                                        <div class="single-price-top">
+                                            <h4>Professional</h4>
+                                            <span>$400</span>
+                                        </div>
+                                        <div class="single-price-body">
+                                            <div class="price-list">
+                                                <ul>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        10 pages
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        500 gb storage
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        10 sdd Database
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        Free coustom domain
+                                                    </li>
+                                                    <li>
+                                                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                        24/7 free support
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <a href="#" class="btn">Get Started</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End of app pricing plan -->
+
+    <!-- testimonial area -->
+
+    <!-- end of blog artea -->
+
+{% include 'index_contact.html' %}
+{% include 'index_footer.html' %}
+
+	</body>
+</html>

@@ -1,0 +1,160 @@
+{% load static %}
+ <footer class="footer" id='contact'>
+        <div class="footerbg">
+        <img src="{% static 'images/footer-bg.png' %}" alt="">
+        </div>
+        <div class="footer-top pt-120 pb-110">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6">
+                        <!-- footer widget -->
+                        <div class="footer-widget">
+                            <div class="footer-logo">
+                                <a href="{% url 'home' %}}"><img src="assets/img/logo.png" alt=""></a>
+                            </div>
+                            <p>Lorem ipsum dolor sit ame consy ect etur adipisc de elit. Quisque act raqum nunc no dolor sit de
+                                amet.</p>
+                            <!-- footer social area -->
+                            <div class="footer-social-area">
+                                <ul class="social-icons social-icons-light nav">
+                                    <li><a href="https://www.facebook.com/NexDatLtd/" target="_blank"><i class="fa fa-facebook-f"></i></a></li>
+                                    <li><a href="https://twitter.com/Nex_dat" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="https://www.instagram.com/nexdat/" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                                    <li><a href="https://www.linkedin.com/company/nexdat-ltd/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                                </ul>
+                            </div>
+                            <!-- End of footer social area -->
+                        </div>
+                        <!--End of footer widget -->
+                    </div>
+
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="footer-widget">
+                            <!-- widget header -->
+                            <div class="widget-header">
+                                <h5>Our Address</h5>
+                            </div>
+                            <!-- widget header -->
+                            <div class="widget-body">
+                                <ul class="address-list">
+                                    <li>
+                                        <span><i class="fa  fa-phone-square"></i></span>
+
++44 7789 897 524
+                                    </li>
+                                    <li>
+                                        <span><i class="fa  fa-envelope"></i></span>
+                                        info@nexxplanner.com
+                                    </li>
+                                    <li>
+                                        <span><i class="fa  fa-map"></i></span>
+
+St. Marys Road, UB3 2JW
+Hayes Middlesex, United Kingdom
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="footer-widget">
+                            <!-- widget header -->
+                            <div class="widget-header">
+                                <h5>Extra Links</h5>
+                            </div>
+                            <!-- widget header -->
+                        </div>
+
+                        <div class="widget-body">
+                            <div class="extra-link">
+                                <div class="link-left">
+                                    <ul>
+                                        <li><a href="#">About</a></li>
+                                        <li><a href="#">Our Team</a></li>
+                                        <li><a href="#">Features</a></li>
+                                        <li><a href="#">Blog</a></li>
+                                        <li><a href="#">How It Works</a></li>
+                                    </ul>
+                                </div>
+                                <div class="link-right">
+                                    <ul>
+                                        <li><a href="#">Help</a></li>
+                                        <li><a href="#">Support</a></li>
+                                        <li><a href="#">Clients</a></li>
+                                        <li><a href="#">Blog</a></li>
+                                        <li><a href="#">Contact</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="footer-widget">
+                            <div class="widget-body">
+                                <div class="twetter-post-inner">
+                                    <div class="footer-post-details">
+                                        @Layerdrops Take your web design to new heights with jironix. <br><a href="http://yhdj58.tp8/JK">http://yhdj58.tp8/JK</a>
+                                    </div>
+                                    <div class="twetter-post">
+                                        <span><i class="fa fa-twitter"></i></span>
+                                        Jironis - Nov 23, 2018
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-text text-center">
+                <p>© copyright 2020 by nexxplanner.com</p>
+            </div>
+        </div>
+
+    </footer>
+
+    <!-- back to top -->
+    <div class="back-to-top">
+        <a href="#"><i class="fa fa-chevron-up"></i></a>
+    </div>
+    <!-- back to top -->
+
+
+    <!-- JS Files -->
+   <!-- ==== JQuery 3.3.1 js file==== -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+
+    <!-- ==== Bootstrap js file==== -->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- ==== JQuery Waypoint js file==== -->
+    <script src="{% static 'plugins/waypoints/jquery.waypoints.min.js' %}"></script>
+
+    <!-- ==== Parsley js file==== -->
+    <script src="{% static 'plugins/parsley/parsley.min.js' %}"></script>
+
+    <!-- ==== parallax js==== -->
+    <script src="{% static 'plugins/parallax/parallax.js' %}"></script>
+
+    <!-- ==== Owl Carousel js file==== -->
+    <script src="{% static 'plugins/owl-carousel/owl.carousel.min.js' %}"></script>
+
+    <!-- ==== Menu  js file==== -->
+    <script src="{% static 'js/menu.min.js' %}"></script>
+
+    <!-- ===video popup=== -->
+    <script src="assets/plugins/Magnific-Popup/jquery.magnific-popup.min.js"></script>
+
+    <!-- ====Counter js file=== -->
+    <script src="{% static 'plugins/waypoints/jquery.counterup.min.js' %}"></script>
+
+    <!-- ==== Script js file==== -->
+    <script src="{% static 'js/scripts.js' %}"></script>
+
+    <!-- ==== Custom js file==== -->
+    <script src="{% static '/js/custom.js' %}"></script>
+
+<!-- partial contact form -->
+  <script  src="{% static 'js/iscript.js' %}"></script>

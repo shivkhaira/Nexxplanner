@@ -22,28 +22,24 @@ import magic
 import urllib
 # Create your views here.
 
-@login_required
+
 def home(request):
-    if request.user.is_authenticated:
-        return redirect('aws')
     if request.method == 'POST':
-        form = AuthenticationForm(request=request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('users')
-            else:
-                messages.error(request, "Invalid username or password.")
-                return render(request, 'index.html', {'form': form, 'active': 'login'})
-        else:
-            messages.error(request, "Invalid username or password.")
-    form = AuthenticationForm()
+        to='shivsinghkhaira@gmail.com'
+        subject="Contact |"+request.POST.get('option')
+        plain_message="""
+        Complaint Regarding: {2}
+        Name: {0}
+        From :{1}        
+        Phone: {3}
+        Message: {4}
+        """.format(request.POST.get('fname')+' '+request.POST.get('lname'),request.POST.get('email'),request.POST.get('option'),request.POST.get('tel'),request.POST.get('mess'))
+        send_mail(subject, plain_message, 'shivsinghkhaira@gmail.com', [to], fail_silently=False)
+        return render(request=request,
+                      template_name="i_index.html",
+                      context={'contact': '1'})
     return render(request=request,
-                  template_name="index.html",
-                  context={"form": form, 'active': 'login'})
+                  template_name="i_index.html",context={})
 
 
 def logind(request):
