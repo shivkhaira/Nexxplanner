@@ -11,6 +11,7 @@ import json
 from django.db.models import Q
 import random
 import string
+import urllib
 def crop(x, y, data, w, h):
     x = int(x)
     y = int(y)
@@ -67,14 +68,14 @@ def crop_maximize_entropy(img, min_ratio=4 / 5, max_ratio=90 / 47):
 
 def prepare_and_fix_photo(photo):
     filename, file_extension = os.path.splitext(photo)
-    pic = filename.split("/")[2]
+    pic = filename.split("/")[1]
     print(pic)
     with open(photo, "rb") as f:
         img = Image.open(f)
         img = strip_exif(img)
         if not correct_ratio(photo):
             img = crop_maximize_entropy(img)
-            photo = os.path.join('media/images/', pic + ".jpg")
+            photo = os.path.join('media/', pic + ".jpg")
             img = img.convert('RGB')
             img.save(photo)
     return photo
@@ -84,6 +85,8 @@ def prepare_and_fix_photo(photo):
 class Int:
 
     def up(username,password,pic,caption):
+        namee = pic.split("/")[-1]
+        urllib.request.urlretrieve(pic, "media/" + namee)
         N=7
         res = ''.join(random.choices(string.ascii_uppercase +
                                      string.digits, k=N))
@@ -91,6 +94,7 @@ class Int:
         os.mkdir('ttemp/'+res)
         dd = os.path.join('ttemp',res , str(username))
         bot = Bot(base_path=dd)
+        pic="media/"+namee
         pici=prepare_and_fix_photo(pic)
         bot.login(username=username,password=password,is_threaded=True)
         bot.upload_photo(pici, caption=caption)
@@ -98,6 +102,9 @@ class Int:
         shutil.rmtree('ttemp/'+res)
         
     def face(token,page_id,pic,caption):
+        namee = pic.split("/")[-1]
+        urllib.request.urlretrieve(pic, "media/" + namee)
+        pic = "media/" + namee
         if pic !="media/null":
             graph = facebook.GraphAPI(token)
             graph.put_photo(open(pic,'rb'),message=caption)
@@ -108,7 +115,9 @@ class Int:
 
 
     def twit(consumer_key,consumer_secret,access_token,access_token_secret,pic,caption):
-
+        namee = pic.split("/")[-1]
+        urllib.request.urlretrieve(pic, "media/" + namee)
+        pic = "media/" + namee
         # authentication of consumer key and secret
         auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 
@@ -141,6 +150,9 @@ class Int:
         shutil.rmtree('stemp/'+res)
 
     def linkd(token,urn,img,cpt):
+        namee = img.split("/")[-1]
+        urllib.request.urlretrieve(img, "media/" + namee)
+        img = "media/" + namee
         access_token =token
         author = f"urn:li:person:{urn}"
         if img!='media/null':

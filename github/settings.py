@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['www.django-env.eba-5hnxm2au.eu-west-2.elasticbeanstalk.com','127.0.0.1','localhost','django-env.eba-5hnxm2au.eu-west-2.elasticbeanstalk.com','nexxplanner.com','www.nexxplanner.com']
 
@@ -148,21 +148,22 @@ EMAIL_BACKEND = 'django_ses.SESBackend'
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY =os.getenv("AWS_SECRET_ACCESS_KEY")
 
-#AWS_STORAGE_BUCKET_NAME = 'django-python'
-#AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_STORAGE_BUCKET_NAME = 'nexximagedata'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
-#AWS_S3_OBJECT_PARAMETERS = {
-#    'CacheControl': 'max-age=86400',
-#}
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
 
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-#AWS_PUBLIC_MEDIA_LOCATION = 'media/public'
-#DEFAULT_FILE_STORAGE = 'github.storage_backends.PublicMediaStorage'
+AWS_PUBLIC_MEDIA_LOCATION = 'media/public'
+DEFAULT_FILE_STORAGE = 'github.storage_backends.PublicMediaStorage'
+AWS_S3_FILE_OVERWRITE=False
 LOGIN_URL = '/login/'
 
-LOGIN_REDIRECT_URL = "/aws/"
+LOGIN_REDIRECT_URL = "/users/"
 
 
 DEFAULT_FROM_EMAIL="shivsinghkhaira@gmail.com"
