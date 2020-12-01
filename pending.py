@@ -19,13 +19,13 @@ def pp():
                 token = fb.access_token
                 urn = fb.urn
                 multiprocessing.Process(target=Int.linkd,
-                                        args=(token, urn, 'media/' + str(data.file), data.caption)).start()
+                                        args=(token, urn,  str(data.file), data.caption)).start()
             if data.facebook:
                 face = Facebook.objects.get(profile=i.profile)
                 token = face.token
                 page_id = face.page_id
                 multiprocessing.Process(target=Int.face,
-                                        args=(token, page_id, 'media/' + str(data.file), data.caption)).start()
+                                        args=(token, page_id, str(data.file), data.caption)).start()
             if data.twitter:
                 twit = Twitter.objects.get(profile=i.profile)
                 consumer_key = twit.consumer_key
@@ -33,14 +33,14 @@ def pp():
                 access_token = twit.access_token
                 access_token_secret = twit.access_token_secret
                 multiprocessing.Process(target=Int.twit, args=(
-                    consumer_key, consumer_secret, access_token, access_token_secret, 'media/' + str(data.file),
+                    consumer_key, consumer_secret, access_token, access_token_secret,  str(data.file),
                     data.caption)).start()
             if data.instagram:
                 insta = Insta.objects.get(profile=i.profile)
                 username = insta.username
                 password = insta.password
                 multiprocessing.Process(target=Int.up,
-                                        args=(username, password, 'media/' + str(data.file), data.caption)).start()
+                                        args=(username, password, str(data.file), data.caption)).start()
             yep = Save.objects.get(id=i.id)
             qte = Iupload.objects.get(id=i.fid)
             qte.done = True
