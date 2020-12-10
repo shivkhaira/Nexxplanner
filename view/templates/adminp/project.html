@@ -1,0 +1,185 @@
+{% extends 'adminp/dad.html' %}
+{% block title %}Nexxplanner- Project{% endblock %}
+{% block content %}
+	<style>
+		.icon-cards-row .card-body{
+		padding: 2rem 6rem;
+	}
+	.rowwidth{
+		display: inline-block;
+		width: 100%;
+	}
+	.line
+	{
+		display: inline-block;
+		padding-left: 0px;
+		padding-right: 0px;
+		margin-bottom: 2%;
+    margin-right: 25px;
+		margin-left: 12px;
+
+	}
+
+	.size{
+		font-size: xx-large;
+	}
+	</style>
+
+
+    <main>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <h1>{{session}}</h1>
+
+                    <div class="separator mb-5"></div>
+                </div>
+			</div>
+			<div class="row">
+				<h5>Account Setup</h5>
+                <div class="container-fluid">
+
+
+									<div class="col-lg-2 line ">
+                                    <li class="rowwidth " >
+                                        <a
+                                                {% if facebook == 0 %}
+                                                href="#"
+                                                {% else %}
+                                                onclick="return confirm('Are you sure?')"
+                                                href="{% url 'delete' 'facebook' %}"
+                                                {% endif %}
+                                                class="card ">
+                                            <div class="card-body text-center"
+                                                 {% if facebook == 1 %}
+                                                 style="border:1px solid green;border-radius:10px"
+                                            {% endif %}
+                                            >
+                                                <i class="iconsminds-facebook size"></i>
+                                                <p class="card-text mb-0">Facebook</p>
+
+                                            </div>
+                                        </a>
+                                    </li>
+										</div>
+
+
+									<div class="col-lg-2 line">
+                                    <li class="rowwidth" >
+                                        <a
+                                                {% if twitter == 0 %}
+                                                href="{% url 'fbe' %}"
+                                                {% else %}
+                                                href="{% url 'delete' 'twitter' %}"
+                                                onclick="return confirm('Are you sure?')"
+                                                {% endif %}
+                                                class="card">
+                                            <div class="card-body text-center"
+                                            {% if twitter == 1 %}
+                                                 style="border:1px solid green;border-radius:10px"
+                                            {% endif %}>
+                                                <i class="iconsminds-twitter size"></i>
+                                                <p class="card-text mb-0">Twitter</p>
+
+                                            </div>
+                                        </a>
+                                    </li>
+										</div>
+									<div class="col-lg-2 line">
+                                    <li class="rowwidth" >
+                                        <a {% if instagram == 0 %}
+                                                href="{% url 'setup' %}"
+                                           {% else %}
+                                           onclick="return confirm('Are you sure?')"
+                                           href="{% url 'delete' 'instagram' %}"
+                                           {% endif %}
+                                                class="card">
+                                            <div class="card-body text-center"
+                                            {% if instagram == 1 %}
+                                                 style="border:1px solid green;border-radius:10px"
+                                            {% endif %}>
+                                                <i class="iconsminds-instagram size"></i>
+                                                <p class="card-text mb-0">Instagram</p>
+
+                                            </div>
+                                        </a>
+                                    </li>
+										</div>
+									<div class="col-lg-2 line">
+                                    <li class="rowwidth" >
+                                        <a {% if linkd == 0 %}
+                                           href="{% url 'linkd' %}"
+                                           {%else %}
+                                           onclick="return confirm('Are you sure?')"
+                                           href="{% url 'delete' 'linkd' %}"
+                                           {% endif %}
+                                           class="card">
+                                            <div class="card-body text-center"
+                                            {% if linkd == 1 %}
+                                                 style="border:1px solid green;border-radius:10px"
+                                            {% endif %}>
+                                                <i class="iconsminds-linkedin-2 size"></i>
+                                                <p class="card-text mb-0">Linkedin</p>
+
+                                            </div>
+                                        </a>
+                                    </li>
+										</div>
+
+
+
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="card mb-4 progress-banner">
+                                <div class="card-body justify-content-between d-flex flex-row align-items-center">
+                                    <div>
+                                        <i class="iconsminds-project mr-2 text-white align-text-bottom d-inline-block"></i>
+                                        <div>
+                                            <p class="lead text-white">Succesfully Login</p>
+
+                                        </div>
+                                    </div>
+
+                                    <div>
+
+											<!-- Change value here-->
+                                        <div role="progressbar"
+                                            class="progress-bar-circle progress-bar-banner position-relative"
+                                            data-color="white" data-trail-color="rgba(255,255,255,0.2)"
+                                            aria-valuenow="{{all}}" aria-valuemax="4" data-show-percent="false">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+							<div class="col-lg-2 line">
+                                    <li class="rowwidth" >
+                                        <a href="{% url 'delete_profile' %}" onclick="return confirm ('Are you sure to delete the profile')" class="card">
+                                            <div class="card-body text-center">
+                                                <i class="iconsminds-close size"></i>
+                                                <p class="card-text mb-0">Delete This Project</p>
+                                            </div>
+                                        </a>
+                                    </li>
+										</div>
+                    </div>
+
+
+
+
+
+
+
+                </div>
+
+
+					</div>
+
+
+
+        </div>
+    </main>
+{% endblock %}

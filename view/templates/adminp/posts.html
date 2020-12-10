@@ -1,0 +1,76 @@
+{% extends 'adminp/dad.html' %}
+{% block title %}Nexxplanner- Posts{% endblock %}
+{% block content %}
+
+	<main>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <h1>All Posts</h1>
+                    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                        <ol class="breadcrumb pt-0">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'users' %}">Home</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'iupload' %}">Upload Post Now</a>
+                            </li>
+							  <li class="breadcrumb-item">
+                                <a href="{% url 'sch' %}">Schedule a Post</a>
+                            </li>
+
+                        </ol>
+                    </nav>
+                    <div class="separator mb-5"></div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="data-table data-table-feature">
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Caption</th>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for i in up %}
+                                    <tr>
+
+                                      <td>
+                            <img src="{{i.url}}" alt="Fat Rascal"
+                                class="list-thumbnail responsive border-0 card-img-left" />
+                        </td>
+                                        <td><p class="mb-0 text-muted text-small ">{{i.caption|truncatechars:10}}</p></td>
+                                        <td><p class="mb-0 text-muted text-small ">{{i.date|date:"D d M Y"}}</p></td>
+                                        <td><p class="mb-0 text-muted text-small ">{{i.date|time:"h:i a"}}</p></td>
+                                        <td><span class="badge badge-pill badge-success">PROCESSED</span></td>
+                                        <td>
+                                            <a href="{% url 'view_image' i.id %}">
+											<button class="btn btn-primary"> View</button>
+                                            </a>
+                                        </td>
+                                    </tr>
+
+
+{% endfor %}
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</main>
+
+{% endblock %}

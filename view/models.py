@@ -9,6 +9,7 @@ class Pro(models.Model):
     user = models.CharField(max_length=40)
     activated = models.BooleanField(default=False)
     profile = models.IntegerField(default=0)
+    limit = models.IntegerField(default=0)
     def __str__(self):
         return str(self.user)
 
@@ -100,6 +101,7 @@ class Save(models.Model):
 class Profile(models.Model):
     name=models.CharField(max_length=100)
     user=models.CharField(max_length=100)
+    email = models.CharField(max_length=50,default='')
     instagram=models.BooleanField(default=False)
     facebook=models.BooleanField(default=False)
     twitter=models.BooleanField(default=False)

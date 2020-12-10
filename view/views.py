@@ -17,12 +17,163 @@ from datetime import date, datetime
 import oauth2 as oauth
 import requests
 import tweepy
-import magic
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.models import User
 import urllib
-
+from django.template import RequestContext
 
 # Create your views here.
 
+
+@login_required
+def support(request):
+    if request.method=='POST':
+        to = 'shivsinghkhaira@gmail.com'
+        subject = "Contact |" + request.user.username
+        plain_message = """
+        Name: {0}
+        From :{1}        
+        Message: {2}
+        """.format(request.POST.get('name'), request.POST.get('email'), request.POST.get('mess'))
+        send_mail(subject, plain_message, 'shivsinghkhaira@gmail.com', [to], fail_silently=False)
+        return render(request,'adminp/support.html',{'contact':1})
+    return render(request,'adminp/support.html',{})
+
+@login_required
+def profile(request):
+
+    if request.method=='POST':
+        x = User.objects.get(username=request.user.username)
+        if request.POST.get('username'):
+            x.username=request.POST.get('username')
+            x.save()
+        if request.POST.get('email'):
+            x.email=request.POST.get('email')
+            x.save()
+        if request.POST.get('name'):
+            x.first_name=request.POST.get('name')
+            x.save()
+        if request.POST.get('password'):
+            if (request.POST.get('password') == request.POST.get('cpassword')):
+                x.set_password(request.POST.get('password'))
+                x.save()
+            else:
+                return redirect('aws')
+
+        if request.POST.get('username')!=request.user.username:
+            return redirect('logout')
+
+    d = User.objects.get(username=request.user.username)
+
+    return render(request,'adminp/profile.html',{'user':d})
+
+@login_required
+def edit_post(request,id):
+    if request.session['profile'] is None:
+        return redirect('aws')
+
+    up = Save.objects.get(id=id)
+
+    if up.user == request.user.username:
+        gg = Iupload.objects.get(id=up.fid)
+        up.ndate = gg.date
+        up.instagram = gg.instagram
+        up.facebook = gg.facebook
+        up.twitter = gg.twitter
+        up.linkd = gg.linkd
+        up.done = gg.done
+        up.caption = gg.caption
+        up.url = storage.url(str(gg.file))
+    else:
+        return redirect('users')
+    if request.method=='POST':
+
+        form = Schedule(request.POST,instance=up)
+        uform = Uinsta(request.POST, request.FILES,instance=gg)
+        cpt=request.POST.get('caption')
+
+        if len(request.FILES) == 0 and request.POST.get('instagram') and not up.url:
+            return render(request, 'adminp/edit_post.html', {'form': uform, 'form1': form, 'instap': '1','caption':cpt,'mat':up})
+        if request.POST.get('twitter') and len(request.POST.get('caption')) > 280:
+            return render(request, 'adminp/edit_post.html', {'tlimit': '1','caption':cpt,'mat':up})
+
+        if form.is_valid()and uform.is_valid():
+
+            insta = request.POST.get('instagram')
+            face = request.POST.get('facebook')
+            twit = request.POST.get('twitter')
+            linkd = request.POST.get('linkd')
+            if insta or face or twit or linkd:
+                abb = 1
+            else:
+                abb = 0
+            if abb == 0:
+                return render(request, 'adminp/edit_post.html', {'non_select': '1','caption':cpt,'mat':up})
+            uform.instance.users = request.user.username
+            if insta:
+                uform.instance.instagram = True
+            if face:
+                uform.instance.facebook = True
+            if twit:
+                uform.instance.twitter = True
+            if linkd:
+                uform.instance.linkd = True
+            uform.instance.profile = request.session['profile']
+            uform.instance.caption = request.POST.get('caption')
+            data = uform.save()
+            form.instance.fid = data.id
+            form.instance.user = request.user.username
+            form.instance.profile = request.session['profile']
+            form.save()
+            up = Save.objects.get(id=id)
+
+            if up.user == request.user.username:
+                gg = Iupload.objects.get(id=up.fid)
+                up.ndate = gg.date
+                up.instagram = gg.instagram
+                up.facebook = gg.facebook
+                up.twitter = gg.twitter
+                up.linkd = gg.linkd
+                up.done = gg.done
+                up.caption = gg.caption
+                up.url = storage.url(str(gg.file))
+            return render(request, 'adminp/edit_post.html', {'uploaded': '1','mat':up})
+        else:
+            return redirect('aws')
+
+    return render(request, 'adminp/edit_post.html', {'mat': up})
+
+
+@login_required
+def view_image(request, id):
+    sdate=False
+    stime=False
+    if request.GET.get('sch'):
+        f=Save.objects.get(fid=id)
+        sdate=f.sdate
+        stime=f.stime
+    p=Iupload.objects.get(id=id)
+    if (p.users==request.user.username):
+        url=storage.url(str(p.file))
+        return render(request,'adminp/view_image.html',{'url':url,'caption':p.caption,'upload':p,'sdate':sdate,'stime':stime})
+    else:
+        return redirect('users')
+
+@login_required
+def delete_profile(request):
+    Profile.objects.get(Q(user=request.user.username) & Q(name=request.session['profile'])).delete()
+    f=Pro.objects.get(user=request.user.username)
+    f.profile=f.profile-1
+    f.save()
+    request.session['profile']=None
+    return redirect('aws')
+
+
+@login_required
+def project(request):
+    if request.session['profile'] is None:
+        return redirect('aws')
+    return render(request,'adminp/project.html',{})
 
 def home(request):
     if request.method == 'POST':
@@ -92,15 +243,17 @@ def register(request):
     f = Ureg()
     return render(request, 'register.html', {'form': f, 'active': 'register'})
 
-
 @login_required
 def iupload(request):
+    if request.session['profile'] is None:
+        return redirect('aws')
     if request.method == 'POST':
         form = Uinsta(request.POST, request.FILES)
+        cpt=request.POST.get('caption')
         if len(request.FILES) == 0 and request.POST.get('instagram'):
-            return render(request, 'upload.html', {'form': form, 'instap': '1'})
+            return render(request, 'adminp/upload_post.html', {'form': form, 'instap': '1','caption':cpt})
         if request.POST.get('twitter') and len(request.POST.get('caption')) > 280:
-            return render(request, 'upload.html', {'form': form, 'tlimit': '1'})
+            return render(request, 'adminp/upload_post.html', {'form': form, 'tlimit': '1','caption':cpt})
         if form.is_valid():
             insta = request.POST.get('instagram')
             face = request.POST.get('facebook')
@@ -111,7 +264,7 @@ def iupload(request):
             else:
                 abb = 0
             if abb == 0:
-                return render(request, 'upload.html', {'form': form, 'non_select': '1'})
+                return render(request, 'adminp/upload_post.html', {'form': form, 'non_select': '1','caption':cpt})
             form.instance.users = request.user
             form.instance.done = True
             if insta:
@@ -155,7 +308,7 @@ def iupload(request):
                 p = Insta.objects.get(Q(user=request.user) & Q(profile=request.session['profile']))
                 multiprocessing.Process(target=Int.up, args=(p.username, p.password, img, data.caption)).start()
             # threading.Thread(target=Int.up, args=(p.username,p.password,'media/'+img,data.caption)).start()
-            return render(request, 'upload.html', {'form': form, 'uploaded': '1'})
+            return render(request, 'adminp/upload_post.html', {'form': form, 'uploaded': '1'})
         else:
             return redirect('home')
     data = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
@@ -183,71 +336,47 @@ def iupload(request):
     if all == 0:
         return redirect('users')
 
-    return render(request, 'upload.html', {'form': Uinsta()})
+    return render(request, 'adminp/upload_post.html', {'form': Uinsta()})
 
 
 @login_required
-def setup(request, name):
+def setup(request):
+    if request.session['profile'] is None:
+        return redirect('aws')
     if request.method == 'POST':
-        if name == 'instagram':
-            form = Finsta(request.POST)
-            if form.is_valid():
-                form.instance.user = request.user
-                form.instance.profile = request.session['profile']
-                form.save()
-                rec = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
-                rec.instagram = True
-                rec.save()
-                if (
-                Insta_data.objects.filter(Q(user=request.user) & Q(profile=request.session['profile']))).count() == 0:
-                    Insta_data.objects.create(user=request.user, profile=request.session['profile'])
-                return redirect('aws')
-        elif name == 'facebook':
-            form = Face(request.POST)
-            if form.is_valid():
-                form.instance.user = request.user
-                form.instance.profile = request.session['profile']
-                form.save()
-                rec = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
-                rec.facebook = True
-                rec.save()
-                return redirect('aws')
+        form = Finsta(request.POST)
+        if form.is_valid():
+            form.instance.user = request.user
+            form.instance.profile = request.session['profile']
+            form.save()
+            rec = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
+            rec.instagram = True
+            rec.save()
+            if (Insta_data.objects.filter(Q(user=request.user) & Q(profile=request.session['profile']))).count() == 0:
+                Insta_data.objects.create(user=request.user, profile=request.session['profile'])
+            return redirect('project')
 
-    if name == 'instagram':
-        rec = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
-        if rec.instagram:
-            return redirect('aws')
-        else:
-            return render(request, 'setup.html', {'name': name, 'form': Finsta()})
-    elif name == 'facebook':
-        rec = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
-        if rec.facebook:
-            return redirect('aws')
-        else:
-            return render(request, 'setup.html', {'name': name, 'form': Face()})
-    elif name == 'twitter':
-        rec = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
-        if rec.twitter:
-            return redirect('aws')
-        else:
-            return render(request, 'setup.html', {'name': name, 'form': Twit(), 'social': 'twitter'})
-    elif name == 'linkd':
-        rec = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
-        if rec.linkd:
-            return redirect('aws')
-        else:
-            return render(request, 'setup.html', {'name': name, 'form': Twit(), 'social': 'linkd'})
+
+    rec = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
+    if rec.instagram:
+        return redirect('aws')
+    else:
+        return render(request, 'adminp/setup_insta.html', {})
+
 
 
 @login_required
 def sch(request):
+    if request.session['profile'] is None:
+        return redirect('aws')
     if request.method == 'POST':
         form = Schedule(request.POST)
         uform = Uinsta(request.POST, request.FILES)
+        cpt=request.POST.get('caption')
         if len(request.FILES) == 0 and request.POST.get('instagram'):
-            return render(request, 'schedule.html', {'form': uform, 'form1': form, 'instap': '1'})
+            return render(request, 'adminp/schedule.html', {'form': uform, 'form1': form, 'instap': '1','caption':cpt})
         if request.POST.get('twitter') and len(request.POST.get('caption')) > 280:
-            return render(request, 'schedule.html', {'form': uform, 'form1': form, 'tlimit': '1'})
+            return render(request, 'adminp/schedule_post.html', {'tlimit': '1','caption':cpt})
 
         if form.is_valid() and uform.is_valid():
             insta = request.POST.get('instagram')
@@ -259,7 +388,7 @@ def sch(request):
             else:
                 abb = 0
             if abb == 0:
-                return render(request, 'schedule.html', {'form': uform, 'non_select': '1', 'form1': form})
+                return render(request, 'adminp/schedule_post.html', {'non_select': '1','caption':cpt})
             uform.instance.users = request.user
             if insta:
                 uform.instance.instagram = True
@@ -275,7 +404,7 @@ def sch(request):
             form.instance.user = request.user
             form.instance.profile = request.session['profile']
             form.save()
-            return render(request, 'schedule.html', {'uploaded': '1', 'form': Uinsta(), 'form1': Schedule()})
+            return render(request, 'adminp/schedule_post.html', {'uploaded': '1'})
         else:
             return Http404
     data = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
@@ -302,7 +431,7 @@ def sch(request):
     all = instagram + facebook + twitter + linkd
     if all == 0:
         return redirect('users')
-    return render(request, 'schedule.html', {'form': Uinsta(), 'form1': Schedule()})
+    return render(request, 'adminp/schedule_post.html', {})
 
 
 def check(request):
@@ -351,10 +480,33 @@ def check(request):
     return render(request, 'pending.html', context)
 
 
+
 @login_required
 def users(request):
-    session = Profile.objects.filter(user=request.user.username)
-    return render(request, 'jump.html', {'sessions': session})
+    return render(request, 'adminp/aws.html', {})
+
+@login_required
+def test(request):
+    if request.session['profile'] is None:
+        return redirect('aws')
+    profiles = Profile.objects.filter(user=request.user.username)
+    pending=Save.objects.filter(Q(user=request.user.username) & Q(done=0) & Q(profile=request.session['profile']))
+    pen=len(pending)
+    t1=Iupload.objects.filter(Q(users=request.user.username) & Q(done=1) & Q(profile=request.session['profile']))
+    t2=Save.objects.filter(Q(user=request.user.username) & Q(done=1) & Q(profile=request.session['profile']))
+    total=len(t1)+len(t2)
+    session_info = Pro.objects.get(user=request.user.username)
+    up = Iupload.objects.filter(Q(users=request.user.username) & Q(profile=request.session['profile'])).order_by('-id')[:5]
+    for i in up:
+        i.url=storage.url(str(i.file))
+        i.capt=i.caption
+    data={
+        'pending':pen,
+        'total':total,
+        'session':session_info,
+        'posts':up
+    }
+    return render(request,'adminp/index.html',{'profiles':profiles,'count':len(profiles),'data':data,'active':'cpanel'})
 
 
 @login_required
@@ -431,29 +583,39 @@ def temp(request):
 
 @login_required
 def set_pro(request):
+    c=Pro.objects.get(user=request.user.username)
+    if(c.profile>=c.limit):
+        return redirect('aws')
     if request.method == 'POST':
         form = SetProfie(request.POST)
-        if form.is_valid():
-            form.instance.user = request.user.username
-            r = Profile.objects.filter(Q(name=request.POST.get('name')) & Q(user=request.user.username))
-            if r.count() > 0 or request.POST.get('name') == 'None':
-                return render(request, 'set_profile.html', {'form': form, 'error': 1})
+        form.instance.user = request.user.username
+        r = Profile.objects.filter(Q(name=request.POST.get('name')) & Q(user=request.user.username))
+        if r.count() > 0 or request.POST.get('name') == 'None':
+            return render(request, 'adminp/create_profile.html', {'error': 1})
+        if (c.profile < c.limit):
             form.save()
-            get = Pro.objects.get(user=request.user)
-            get.profile = get.profile + 1
+        get = Pro.objects.get(user=request.user)
+        get.profile = get.profile + 1
+        if (c.profile < c.limit):
             get.save()
-            return redirect('users')
-        else:
-            return render(request, 'set_profile.html', {'form': form})
-    return render(request, 'set_profile.html', {'form': SetProfie()})
+        return redirect('aws')
+    else:
+        return render(request, 'adminp/create_profile.html', {})
 
 
 @login_required
 def cool(request, name):
+
+    if (request.GET.get('redirect')):
+        red=request.GET.get('redirect')
+    else:
+        red='users'
+
+
     r = Profile.objects.filter(Q(name=name) & Q(user=request.user.username))
     if r.count() > 0:
         request.session['profile'] = name
-        return redirect('aws')
+        return redirect(red)
     else:
         return redirect('users')
 
@@ -532,13 +694,17 @@ def delete(request, name):
         make.linkd = False
         make.save()
 
-    return redirect('aws')
+    return redirect('project')
 
 
 @login_required
 def post_history(request):
+    if request.session['profile'] is None:
+        return redirect('aws')
     up = Iupload.objects.filter(Q(users=request.user) & Q(done=1) & Q(profile=request.session['profile']))
-    return render(request, 'post_history.html', {'up': up})
+    for i in up:
+        i.url=storage.url(str(i.file))
+    return render(request, 'adminp/posts.html', {'up': up})
 
 
 def download_image(request, id):
@@ -552,7 +718,7 @@ def download_image(request, id):
 def terms(request):
     return render(request, 'terms.html', {})
 
-
+@login_required
 def history(request):
     up = Save.objects.filter(Q(user=request.user) & Q(profile=request.session['profile']))
     for i in up:
@@ -564,8 +730,9 @@ def history(request):
         i.linkd = gg.linkd
         i.done = gg.done
         i.caption = gg.caption
-    print(up)
-    return render(request, 'history.html', {'up': up})
+        i.url=storage.url(str(gg.file))
+
+    return render(request, 'adminp/sch_posts.html', {'up': up})
 
 
 def deletep(request, id):

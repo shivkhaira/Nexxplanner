@@ -1,0 +1,292 @@
+{% extends 'adminp/dad.html' %}
+{% load static %}
+{% block title %}
+Nexxplanner - Upload
+{% endblock %}
+{% block content %}
+	<main>
+        <div class="container-fluid ">
+            <div class="row">
+                <div class="col-12">
+
+                    <h1>Upload Post</h1>
+                    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                        <ol class="breadcrumb pt-0">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'home' %}">Home</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="posts.php">All Posts</a>
+                            </li>
+                            <li class="breadcrumb-item " aria-current="page"><a href="schedule.post.php">schedule Post</a></li>
+                        </ol>
+                    </nav>
+                    <div class="separator mb-5"></div>
+
+
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-12">
+
+					<div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="mb-4">Select Image / Video</h5>
+
+                            <div class="select-from-library-container mb-1">
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-6 col-xl-6">
+                                    <form method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                        <div class="select-from-library-button sfl-single mb-5"
+                                            data-library-id="#libraryModal" data-count="1">
+                                            <div
+                                                class="card d-flex flex-row mb-4 media-thumb-container justify-content-center align-items-center">
+                                                 <label class="btn btn-outline-primary btn-upload" for="inputImage"
+                                title="Upload image file">
+                                <input type="file" class="sr-only" id="inputImage" name="file">
+                                Select File
+                            </label>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="selected-library-item sfl-selected-item mb-5">
+                                            <div class="card d-flex flex-row media-thumb-container">
+                                                <a class="d-flex align-self-center">
+                                                    <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+                                                        alt="uploaded image"
+                                                        class="list-media-thumbnail responsive border-0 sfl-selected-item-image" />
+                                                </a>
+                                                <div class="d-flex flex-grow-1 min-width-zero">
+                                                    <div
+                                                        class="card-body align-self-center d-flex flex-column justify-content-between min-width-zero align-items-lg-center">
+                                                        <a class="w-100">
+                                                            <p
+                                                                class="list-item-heading mb-1 truncate sfl-selected-item-label">
+                                                            </p>
+                                                        </a>
+                                                    </div>
+                                                    <div class="pl-1 align-self-center">
+                                                        <a href="#"
+                                                            class="btn-link delete-library-item sfl-delete-item"><i
+                                                                class="simple-icon-trash"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+										<div class="form-group position-relative error-l-50"><grammarly-extension style="position: absolute; top: 0px; left: 0px; pointer-events: none;" class="_1KJtL"></grammarly-extension>
+                                    <label>Content</label>
+                                    <textarea class="form-control" rows="2"  spellcheck="false" style="margin-top: 0px; margin-bottom: 0px; height: 88px;" name="caption">{{caption}}</textarea>
+                                              <div id="the-count">
+    <span id="current">0</span>
+    <span id="maximum">/ 500</span>
+  </div>
+
+{% if instap %}
+                                        <br />    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Instagram Requires a photo to be upload</strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+                                             {% if non_select %}
+         <br />   <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Select where to upload the post</strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+            {% endif %}
+                                              {% if tlimit %}
+         <br />   <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Tweet limit is 280 characters</strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+            {% endif %}
+                                              {% if uploaded %}
+          <br />  <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>Your post will be posted momentarily.... :)</strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+            {% endif %}
+
+
+                                </div>
+
+                                    </div>
+									<div class="col-sm-6 col-md-6 col-xl-6">
+
+									<!--output img	-->
+                                    <img alt="detail" src="{% static 'adminp/img/products/parkin.jpg' %}" id="imgInp" class="responsive border-0 border-radius img-fluid mb-3">
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+					<div class="row">
+
+                        <div class="col-12 col-xl-12 mb-12">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="mb-4">Upload This Post On</h5>
+
+ {% if facebook == 1 %}
+									 <div class="form-group row mb-1">
+                                        <label class="col-12 col-form-label">Facebook</label>
+                                        <div class="col-12">
+                                            <div class="custom-switch custom-switch-secondary mb-2 custom-switch-small">
+                                                <input class="custom-switch-input" name="facebook" id="switchS2" type="checkbox"
+                                                    >
+                                                <label class="custom-switch-btn" for="switchS2"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+{% endif %}
+                                       {% if instagram == 1 %}
+										 <div class="form-group row mb-1">
+                                        <label class="col-12 col-form-label">Instagram</label>
+                                        <div class="col-12">
+                                            <div class="custom-switch custom-switch-secondary mb-2 custom-switch-small">
+                                                <input name="instagram" class="custom-switch-input" id="switchS3" type="checkbox"
+                                                    >
+                                                <label class="custom-switch-btn" for="switchS3"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                     {% if twitter == 1 %}
+										 <div class="form-group row mb-1">
+                                        <label class="col-12 col-form-label">Twitter</label>
+                                        <div class="col-12">
+                                            <div class="custom-switch custom-switch-secondary mb-2 custom-switch-small">
+                                                <input name="twitter" class="custom-switch-input" id="switchS4" type="checkbox"
+                                                    >
+                                                <label class="custom-switch-btn" for="switchS4"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                     {% if linkd == 1 %}
+										 <div class="form-group row mb-1">
+                                        <label class="col-12 col-form-label">Linkedin</label>
+                                        <div class="col-12">
+                                            <div class="custom-switch custom-switch-secondary mb-2 custom-switch-small">
+                                                <input name="linkd" class="custom-switch-input" id="switchS5" type="checkbox"
+                                                    >
+                                                <label class="custom-switch-btn" for="switchS5"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+						<button type="submit" class="btn btn-secondary btn-block mb-1">Upload Now</button>
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    </main>
+ <script src="{% static 'adminp/js/vendor/jquery-3.3.1.min.js' %}"></script>
+
+<script>
+    function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $('#imgInp').attr('src', e.target.result);
+    }
+
+    reader.readAsDataURL(input.files[0]); // convert to base64 string
+  }
+}
+
+$("#inputImage").change(function() {
+  readURL(this);
+});
+</script>
+
+{% if instagram == 1 %}
+     <script>
+            $('form').submit(function(event){
+    validated = true;
+
+    if ($('#inputImage').get(0).files.length === 0 && $('#switchS3').prop('checked') == true) {
+        validated = false;
+        alert("Instagram requires a image to post");
+        // Or some div with image showing
+    }
+
+    if (validated != true) {
+        event.preventDefault();
+    }
+});
+</script>
+{% endif %}
+<script>
+$('textarea').keyup(function() {
+
+  var characterCount = $(this).val().length,
+      current = $('#current'),
+      maximum = $('#maximum'),
+      theCount = $('#the-count');
+
+  current.text(characterCount);
+
+
+  /*This isn't entirely necessary, just playin around*/
+  if (characterCount < 70) {
+    current.css('color', '#666');
+  }
+  if (characterCount > 70 && characterCount < 90) {
+    current.css('color', '#6d5555');
+  }
+  if (characterCount > 90 && characterCount < 100) {
+    current.css('color', '#793535');
+  }
+  if (characterCount > 100 && characterCount < 120) {
+    current.css('color', '#841c1c');
+  }
+  if (characterCount > 120 && characterCount < 139) {
+    current.css('color', '#8f0001');
+  }
+
+  if (characterCount >= 140) {
+    maximum.css('color', '#8f0001');
+    current.css('color', '#8f0001');
+    theCount.css('font-weight','bold');
+  } else {
+    maximum.css('color','#666');
+    theCount.css('font-weight','normal');
+  }
+
+
+});
+</script>
+
+
+{% endblock %}

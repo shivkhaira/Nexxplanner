@@ -1,0 +1,129 @@
+{% extends 'adminp/dad.html' %}
+
+
+{% block title %}NexxPlanner Dashboard{%endblock %}
+{% block content %}
+{% load static %}
+ <main>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Dashboard</h1>
+
+                    <div class="separator mb-5"></div>
+                </div>
+                <div class="col-lg-12 col-xl-6">
+                    <div class="icon-cards-row">
+                        <div class="glide dashboard-numbers">
+                            <div class="glide__track" data-glide-el="track">
+                                <ul class="glide__slides">
+                                    <li class="glide__slide">
+                                        <a href="#" class="card">
+                                            <div class="card-body text-center">
+                                                <i class="iconsminds-loading-3"></i>
+                                                <p class="card-text mb-0">Waiting For Upload</p>
+                                                <p class="lead text-center">{{data.pending}}</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="glide__slide">
+                                        <a href="#" class="card">
+                                            <div class="card-body text-center">
+                                                <i class="iconsminds-yes"></i>
+                                                <p class="card-text mb-0">Posts Uploaded</p>
+                                                <p class="lead text-center">{{data.total}}</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="glide__slide">
+                                        <a href="#" class="card">
+                                            <div class="card-body text-center">
+                                                <i class="iconsminds-close"></i>
+                                                <p class="card-text mb-0">Uploading Failed</p>
+                                                <p class="lead text-center">0</p>
+                                            </div>
+                                        </a>
+									</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-6">
+                            <div class="card mb-4 progress-banner">
+                                <div class="card-body justify-content-between d-flex flex-row align-items-center">
+                                    <div>
+                                        <i class="iconsminds-data-center mr-2 text-white align-text-bottom d-inline-block"></i>
+                                        <div>
+                                            <p class="lead text-white">{{data.session.profile}} Projects</p>
+
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div role="progressbar"
+                                            class="progress-bar-circle progress-bar-banner position-relative"
+                                            data-color="white" data-trail-color="rgba(255,255,255,0.2)"
+                                            aria-valuenow="{{data.session.profile}}" aria-valuemax="{{data.session.limit}}" data-show-percent="false">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+                <div class="col-xl-6 col-lg-12 mb-4">
+                    <div class="card">
+                        <div class="position-absolute card-top-buttons">
+                            <button class="btn btn-header-light icon-button">
+                                <i class="simple-icon-refresh"></i>
+                            </button>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">Recent</h5>
+                            <div class="scroll dashboard-list-with-thumbs">
+                                {% for i in data.posts %}
+
+                                <div class="d-flex flex-row mb-3">
+                                    <a class="d-block position-relative" target="_blank" href="{{i.url}}">
+                                        <img src="{{i.url}}" alt="Chocolate Cake"
+                                            class="list-thumbnail border-0" />
+                                        {% if i.done %}
+
+ <span class="badge badge-pill badge-success position-absolute badge-top-right">DONE</span>
+
+                                        {% else %}
+                                     <span
+                                            class="badge badge-pill badge-theme-1 position-absolute badge-top-right">PENDING</span>
+                                        {% endif %}
+                                    </a>
+                                    <div class="pl-3 pt-2 pr-2 pb-2">
+                                        <a href="#">
+                                            <p class="list-item-heading">{{i.caption|truncatechars:8}}</p>
+                                            <div class="text-primary text-small font-weight-medium d-none d-sm-block">
+                                                {{i.date}}</div>
+                                        </a>
+                                    </div>
+                                </div>
+            {% endfor %}
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </main>
+
+ {% endblock %}

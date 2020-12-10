@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Profile-NexxPlanner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" href="{% static 'adminp/font/iconsmind-s/css/iconsminds.css' %}"/>
+    <link rel="stylesheet" href="{% static 'adminp/font/simple-line-icons/css/simple-line-icons.css' %}"/>
+
+    <link rel="stylesheet" href="{% static 'adminp/css/vendor/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'adminp/css/vendor/bootstrap.rtl.only.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'adminp/css/vendor/bootstrap-float-label.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'adminp/css/main.css' %}"/>
+    <link rel="stylesheet" href="{% static 'adminp/css/vendor/select2.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'adminp/css/vendor/select2-bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'adminp/css/vendor/bootstrap-datepicker3.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'adminp/css/vendor/dropzone.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'adminp/css/vendor/bootstrap-tagsinput.css' %}" />
+    <link rel="stylesheet" href="{% static 'adminp/css/vendor/component-custom-switch.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'adminp/css/vendor/perfect-scrollbar.css' %}" />
+    <link rel="stylesheet" href="{% static 'adminp/css/vendor/nouislider.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'adminp/css/vendor/bootstrap-stars.css' %}" />
+    <link rel="stylesheet" href="{% static 'adminp/css/vendor/cropper.min.css' %}" />
+	<style>
+		.dropdown-menu{
+			top:48% !important;
+		}
+		.theme-colors .theme-button{
+			display:none;
+		}
+	</style>
+</head>
+
+<body class="background show-spinner no-footer">
+    <div class="fixed-background"></div>
+    <main>
+        <div class="container">
+            <div class="row h-100">
+                <div class="col-12 col-md-10 mx-auto my-auto">
+                    <div class="card auth-card">
+<div class="position-relative image-side ">
+
+                        </div>
+                        <div class="form-side">
+                            <a href="Dashboard.Default.html">
+                                <span class="logo-single"></span>
+                            </a>
+                            <h6 class="mb-4">Edit Profile</h6>
+
+                            <form method="post">
+                                {% csrf_token %}
+								  <label class="form-group has-float-label mb-4">
+                                    <input class="form-control"  name="username" value="{{user.username}}"/>
+                                    <span>Username</span>
+                                </label>
+                                <label class="form-group has-float-label mb-4">
+                                    <input class="form-control" name="name" value="{{user.first_name}}" />
+                                    <span>Name</span>
+                                </label>
+                                <label class="form-group has-float-label mb-4">
+                                    <input class="form-control" name="email" value="{{user.email}}" />
+                                    <span>E-mail</span>
+                                </label>
+                                <label class="form-group has-float-label mb-4">
+                                    <input class="form-control" name="password" type="password" placeholder="" />
+                                    <span>New Password</span>
+                                </label>
+
+                                 <label class="form-group has-float-label mb-4">
+                                    <input class="form-control" name="cpassword" type="password" placeholder="" />
+                                    <span>Confirm Password</span>
+                                </label>
+
+
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <button class="btn btn-primary btn-lg btn-shadow" type="submit">Change</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="{% static 'adminp/js/vendor/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'adminp/js/vendor/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'adminp/js/dore.script.js' %}"></script>
+    <script src="{% static 'adminp/js/scripts.js' %}"></script>
+    <script src="{% static 'adminp/js/vendor/bootstrap-datepicker.js' %}"></script>
+
+
+
+</body>
+
+</html>

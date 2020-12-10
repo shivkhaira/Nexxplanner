@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="style/style.css">
+
+    <style type="text/css" media="print">
+        .noprint {
+            display: none
+        }
+        
+        .print {
+            display: block !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <header class="el-header noprint">
+            <div class="icon-btns">
+                <i class="icon-list" @click="changeLeftMenu"></i>
+                <i class="icon-skip_previous" v-bind:class="{'disabled': currentPage == 1}" @click="changeCurrentPage('first')"></i>
+                <i class="icon-play_arrow prev-icon" v-bind:class="{'disabled': currentPage == 1}" @click="changeCurrentPage('prev')"></i>
+                <i class="icon-play_arrow" v-bind:class="{'disabled': currentPage == pageNum}" @click="changeCurrentPage('next')"></i>
+                <i class="icon-skip_next" v-bind:class="{'disabled': currentPage == pageNum}" @click="changeCurrentPage('last')"></i>
+                <select v-model="currentPage">
+                    <option v-for="page in pageNum" v-bind:value="page">page {{ page }}</option>
+                </select>
+                <i class="icon-zoom_in" v-bind:class="{'disabled': zoomNum == 2}" @click="modifyZoom('in')"></i>
+                <select v-model="zoomNum">
+                    <option value="0.5">50%</option>
+                    <option value="0.6">60%</option>
+                    <option value="0.7">70%</option>
+                    <option value="0.8">80%</option>
+                    <option value="0.9">90%</option>
+                    <option value="1.0" selected>100%</option>
+                    <option value="1.1">110%</option>
+                    <option value="1.2">120%</option>
+                    <option value="1.3">130%</option>
+                    <option value="1.4">140%</option>
+                    <option value="1.5">150%</option>
+                    <option value="1.6">160%</option>
+                    <option value="1.7">170%</option>
+                    <option value="1.8">180%</option>
+                    <option value="1.9">190%</option>
+                    <option value="2.0">200%</option>
+                </select>
+                <i class="icon-zoom_out" v-bind:class="{'disabled': zoomNum == 0.5}" @click="modifyZoom('out')"></i>
+                <i class="icon-format_align_left" @click="textAlign = 'left'"></i>
+                <i class="icon-format_align_center" @click="textAlign = 'center'"></i>
+                <i class="icon-format_align_right" @click="textAlign = 'right'"></i>
+                <i class="icon-print" @click="window.print()"></i>
+            </div>
+        </header>
+
+        <aside class="noprint" width="240px" v-show="ifMenuShow">
+            <nav class="tabNav">
+                <ul>
+                    <li v-bind:class="{ 'curr': currentNav == 0 }" @click="currentNav = 0">Page</li>
+                    <li v-bind:class="{ 'curr': currentNav == 1 }" @click="currentNav = 1">Bookmark</li>
+                </ul>
+
+                <div class="clear"></div>
+            </nav>
+
+            <div class="tab-conent scrollbar" v-bind:style="{ height: asideHeight + 'px' }">
+
+            <section v-show="currentNav == 0">
+                <ul class="page-menu">
+                    <li v-for="page in pageNum" v-bind:class="{ 'curr': currentPage == page }" @click="changePage(page)"><i class="icon-file-text2"></i> page {{ page }}</li>
+                </ul>
+            </section>
+
+            <section v-show="currentNav == 1">
+                <ul class="page-menu">
+                    <li v-for="page in pageNum" v-bind:class="{ 'curr': currentPage == page }" @click="changePage(page)"><i class="icon-turned_in_not"></i> Bookmark {{ page }}</li>
+                </ul>
+            </section>
+        </div>
+
+        </aside>
+        <div class="main scrollbar noprint"  v-bind:style="{ height: mainHeight + 'px' }" v-bind:class="{ 'mainLeftM': ifMenuShow, 'aleft': textAlign === 'left','acenter': textAlign === 'center','aright': textAlign === 'right'}">
+            <div class="conent" v-html="pageContent" v-bind:style="zoomStyle"></div>
+
+            <div class="clear"></div>
+        </div>
+
+        <!--专门只为打印的内容-->
+        <div class="conent print" style="display:none" v-html="pageContent"></div>
+    </div>
+</body>
+<!-- 先引入 Vue -->
+<script src="js/vue.min.js"></script>
+<script>
+
+var app = new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                // visible: false,
+                isCollapse: false,
+                currentNav: 0,
+                activeName2: 'first',
+                pageNum: 1, 
+                currentPage: 1,
+                pageContent: '',
+                asideHeight: 300,
+                mainHeight: 300,
+                ifMenuShow: true,
+                zoomNum: '1.0',
+                textAlign: 'left',
+                zoomStyle: {},
+                pageDatas: ['<p><span style="font-family:Calibri;font-size:23.359747px;font-style:italic;font-weight:bold;text-decoration:underline;color:#000000;"><span style="position:absolute;top:149.605148px;left:308.800659px"><nobr>Privacy Policy </nobr></span></span></p><p><span style="font-family:Calibri;font-size:10.745222px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:195.805664px;left:93.440201px"><nobr>NexDat Ltd operates on <span style="text-decoration:underline;color:#0563C1;">https://nexdat.net/ </span><span style="font-style:normal;font-weight:normal;color:#000000;">. This page informs you of our policies regarding the </span></nobr></span><span style="position:absolute;top:214.685715px;left:93.440201px"><nobr>collection, use and disclosure of Personal Information we receive from users of the site. In this </nobr></span><span style="position:absolute;top:233.405685px;left:93.440201px"><nobr>document it outlines what the data can potentially be used for making sure our customers are aware of </nobr></span><span style="position:absolute;top:251.965820px;left:93.440201px"><nobr>this and therefore only if they agree they shall give us their data. </nobr></span></span></p><p><span style="font-family:Calibri;font-size:10.745222px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:281.405762px;left:93.440201px"><nobr>We use your Personal Information only for providing and improving the Site. By using the Site, you agree </nobr></span><span style="position:absolute;top:300.285889px;left:93.440201px"><nobr>to the collection and use of information in accordance with this policy. On the website we collect our </nobr></span><span style="position:absolute;top:319.005859px;left:93.440239px"><nobr>user ’s information which includes, email addresses, first name and last name, phone number and in </nobr></span><span style="position:absolute;top:337.725983px;left:93.440239px"><nobr>certain circumstances address, state/provenance or ZIP/postal code and city. </nobr></span></span></p><p><span style="font-family:Calibri;font-size:11.679824px;font-style:italic;font-weight:bold;color:#000000;"><span style="position:absolute;top:367.922028px;left:93.440201px"><nobr>Information Collection and Use </nobr></span></span></p><p><span style="font-family:Calibri;font-size:10.745222px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:397.886078px;left:93.440201px"><nobr>While using our Site, we may ask you to provide us with certain personally identifiable information that </nobr></span><span style="position:absolute;top:416.766113px;left:93.440201px"><nobr>can be used to contact or identify you. Personally, identifiable information may include, but is not </nobr></span><span style="position:absolute;top:435.486176px;left:93.440201px"><nobr>limited to your name ("Personal Information"). As listed above this could be any of the given personal </nobr></span><span style="position:absolute;top:454.206207px;left:93.440155px"><nobr>information above. </nobr></span></span></p><p><span style="font-family:Calibri;font-size:11.679824px;font-style:italic;font-weight:bold;color:#000000;"><span style="position:absolute;top:484.402283px;left:93.440201px"><nobr>Log Data </nobr></span></span></p><p><span style="font-family:Calibri;font-size:10.745222px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:514.366394px;left:93.440201px"><nobr>Like many site operators, we collect information that your browser sends whenever you visit our Site </nobr></span><span style="position:absolute;top:533.086426px;left:93.440201px"><nobr>("Log Data"). </nobr></span></span></p><p><span style="font-family:Calibri;font-size:10.745222px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:562.366455px;left:93.440201px"><nobr>This Log Data may include information such as your computer\'s Internet Protocol ("IP") address, browser </nobr></span><span style="position:absolute;top:581.246521px;left:93.441544px"><nobr>type, browser version, the pages of our Site that you visit, the time and date of your visit, the time spent </nobr></span><span style="position:absolute;top:599.966553px;left:93.441582px"><nobr>on those pages and other statistics. </nobr></span></span></p><p><span style="font-family:Calibri;font-size:10.745222px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:629.246643px;left:93.441582px"><nobr>In addition, we may use third party services such as Google Analytics that collect, monitor and analyze </nobr></span><span style="position:absolute;top:647.966614px;left:93.441620px"><nobr>this and see how well our website may be doing. This is strictly for sale and improvement purposes; we </nobr></span><span style="position:absolute;top:666.846741px;left:93.442924px"><nobr>may further use this information to see if we can advertise our company further and make </nobr></span><span style="position:absolute;top:685.406738px;left:93.442924px"><nobr>improvements on the internet. </nobr></span></span></p><p><span style="font-family:Calibri;font-size:11.679824px;font-style:italic;font-weight:bold;color:#000000;"><span style="position:absolute;top:715.762695px;left:93.440201px"><nobr>Communications </nobr></span></span></p><p><span style="font-family:Calibri;font-size:10.745222px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:745.726868px;left:93.440201px"><nobr>We may use your Personal Information to contact you with newsletters, marketing or promotional </nobr></span><span style="position:absolute;top:764.606934px;left:93.440201px"><nobr>materials and other information that may be useful. The personal information that you give us, or the </nobr></span><span style="position:absolute;top:783.326904px;left:93.440201px"><nobr>information we may ask from you may be used to send you messages via phone (text), email or </nobr></span><span style="position:absolute;top:802.046997px;left:93.440201px"><nobr>newsletters. All which will contain information about our company and what we will be doing in the </nobr></span><span style="position:absolute;top:820.766907px;left:93.440201px"><nobr>coming future or present events that are occurring. </nobr></span></span></p><p><span style="font-family:Calibri;font-size:10.745222px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:850.207031px;left:93.440201px"><nobr>The personal information provided will be used for not only for log data but also for us to communicate </nobr></span><span style="position:absolute;top:868.927063px;left:93.440201px"><nobr>with you and update you with the latest news about our company. These can include changes that we </nobr></span><span style="position:absolute;top:887.487122px;left:93.440201px"><nobr>might be making or updates regarding on the potential things that are going on within NexDat LTD. </nobr></span></span></p><p><span style="font-family:Calibri;font-size:11.679824px;font-style:italic;font-weight:bold;color:#000000;"><span style="position:absolute;top:946.963196px;left:93.440201px"><nobr>Cookies </nobr></span></span></p>','<p><span style="font-family:Calibri;font-size:10.745222px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:144.445557px;left:93.440201px"><nobr>Cookies are files with small amount of data, which may include an anonymous unique identifier. Cookies </nobr></span><span style="position:absolute;top:163.165527px;left:93.440201px"><nobr>are sent to your browser from a web site and stored on your computer\'s hard drive. </nobr></span></span></p><p><span style="font-family:Calibri;font-size:10.745222px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:192.285645px;left:93.440201px"><nobr>Like many sites, we use "cookies" to collect information. You can instruct your browser to refuse all </nobr></span><span style="position:absolute;top:211.165695px;left:93.440201px"><nobr>cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not </nobr></span><span style="position:absolute;top:229.885742px;left:93.440201px"><nobr>be able to use some portions of our Site. </nobr></span></span></p><p><span style="font-family:Calibri;font-size:11.679824px;font-style:italic;font-weight:bold;color:#000000;"><span style="position:absolute;top:260.081879px;left:93.432587px"><nobr>Security </nobr></span></span></p><p><span style="font-family:Calibri;font-size:10.745222px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:290.205963px;left:93.440201px"><nobr>The security of your Personal Information is important to us, but remember that no method of </nobr></span><span style="position:absolute;top:308.925934px;left:93.440201px"><nobr>transmission over the Internet, or method of electronic storage, is 100% secure. While we strive to use </nobr></span><span style="position:absolute;top:327.645996px;left:93.441544px"><nobr>commercially acceptable means to protect your Personal Information, we cannot guarantee its absolute </nobr></span><span style="position:absolute;top:346.366058px;left:93.441544px"><nobr>security. </nobr></span></span></p><p><span style="font-family:Calibri;font-size:10.745222px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:375.646149px;left:93.441544px"><nobr>We will try our best to keep all the private data of our customers as safe as possible, however as </nobr></span><span style="position:absolute;top:394.366119px;left:93.441544px"><nobr>mentioned above there isn ’t a 100% chance of data staying safe over the internet. </nobr></span></span></p><p><span style="font-family:Calibri;font-size:11.679824px;font-style:italic;font-weight:bold;color:#000000;"><span style="position:absolute;top:424.562256px;left:93.440201px"><nobr>Changes to This Privacy Policy </nobr></span></span></p><p><span style="font-family:Calibri;font-size:10.745222px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:454.686249px;left:93.440201px"><nobr>This Privacy Policy shall be valid from 08/12/2020 and shall remain in place with the exception of any </nobr></span><span style="position:absolute;top:473.406311px;left:93.440201px"><nobr>potential amendments to its terms, which shall take effect immediately after being updated on this </nobr></span><span style="position:absolute;top:491.966309px;left:93.440201px"><nobr>website. </nobr></span></span></p><p><span style="font-family:Calibri;font-size:10.745222px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:521.406433px;left:93.440201px"><nobr>We reserve the right at any time to amend or alter our Privacy Policy and you can regularly review this </nobr></span><span style="position:absolute;top:540.126404px;left:93.440201px"><nobr>Privacy Policy. After we post any updates to the Privacy Policy on this website, your continuing use of </nobr></span><span style="position:absolute;top:559.006470px;left:93.440239px"><nobr>the Service will constitute your approval of the changes and your agreement to abide by and be bound </nobr></span><span style="position:absolute;top:577.726440px;left:93.440239px"><nobr>by the changed Privacy Policy. </nobr></span></span></p><p><span style="font-family:Calibri;font-size:10.745222px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:607.006592px;left:93.440239px"><nobr>If we make any material changes to this Privacy Policy, we will notify you either through the email </nobr></span><span style="position:absolute;top:625.566650px;left:93.440239px"><nobr>address you have provided us, or by placing a prominent notice on our website. </nobr></span></span></p><p><span style="font-family:Calibri;font-size:11.679824px;font-style:italic;font-weight:bold;color:#000000;"><span style="position:absolute;top:655.922607px;left:93.440201px"><nobr>Contact us </nobr></span></span></p><p><span style="font-family:Calibri;font-size:10.745222px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:685.886719px;left:93.440201px"><nobr>If you have any questions about this Privacy Policy, please contact us via our website and we will make </nobr></span><span style="position:absolute;top:704.606750px;left:93.440201px"><nobr>sure to get back to as soon as possible. </nobr></span></span></p>']
+            }
+        },
+        mounted: function() {
+            this.$nextTick(function() {
+                this.pageNum = this.pageDatas.length;
+                this.pageContent = this.pageDatas[0];
+
+                this.setLeftMenuHeight();
+            })
+        },
+        watch: {
+            'currentPage': function(newVal, oldValue) {
+                // console.log('newVal ' + newVal, 'oldValue ' + oldValue);
+                if (newVal) {
+                    this.pageContent = this.pageDatas[this.currentPage - 1];
+                }
+            },
+            'zoomNum': function(newVal, oldValue) {
+                if (newVal) {
+                    this.zoomStyle = {
+                        'transform': 'scale(' + newVal + ')',
+                        '-webkit-transform': 'scale(' + newVal + ')',
+                        '-ms-transform': 'scale(' + newVal + ')',
+                        '-moz-transform': 'scale(' + newVal + ')',
+                        '-o-transform': 'scale(' + newVal + ')'
+                    }
+                }
+            }
+        },
+        methods: {
+            
+            changeCurrentPage: function(methods) {
+                switch (methods) {
+                    case 'first':
+                        this.currentPage = 1;
+                        break;
+                    case 'prev':
+                        if (this.currentPage > 1) {
+                            this.currentPage -= 1;
+                        }
+                        break;
+                    case 'next':
+                        if (this.currentPage < this.pageNum) {
+                            this.currentPage += 1;
+                        }
+                        break;
+                    case 'last':
+                        this.currentPage = this.pageNum;
+                        break;
+                }
+            },
+
+            gotoPage: function(page) {
+                console.log(page);
+                this.currentPage = page;
+            },
+            modifyZoom: function(type) {
+                switch (type) {
+                    case 'in':
+                        if (this.zoomNum < 2) {
+                            // this.zoomNum = (this.zoomNum + 0.1).toFixed(1);
+                            this.zoomNum = (parseFloat(this.zoomNum) + 0.1).toFixed(1);
+                        }
+                        break;
+                    case 'out':
+                        if (this.zoomNum > 0.5) {
+                            this.zoomNum = (parseFloat(this.zoomNum) - 0.1).toFixed(1);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                console.log(this.zoomNum);
+            },
+            setLeftMenuHeight: function() {
+                // this.asideHeight = document.body.scrollHeight - 60;
+                this.mainHeight = document.documentElement.clientHeight - 60 - 20;
+                // 60为头部导航高度， 46为menu高度， 40为上下padding
+                this.asideHeight = this.mainHeight - 20 - 46;
+            },
+            changePage: function(page) {
+                this.currentPage = page;
+                // this.pageContent = this.pageDatas[page - 1];
+            },
+            changeLeftMenu: function() {
+                this.ifMenuShow = !this.ifMenuShow;
+            }
+        }
+    });
+
+function gotoPage(page) {
+    console.log(page);
+    app.gotoPage(page);
+}
+
+</script>
+
+</html>

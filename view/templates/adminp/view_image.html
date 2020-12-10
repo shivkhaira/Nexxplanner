@@ -1,0 +1,88 @@
+{% extends 'adminp/dad.html' %}
+{% load static %}
+{% block title %}
+Nexxplanner - View Image
+{% endblock %}
+{% block content %}
+	<main>
+        <div class="container-fluid ">
+            <div class="row">
+                <div class="col-12">
+
+                    <h1>Upload Post</h1>
+                    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                        <ol class="breadcrumb pt-0">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'home' %}">Home</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="posts.php">All Posts</a>
+                            </li>
+                            <li class="breadcrumb-item " aria-current="page"><a href="schedule.post.php">schedule Post</a></li>
+                        </ol>
+                    </nav>
+                    <div class="separator mb-5"></div>
+
+
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-12">
+
+					<div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="mb-4">View Image</h5>
+
+                            <div class="select-from-library-container mb-1">
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-6 col-xl-6">
+<div>
+    <h3>Caption:</h3>
+    <p>{{upload.caption}}</p>
+    <hr />
+    <h4>Upload On:</h4>
+    <p>{% if upload.instagram %} Instagram {% endif %}  {% if upload.facebook %} Facebook {% endif %} {% if upload.linkd %} Linkedin {% endif %} {% if upload.twitter %} Twitter {% endif %}</p>
+    <hr />
+    <h4>Date:</h4>
+    <p>{{upload.date}}</p>
+    <hr />
+    {% if sdate %}
+    <h4>Scheduled Date:</h4>
+    <p>{{sdate}} {{stime}}</p>
+    <hr />
+    {% endif %}
+</div>
+                                    </div>
+									<div class="col-sm-6 col-md-6 col-xl-6">
+
+									<!--output img	-->
+                                    <img alt="detail" src="{{url}}" id="imgInp" class="responsive border-0 border-radius img-fluid mb-3">
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+
+{% endblock %}

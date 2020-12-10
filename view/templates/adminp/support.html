@@ -1,0 +1,98 @@
+{% extends 'adminp/dad.html' %}
+{% load static %}
+{% block title %}Nexxplanner- Support{% endblock %}
+
+{%block content %}
+	<main>
+        <div class="container-fluid ">
+            <div class="row">
+                <div class="col-12">
+
+                    <h1>NexxPlanner Support</h1>
+                    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                        <ol class="breadcrumb pt-0">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'users' %}">Home</a>
+                            </li>
+
+                        </ol>
+                    </nav>
+                    <div class="separator mb-5"></div>
+
+
+                </div>
+            </div>
+
+
+			<div class="row">
+			<div class="col-xs-6 col-lg-6 col-12 mb-6">
+                            <div class="card">
+                                <div class="position-relative">
+                                    <img class="card-img-top" src="{% static 'adminp/img/cards/thumb-1.jpg' %}" alt="Card image cap">
+
+                                </div>
+
+                            </div>
+                        </div>
+			<div class="col-12 col-lg-6 mb-5">
+
+
+                    <div class="card mb-4">
+                        <div class="card-body">
+
+                            {% if contact %}
+
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>We will get back to you soon....</strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+                            {% endif %}
+
+                            <form class="needs-validation tooltip-label-right" method="post" novalidate="">
+                                {% csrf_token %}
+                                <div class="form-group position-relative error-l-50">
+                                    <label>Name</label>
+                                    <input type="text" class="form-control" name="name" required>
+                                    <div class="invalid-tooltip">
+                                        Name is required!
+                                    </div>
+                                </div>
+                                <div class="form-group position-relative error-l-50">
+                                    <label>Email</label>
+                                    <input type="email" class="form-control" name="email" required>
+                                    <div class="invalid-tooltip">
+                                       Email is required!
+                                    </div>
+                                </div>
+                                <div class="form-group position-relative error-l-50">
+                                    <label>Your Message</label>
+                                    <textarea class="form-control" rows="6" name="mess" required></textarea>
+                                    <div class="invalid-tooltip">
+                                        Message are required!
+                                    </div>
+                                </div>
+
+
+
+
+                                <button type="submit" class="btn btn-primary mb-0">Submit</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+			</div>
+
+
+
+		</div>
+
+
+
+
+
+    </main>
+{% endblock %}

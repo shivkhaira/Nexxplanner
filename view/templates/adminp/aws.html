@@ -1,0 +1,68 @@
+{% extends 'adminp/dad.html '%}
+	{% block title %}Nexxplanner- All Profiles{% endblock %}
+
+{% block content %}
+	<main>
+        <div class="container-fluid disable-text-selection">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <h1>Manage Projects</h1>
+
+                        <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                            <ol class="breadcrumb pt-0">
+                                <li class="breadcrumb-item">
+                                    <a href="{% url 'home' %}">Home</a>
+                                </li>
+                                {% if tprofile < limit %}
+                                <li class="breadcrumb-item">
+                                    <a href="create.project.php">Create New Project</a>
+                                </li>
+                                {% else %}
+                                <li class="breadcrumb-item">
+                                    <a href="#">All Projects</a>
+                                </li>
+                                {% endif %}
+                            </ol>
+                        </nav>
+                    </div>
+
+                    <div class="separator mb-5"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 list" data-check-all="checkAll">
+{% for i in profile %}
+                    <div class="card d-flex flex-row mb-3">
+
+                        <div class="pl-2 d-flex flex-grow-1 min-width-zero">
+
+                            <div
+                                class="card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
+                                <a href="{% url 'cool' i.name %}" class="w-40 w-sm-100">
+                                    <p class="list-item-heading mb-0 truncate">{{i.name}}</p>
+                                </a>
+                                <p class="mb-0 text-muted text-small w-15 w-sm-100">{{i.email}}</p>
+
+                                <div class="w-15 w-sm-100">
+                                  <a href="edit.project.php">
+											<button class="btn btn-primary"> Edit</button>
+											</a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+{% endfor %}
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </main>
+{%endblock%}

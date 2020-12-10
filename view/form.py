@@ -116,5 +116,5 @@ class ResetP(PasswordResetForm):
 class SetProfie(forms.ModelForm):
     class Meta:
         model=Profile
-        fields=['name']
+        fields=['name','email']
 

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	 <title>{% block title %}{% endblock %}</title>
+   
+    {% include 'adminp/head.html' %}
+    {% include 'adminp/style.html' %}
+	
+</head>
+
+<body id="app-container" class="menu-default show-spinner">
+    
+  
+    {% include 'adminp/nav.html' %}
+    {% include 'adminp/sidemenu.html' %}
+
+    {% block content %}
+    {% endblock %}
+
+    {% include 'adminp/footer.html' %}
+    {% include 'adminp/fjs.html' %}
+
+    
+</body>
+
+</html>

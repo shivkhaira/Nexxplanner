@@ -1,0 +1,95 @@
+{% extends 'adminp/dad.html' %}
+{% block title %}Nexxplanner- Scheduled Posts{% endblock %}
+{% block content %}
+
+	<main>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <h1>All Posts</h1>
+                    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                        <ol class="breadcrumb pt-0">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'users' %}">Home</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'iupload' %}">Upload Post Now</a>
+                            </li>
+							  <li class="breadcrumb-item">
+                                <a href="{% url 'sch' %}">Schedule a Post</a>
+                            </li>
+
+                        </ol>
+                    </nav>
+                    <div class="separator mb-5"></div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="data-table data-table-feature">
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Caption</th>
+                                        <th>Upload On</th>
+                                        <th>Scheduled Time</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for i in up %}
+                                    <tr>
+
+                                     <td>
+                            <a href="{{i.url}}" target="_blank"><img src="{{i.url}}" alt="{{i.caption|truncatechars:10}}"
+                                                                     class="list-thumbnail responsive border-0 card-img-left" /></a>
+                                     </td>
+                                        <td><p class="mb-0 text-muted text-small ">{{i.caption|truncatechars:10}}</p></td>
+                                        <td><p class="mb-0 text-muted text-small ">{{i.ndate}}</p></td>
+                                        <td><p class="mb-0 text-muted text-small ">{{i.sdate}} {{i.stime}}</p></td>
+                                        <td style="text-align:center">{% if i.done == 1 %}
+                                            <span class="badge badge-pill badge-success">PROCESSED</span>
+
+                                            {% else %}
+                                            <span class="badge badge-pill badge-warning">PENDING</span>
+                                            <br /><br />
+                                            {% if twitter %}<i class="iconsminds-facebook size"></i>{% endif %}
+                                            {% if instagram %}<i class="iconsminds-instagram size"></i>{% endif %}
+                                            {% if facebook %}<i class="iconsminds-twitter size"></i>{% endif %}
+                                            {% if linkd %}<i class="iconsminds-linkedin-2 size"></i>{% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'view_image' i.fid %}?sch=1">
+											<button class="btn btn-success"> View</button>
+                                            </a>
+                                            <a href="{% url 'edit_post' i.id %}">
+											<button class="btn btn-primary"> Edit</button>
+                                            </a>
+                                            {% if i.done == 0 %}
+                                                 <a href="{% url 'delp' i.id %}">
+											<button class="btn btn-danger" onclick="return confirm('Are you sure?')"> Delete</button>
+                                            </a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+
+
+{% endfor %}
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</main>
+
+{% endblock %}

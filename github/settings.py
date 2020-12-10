@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['www.django-env.eba-5hnxm2au.eu-west-2.elasticbeanstalk.com','127.0.0.1','localhost','django-env.eba-5hnxm2au.eu-west-2.elasticbeanstalk.com','nexxplanner.com','www.nexxplanner.com']
 
@@ -136,10 +136,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR,"static")
+#STATIC_ROOT = os.path.join(BASE_DIR,"static")
 STATIC_URL = '/static/'
 
-#STATICFILES_DIRS=[os.path.join(BASE_DIR,'static'),]
+STATICFILES_DIRS=[os.path.join(BASE_DIR,'static'),]
+
+
 import mimetypes
 mimetypes.add_type("text/html", ".html", True)
 
@@ -163,7 +165,7 @@ DEFAULT_FILE_STORAGE = 'github.storage_backends.PublicMediaStorage'
 AWS_S3_FILE_OVERWRITE=False
 LOGIN_URL = '/login/'
 
-LOGIN_REDIRECT_URL = "/users/"
+LOGIN_REDIRECT_URL = "/aws/"
 
 
 DEFAULT_FROM_EMAIL="shivsinghkhaira@gmail.com"
