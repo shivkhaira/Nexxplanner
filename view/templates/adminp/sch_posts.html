@@ -67,9 +67,11 @@
                                             <a href="{% url 'view_image' i.fid %}?sch=1">
 											<button class="btn btn-success"> View</button>
                                             </a>
+                                            {% if i.done == 0 %}
                                             <a href="{% url 'edit_post' i.id %}">
 											<button class="btn btn-primary"> Edit</button>
                                             </a>
+                                            {% endif %}
                                             {% if i.done == 0 %}
                                                  <a href="{% url 'delp' i.id %}">
 											<button class="btn btn-danger" onclick="return confirm('Are you sure?')"> Delete</button>

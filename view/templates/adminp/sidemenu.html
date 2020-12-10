@@ -37,7 +37,7 @@
             
                 <li>
                     {% for i in profile %}
-                    <a href="#" data-toggle="collapse" data-target="#collapseMenuLevel-{{i.name}}" aria-expanded="true"
+                    <a href="#" data-toggle="collapse" {% if session == i.name %} style="color:green" {% endif %} data-target="#collapseMenuLevel-{{i.name}}" aria-expanded="true"
                         aria-controls="collapseMenuLevel" class="rotate-arrow-icon collapsed">
                         <i class="simple-icon-arrow-down"></i> <span class="d-inline-block">{{i.name}}</span>
                     </a>

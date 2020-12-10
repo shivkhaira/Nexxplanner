@@ -73,7 +73,8 @@ def edit_post(request,id):
         return redirect('aws')
 
     up = Save.objects.get(id=id)
-
+    if up.done == 1:
+        return redirect('users')
     if up.user == request.user.username:
         gg = Iupload.objects.get(id=up.fid)
         up.ndate = gg.date
@@ -374,7 +375,7 @@ def sch(request):
         uform = Uinsta(request.POST, request.FILES)
         cpt=request.POST.get('caption')
         if len(request.FILES) == 0 and request.POST.get('instagram'):
-            return render(request, 'adminp/schedule.html', {'form': uform, 'form1': form, 'instap': '1','caption':cpt})
+            return render(request, 'adminp/schedule_post.html', {'form': uform, 'form1': form, 'instap': '1','caption':cpt})
         if request.POST.get('twitter') and len(request.POST.get('caption')) > 280:
             return render(request, 'adminp/schedule_post.html', {'tlimit': '1','caption':cpt})
 
@@ -720,7 +721,7 @@ def terms(request):
 
 @login_required
 def history(request):
-    up = Save.objects.filter(Q(user=request.user) & Q(profile=request.session['profile']))
+    up = Save.objects.filter(Q(user=request.user) & Q(profile=request.session['profile'])).order_by('-id')
     for i in up:
         gg = Iupload.objects.get(id=i.fid)
         i.ndate = gg.date
