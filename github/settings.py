@@ -183,3 +183,5 @@ TIME_INPUT_FORMATS = [
 ]
 
 SESSION_SAVE_EVERY_REQUEST=True
+
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates/adminp/')
