@@ -59,7 +59,7 @@ ROOT_URLCONF = 'github.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -183,5 +183,3 @@ TIME_INPUT_FORMATS = [
 ]
 
 SESSION_SAVE_EVERY_REQUEST=True
-
-TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates/adminp/')
