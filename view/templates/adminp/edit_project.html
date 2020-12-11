@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
-
+{% load static %}
 <head>
     <meta charset="UTF-8">
-    <title>Add New Project-NexxPlanner</title>
+    <title>Edit Project-NexxPlanner</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <link rel="stylesheet" href="{% static 'adminp/font/iconsmind-s/css/iconsminds.css' %}" />
@@ -36,26 +35,22 @@
                             <a href="{% url 'users' %}">
                                 <span class="logo-single"></span>
                             </a>
-                            <h6 class="mb-4">Create Project</h6>
+                            <h6 class="mb-4">Edit Project</h6>
+
                             <form method="post">
                                 {% csrf_token %}
                                 <label class="form-group has-float-label mb-4">
-                                    <input class="form-control" type="text" name="name" required />
+                                    <input class="form-control" style="background:black" name="name" value="{{pro.name}}" disabled />
                                     <span>Name</span>
-                                     <p style="font-size:0.8rem">Name can't be changed later!</p>
                                 </label>
-
 								 <label class="form-group has-float-label mb-4">
-                                    <input class="form-control" name="email" type="email" required />
+                                    <input class="form-control" name="email" value="{{pro.email}}" required />
                                     <span>Email</span>
                                 </label>
-                                {% if error %}
-                                <span style="color:red">Name already exists</span>
-                                {% endif %}
-                                <div class="d-flex justify-content-end align-items-center">
-                                    <button class="btn btn-primary btn-lg btn-shadow" type="submit">Create</button>
-                                </div>
 
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <button class="btn btn-primary btn-lg btn-shadow" type="submit">Change</button>
+                                </div>
                             </form>
                         </div>
                     </div>

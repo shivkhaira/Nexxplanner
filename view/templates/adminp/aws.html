@@ -12,11 +12,11 @@
                         <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
                             <ol class="breadcrumb pt-0">
                                 <li class="breadcrumb-item">
-                                    <a href="{% url 'home' %}">Home</a>
+                                    <a href="{% url 'users' %}">Home</a>
                                 </li>
                                 {% if tprofile < limit %}
                                 <li class="breadcrumb-item">
-                                    <a href="create.project.php">Create New Project</a>
+                                    <a href="{% url 'setp' %}">Create New Project</a>
                                 </li>
                                 {% else %}
                                 <li class="breadcrumb-item">
@@ -46,7 +46,7 @@
                                 <p class="mb-0 text-muted text-small w-15 w-sm-100">{{i.email}}</p>
 
                                 <div class="w-15 w-sm-100">
-                                  <a href="edit.project.php">
+                                  <a href="{% url 'cool' i.name %}?redirect=edit_project">
 											<button class="btn btn-primary"> Edit</button>
 											</a>
                                 </div>

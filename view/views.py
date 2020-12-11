@@ -24,6 +24,22 @@ from django.template import RequestContext
 
 # Create your views here.
 
+@login_required
+def edit_project(request):
+    if request.method=='POST':
+        name=request.POST.get('name')
+        email=request.POST.get('email')
+        x = Profile.objects.get(Q(name=request.session['profile']) & Q(user=request.user.username))
+        x.email=email
+        x.save()
+        request.session['profile']=None
+        return redirect('aws')
+    p=Profile.objects.get(Q(name=request.session['profile']) & Q(user=request.user.username))
+    if p:
+        return render(request,'adminp/edit_project.html',{'pro':p})
+    else:
+        return redirect('aws')
+
 
 @login_required
 def support(request):
@@ -623,6 +639,8 @@ def cool(request, name):
 
 @login_required
 def update(request, name):
+    if request.session['profile'] is None:
+        return redirect('aws')
     if request.method == 'POST':
         if name == 'instagram':
             form = Finsta(request.POST)
@@ -707,7 +725,7 @@ def post_history(request):
         i.url=storage.url(str(i.file))
     return render(request, 'adminp/posts.html', {'up': up})
 
-
+@login_required
 def download_image(request, id):
     img = Iupload.objects.get(id=id)
     filename = 'images.png'
@@ -721,6 +739,8 @@ def terms(request):
 
 @login_required
 def history(request):
+    if request.session['profile'] is None:
+        return redirect('aws')
     up = Save.objects.filter(Q(user=request.user) & Q(profile=request.session['profile'])).order_by('-id')
     for i in up:
         gg = Iupload.objects.get(id=i.fid)
