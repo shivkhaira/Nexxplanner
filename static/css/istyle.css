@@ -50,6 +50,11 @@ textarea {
   resize: none;
 }
 
+section.app-video:before{
+	
+	background:none;
+}
+
 
 
 
@@ -296,3 +301,4 @@ textarea {
     top: 3px;
   }
 }
+

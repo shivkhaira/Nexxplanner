@@ -24,30 +24,40 @@
             <div class="main-menu-wrap">
                 <div class="container" style="max-width:100%;">
                     <div class="row align-items-center">
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-2">
+                        <div class="col-lg-2 log">
                             <!-- Logo -->
                             <div class="logo">
-                                <a href="{% url 'home' %}">
+                                <a href="{%url 'home' %}">
                                     <img src="{% static 'images/logo.png' %}" data-rjs="2" width="100%" alt="nexxplanner">
                                 </a>
                             </div>
                             <!-- End of Logo -->
                         </div>
-                        <div class="col-xl-8 col-lg-8 col-md-8 col-8 menu-button">
+
+						 <div class="col-lg-2 mob">
+                            <!-- Logo -->
+                            <div class="logo">
+                                <a href="{%url 'home' %}">
+                                    <img src="{% static 'images/logo.png' %}" data-rjs="2" width="100%" alt="nexxplanner">
+                                </a>
+                            </div>
+                            <!-- End of Logo -->
+                        </div>
+                        <div class="col-lg-8 menu-button">
                             <div class="menu--inner-area clearfix">
                                 <div class="menu-wraper">
                                     <nav>
                                         <!-- Header-menu -->
                                         <div class="header-menu dosis">
                                             <ul>
-                                                <li><a href="{% url 'home' %}">Home</a></li>
-												   <li><a href="#about">About Us</a></li>
-												   <li><a href="#video">Video</a></li>
+                                                <li><a href="{%url 'home' %}">Home</a></li>
+												<li><a href="#about">About Us</a></li>
+												<li><a href="#video">Video</a></li>
                                                 <li><a href="#features">Features</a></li>
                                                 <li><a href="#platform">Platform</a></li>
                                                 <li><a href="#pricing  ">Pricing</a></li>
-                                                <li><a href="#contact">Contact Us</a>
-                                                <li style="background:yellow"><a href="{% url 'login' %}">Login</a>
+                                                <li><a href="#contact">Contact Us</a></li>
+												<li ><a href="{% url 'login' %}" class="mob">Login</a>
                                                     <!--<ul>
                                                         <li><a href="blog.html">Blog Posts</a></li>
                                                         <li><a href="blog-details.html">single Post</a></li>
@@ -60,8 +70,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 d-md-block d-none">
-                            <div class="urgent-call text-right"><a href="https://nexxplanner.com/login/" class="fa fa-user" style="padding: 20px;border-radius: 30%;background-color: white"></a></div>
+                        <div class="col-lg-1 d-md-block d-none">
+                            <div class="urgent-call text-right"><a href="{%url 'login' %}" class="fa fa-user" style="padding: 20px;border-radius: 30%;background-color: white"></a></div>
                         </div>
                     </div>
                 </div>
