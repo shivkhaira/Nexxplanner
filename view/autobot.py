@@ -118,7 +118,7 @@ class Int:
             graph.put_object(facebook_page_id, "feed", message=caption)
 
 
-    def twit(consumer_key,consumer_secret,access_token,access_token_secret,pic,caption):
+    def twit (consumer_key,consumer_secret,access_token,access_token_secret,pic,caption):
         namee = pic.split("/")[-1]
         urllib.request.urlretrieve(pic, "media/" + namee)
         pic = "media/" + namee

@@ -57,11 +57,12 @@
                                             {% else %}
                                             <span class="badge badge-pill badge-warning">PENDING</span>
                                             <br /><br />
-                                            {% if twitter %}<i class="iconsminds-facebook size"></i>{% endif %}
-                                            {% if instagram %}<i class="iconsminds-instagram size"></i>{% endif %}
-                                            {% if facebook %}<i class="iconsminds-twitter size"></i>{% endif %}
-                                            {% if linkd %}<i class="iconsminds-linkedin-2 size"></i>{% endif %}
+
                                             {% endif %}
+                                            {% if i.twitter %}<i class="iconsminds-facebook size"></i>{% endif %}
+                                            {% if i.instagram %}<i class="iconsminds-instagram size"></i>{% endif %}
+                                            {% if i.facebook %}<i class="iconsminds-twitter size"></i>{% endif %}
+                                            {% if i.linkd %}<i class="iconsminds-linkedin-2 size"></i>{% endif %}
                                         </td>
                                         <td>
                                             <a href="{% url 'view_image' i.fid %}?sch=1">
