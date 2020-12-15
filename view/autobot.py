@@ -5,7 +5,11 @@ import PIL
 import numpy as np
 import shutil
 import facebook
-import tweepy
+#import tweepy
+
+import magic
+from twython import Twython
+
 import requests
 import json
 from django.db.models import Q
@@ -119,15 +123,16 @@ class Int:
         urllib.request.urlretrieve(pic, "media/" + namee)
         pic = "media/" + namee
         # authentication of consumer key and secret
-        auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 
-        # authentication of access token and secret
-        auth.set_access_token(access_token, access_token_secret)
-        api = tweepy.API(auth)
+        twitter=Twython(consumer_key, consumer_secret,
+                access_token, access_token_secret)
         if pic !='media/null':
-            api.update_with_media(filename=pic, status=caption)
+            mime = magic.Magic(mime=True)
+            m = mime.from_file(pic)
+            response = twitter.upload_video(media=open(pic, 'rb'), media_type=m)
+            twitter.update_status(status=caption, media_ids=[response['media_id']])
         else:
-            api.update_status(status=caption)
+            twitter.update_status(status=caption)
 
     def insta_data(usernamed,user,pwd,session):
         from .models import Insta_data

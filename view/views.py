@@ -271,6 +271,7 @@ def iupload(request):
             return render(request, 'adminp/upload_post.html', {'form': form, 'instap': '1','caption':cpt})
         if request.POST.get('twitter') and len(request.POST.get('caption')) > 280:
             return render(request, 'adminp/upload_post.html', {'form': form, 'tlimit': '1','caption':cpt})
+        print(form.errors)
         if form.is_valid():
             insta = request.POST.get('instagram')
             face = request.POST.get('facebook')
@@ -314,7 +315,9 @@ def iupload(request):
                 multiprocessing.Process(target=Int.face,
                                         args=(token, page_id, img, data.caption)).start()
             if twit:
-                tw = Twitter.objects.get(Q(user=request.user) & Q(profile=request.session['profile']))
+                print(request.user.username)
+                print(request.session['profile'])
+                tw = Twitter.objects.get(Q(user=request.user.username) & Q(profile=request.session['profile']))
                 consumer_key = tw.consumer_key
                 consumer_secret = tw.consumer_secret
                 access_token = tw.access_token
