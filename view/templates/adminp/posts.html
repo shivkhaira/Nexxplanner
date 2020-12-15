@@ -53,9 +53,9 @@
                                         <td><p class="mb-0 text-muted text-small ">{{i.date|time:"h:i a"}}</p></td>
                                         <td style="text-align:center"><span class="badge badge-pill badge-success">PROCESSED</span>
                                         <br />
-                                           {% if i.twitter %}<i class="iconsminds-facebook size"></i>{% endif %}
+                                           {% if i.facebook %}<i class="iconsminds-facebook size"></i>{% endif %}
                                             {% if i.instagram %}<i class="iconsminds-instagram size"></i>{% endif %}
-                                            {% if i.facebook %}<i class="iconsminds-twitter size"></i>{% endif %}
+                                            {% if i.twitter %}<i class="iconsminds-twitter size"></i>{% endif %}
                                             {% if i.linkd %}<i class="iconsminds-linkedin-2 size"></i>{% endif %}</td>
                                         <td>
                                             <a href="{% url 'view_image' i.id %}">
