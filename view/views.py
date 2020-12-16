@@ -520,6 +520,7 @@ def test(request):
     for i in up:
         i.url=storage.url(str(i.file))
         i.capt=i.caption
+        i.type=i.url.split(".")[-1]
     data={
         'pending':pen,
         'total':total,
@@ -726,6 +727,7 @@ def post_history(request):
     up = Iupload.objects.filter(Q(users=request.user) & Q(done=1) & Q(profile=request.session['profile']))
     for i in up:
         i.url=storage.url(str(i.file))
+        i.type=i.url.split(".")[-1]
     return render(request, 'adminp/posts.html', {'up': up})
 
 @login_required
@@ -755,6 +757,7 @@ def history(request):
         i.done = gg.done
         i.caption = gg.caption
         i.url=storage.url(str(gg.file))
+        i.type = i.url.split(".")[-1]
 
     return render(request, 'adminp/sch_posts.html', {'up': up})
 

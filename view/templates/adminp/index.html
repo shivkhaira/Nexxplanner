@@ -94,8 +94,12 @@
 
                                 <div class="d-flex flex-row mb-3">
                                     <a class="d-block position-relative" target="_blank" href="{{i.url}}">
-                                        <img src="{{i.url}}" alt="Chocolate Cake"
-                                            class="list-thumbnail border-0" />
+                                        {% if i.type in 'mp4,flv,mov' %}
+                                       <img src="{% static 'images/vid_icon.png' %}" alt="{{i.caption|truncatechars:10}}" class="list-thumbnail border-0" />
+                                        {% else %}
+                                        <img src="{{i.url}}" alt="{{i.caption|truncatechars:10}}" class="list-thumbnail border-0" />
+                                             {% endif %}
+
                                         {% if i.done %}
 
  <span class="badge badge-pill badge-success position-absolute badge-top-right">DONE</span>
