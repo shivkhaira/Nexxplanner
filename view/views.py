@@ -20,7 +20,7 @@ import tweepy
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import User
 import urllib
-from django.template import RequestContext
+
 
 # Create your views here.
 
@@ -295,6 +295,7 @@ def iupload(request):
                 form.instance.linkd = True
 
             form.instance.profile = request.session['profile']
+
             data = form.save()
             pic = Iupload.objects.get(id=data.id)
 

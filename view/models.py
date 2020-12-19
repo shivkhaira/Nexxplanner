@@ -2,6 +2,10 @@ from django.db import models
 from uuid import uuid4
 import os
 from datetime import datetime
+from io import BytesIO
+from PIL import Image
+from django.core.files.uploadedfile import InMemoryUploadedFile
+import sys
 # Create your models here.
 
 class Pro(models.Model):
@@ -82,6 +86,25 @@ class Iupload(models.Model):
     done=models.BooleanField(default=False)
     date=models.DateTimeField(default=datetime.now())
     profile = models.CharField(max_length=100)
+
+    def save(self):
+        # Opening the uploaded image
+        im = Image.open(self.file)
+        print(sys.getsizeof(im))
+        output = BytesIO()
+
+        # Resize/modify the image
+        #im = im.resize((100, 100))
+
+        # after modifications, save it to the output
+        im.save(output, format='JPEG', quality=70)
+        output.seek(0)
+
+        # change the imagefield value to be the newley modifed image value
+        self.file = InMemoryUploadedFile(output, 'ImageField', "%s.jpg" % self.file.name.split('.')[0], 'image/jpeg',
+                                        sys.getsizeof(output), None)
+
+        super(Iupload, self).save()
 
     def __str__(self):
         return str(self.users)+str(self.id)
