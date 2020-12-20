@@ -82,7 +82,6 @@ WSGI_APPLICATION = 'github.wsgi.application'
 
 
 if 'RDS_HOSTNAME' in os.environ:
-    print(os.environ['RDS_PASSWORD']+","+os.environ['RDS_DB_NAME']+","+os.environ['RDS_USERNAME']+","+os.environ['RDS_HOSTNAME'])
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
