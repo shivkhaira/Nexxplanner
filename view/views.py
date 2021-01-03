@@ -819,7 +819,7 @@ def t_login(request):
                                access_token=real_oauth_token, access_token_secret=real_oauth_token_secret)
         mon.twitter = True
         mon.save()
-    return redirect('aws')
+    return redirect('users')
 
 
 def ggp(request):
@@ -848,7 +848,7 @@ def linkd(request):
                                  access_token=token, urn=urn)
             mon.linkd = True
             mon.save()
-        return redirect('aws')
+        return redirect('users')
     else:
         return redirect(
             "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=86uhfw4w57lw74&scope=r_liteprofile%20r_emailaddress%20w_member_social&redirect_uri=https://nexxplanner.com/linkd/")
