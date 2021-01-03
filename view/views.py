@@ -851,7 +851,7 @@ def linkd(request):
         return redirect('aws')
     else:
         return redirect(
-            "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=86uhfw4w57lw74&scope=r_liteprofile%20r_emailaddress%20w_member_social&redirect_uri=http://nexxplanner.com/linkd/")
+            "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=86uhfw4w57lw74&scope=r_liteprofile%20r_emailaddress%20w_member_social&redirect_uri=https://nexxplanner.com/linkd/")
 
 
 def abhiraj(request, to="jaswindersingh11061998@gmail.com"):
