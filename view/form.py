@@ -58,7 +58,7 @@ class Finsta(forms.ModelForm):
 
 class Uinsta(forms.ModelForm):
     file=forms.FileField(required=False,widget=forms.FileInput(attrs={'class':'form-control'}))
-    caption=forms.CharField(widget=forms.Textarea(attrs={'class':'form-control','rows':'8','placeholder':'Enter Your Caption'}))
+    caption=forms.CharField(required=False,widget=forms.Textarea(attrs={'class':'form-control','rows':'8','placeholder':'Enter Your Caption'}))
     class Meta:
         model=Iupload
         fields=["file","caption"]
