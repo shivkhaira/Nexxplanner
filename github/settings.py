@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'view',
     'django_crontab',
+#    'django_extensions',
 
 ]
 
@@ -182,4 +183,16 @@ TIME_INPUT_FORMATS = [
     '%H:%M',        # '14:30'
 ]
 
-SESSION_SAVE_EVERY_REQUEST=True
+#SESSION_SAVE_EVERY_REQUEST=True
+
+
+# DEPLOYMENT SETTINGS
+
+SECURE_HSTS_SECONDS = 10
+SECURE_SSL_REDIRECT=True
+SECURE_HSTS_INCLUDE_SUBDOMAINS=True
+SESSION_COOKIE_SECURE=True
+CSRF_COOKIE_SECURE=True
+SECURE_HSTS_PRELOAD=True
+
+#END DEPLOYMENT SETTINGS
