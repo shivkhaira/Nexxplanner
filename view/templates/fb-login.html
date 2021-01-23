@@ -29,7 +29,7 @@
 
   window.fbAsyncInit = function() {
     FB.init({
-      appId      : '1779923508824403',
+      appId      : '3431442626971955',
       cookie     : true,                     // Enable cookies to allow the server to access the session.
       xfbml      : true,                     // Parse social plugins on this webpage.
       version    : 'v8.0'           // Use this Graph API version for this call.
@@ -50,21 +50,16 @@
 
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.token + '!';
-    },{scope: 'pages_manage_posts,pages_show_list'});
+    });
   }
 
 </script>
 
 
 <!-- The JS SDK Login Button -->
-<style>
-login-button{
-height:100px;
-}
-</style>
 
-
-<div class="fb-login-button" data-width="" data-size="large" onclick="checkLoginState();" data-button-type="continue_with" data-layout="default" data-auto-logout-link="true" data-use-continue-as="false"></div>
+<fb:login-button scope="pages_manage_posts,pages_show_list,pages_read_engagement" onlogin="checkLoginState();">
+</fb:login-button>
 
 <div id="status">
 </div>
