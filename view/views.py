@@ -823,13 +823,8 @@ def t_login(request):
 
 
 def ggp(request):
-    import facebook
-    from facebook import GraphAPI
-    facebook_page_id = 3619456121486864
-    graph = GraphAPI(request.facebook.user.oauth_token.token)
-    page_access_token = graph.get(facebook_page_id + '?fields=access_token')
 
-    return render(request, 'fb-login.html', {'token':page_access_token})
+    return render(request, 'fb-login.html', {})
 
 def facebook(request):
     return render(request, 'facebook.html', {})
