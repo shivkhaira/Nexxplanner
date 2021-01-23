@@ -50,7 +50,7 @@
 
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.token + '!';
-    });
+    },{scope:'pages_manage_posts,pages_show_list,pages_read_engagement,pages_manage_metadata'});
   }
 
 </script>
@@ -58,9 +58,7 @@
 
 <!-- The JS SDK Login Button -->
 
-<fb:login-button scope="pages_manage_posts,pages_show_list,pages_read_engagement,pages_manage_metadata" onlogin="checkLoginState();">
-</fb:login-button>
-
+<div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="true" data-use-continue-as="true"></div>
 <div id="status">
 </div>
 
