@@ -67,7 +67,8 @@ urlpatterns = [
     path('abhiraj/',views.abhiraj,name='abhi'),
     path('terms/',views.terms,name='terms'),
     path('privacy/',views.terms,name='privacy'),
-    path('support/',views.support,name='support')
+    path('support/',views.support,name='support'),
+    path('facebook/',views.facebook,name='fwb'),
 ]
 
 

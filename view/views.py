@@ -825,6 +825,8 @@ def t_login(request):
 def ggp(request):
     return render(request, 'fb-login.html', {})
 
+def facebook(request):
+    return render(request, 'facebook.html', {})
 
 @login_required
 def linkd(request):
