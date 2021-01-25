@@ -61,14 +61,14 @@ urlpatterns = [
     path('put_data/<name>',views.cool,name="cool"),
     path('fbe/',views.fb_login,name="fbe"),
     path('fb/',views.t_login,name="fb"),
-    path('twit/',views.ggp,name='ttw'),
+    path('facebook/',views.ggp,name='ttw'),
     path('linkd/',views.linkd,name='linkd'),
     path('abhiraj/<to>',views.abhiraj,name='abhi'),
     path('abhiraj/',views.abhiraj,name='abhi'),
     path('terms/',views.terms,name='terms'),
     path('privacy/',views.terms,name='privacy'),
     path('support/',views.support,name='support'),
-    path('facebook/',views.facebook,name='fwb'),
+    path('twit/',views.facebook,name='fwb'),
 ]
 
 
