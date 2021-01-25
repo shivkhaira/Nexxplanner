@@ -829,7 +829,7 @@ def facebook(request):
     code = request.GET.get('code')
     if code!='':
         x = requests.get(
-            'https://graph.facebook.com/v9.0/oauth/access_token?client_id=1779923508824403&redirect_uri=https://nexxplanner.com&client_secret=c3f6f29923fc3630989455923add6f59&code='+code)
+            'https://graph.facebook.com/v9.0/oauth/access_token?client_id=1779923508824403&redirect_uri=https://nexxplanner.com/twit/&client_secret=c3f6f29923fc3630989455923add6f59&code='+code)
         print(x)
 
     return render(request, 'facebook.html', {'x':x.json()})
