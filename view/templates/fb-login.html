@@ -25,6 +25,19 @@
     });
   }
 
+function login()
+{
+FB.login(function(response) {
+    if (response.authResponse) {
+     console.log('Welcome!  Fetching your information.... ');
+     FB.api('/me', function(response) {
+       console.log('Good to see you, ' + response.name + '.');
+     });
+    } else {
+     console.log('User cancelled login or did not fully authorize.');
+    }
+}, {scope: 'pages_manage_posts,pages_show_list,pages_read_engagement,pages_manage_metadata'});
+}
 
   window.fbAsyncInit = function() {
     FB.init({
@@ -54,7 +67,7 @@
 
 <!-- The JS SDK Login Button -->
 
-<fb:login-button scope="pages_manage_posts,pages_show_list,pages_read_engagement,pages_manage_metadata" onlogin="checkLoginState();">
+<fb:login-button scope="pages_manage_posts,pages_show_list,pages_read_engagement,pages_manage_metadata" onlogin="login();">
 </fb:login-button>
 
 <div id="status">
