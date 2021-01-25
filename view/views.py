@@ -851,7 +851,7 @@ def facebook(request):
             get.page_id=user_id
             get.save()
         else:
-            LinkD.objects.create(user=request.user.username, profile=request.session['profile'],
+            Facebook.objects.create(user=request.user.username, profile=request.session['profile'],
                                  access_token=token, page_id=user_id)
             mon.facebook = True
             mon.save()
