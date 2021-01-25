@@ -843,7 +843,7 @@ def facebook(request):
 
         user_id=z['data']['user_id']
 
-        token=x.access_token
+        token=x['access_token']
         mon = Profile.objects.get(Q(name=request.session['profile']) & Q(user=request.user.username))
         if mon.facebook:
             get = Facebook.objects.get(Q(profile=request.session['profile']) & Q(user=request.user.username))
