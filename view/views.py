@@ -829,7 +829,7 @@ def facebook(request):
     code = request.GET.get('code')
     if code!='':
         x = requests.get(
-            'https://graph.facebook.com/v9.0/oauth/access_token?client_id=1779923508824403&redirect_uri=https://nexxplanner.com/twit/&client_secret=c3f6f29923fc3630989455923add6f59&code='+code)
+            'https://graph.facebook.com/v9.0/oauth/access_token?client_id=1779923508824403&redirect_uri=https://nexxplanner.com/twit/&client_secret=c3f6f29923fc3630989455923add6f59&code='+str(code))
         x=x.json()
 
         if not "access_token" in x:
@@ -838,7 +838,7 @@ def facebook(request):
         y=requests.get('https://graph.facebook.com/oauth/access_token?client_id=1779923508824403&client_secret=c3f6f29923fc3630989455923add6f59&grant_type=client_credentials');
         y=y.json()
 
-        z=requests.get('https://graph.facebook.com/debug_token?input_token='+x.access_token+'&access_token='+y.access_token)
+        z=requests.get('https://graph.facebook.com/debug_token?input_token='+str(x.access_token)+'&access_token='+str(y.access_token))
         z=z.json()
 
         user_id=z.user_id
