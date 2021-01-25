@@ -830,9 +830,33 @@ def facebook(request):
     if code!='':
         x = requests.get(
             'https://graph.facebook.com/v9.0/oauth/access_token?client_id=1779923508824403&redirect_uri=https://nexxplanner.com/twit/&client_secret=c3f6f29923fc3630989455923add6f59&code='+code)
-        print(x)
+        x=x.json()
 
-    return render(request, 'facebook.html', {'x':x.json()})
+        if not "access_token" in x:
+            return redirect('project')
+
+        y=requests.get('https://graph.facebook.com/oauth/access_token?client_id=1779923508824403&client_secret=c3f6f29923fc3630989455923add6f59&grant_type=client_credentials');
+        y=y.json()
+
+        z=requests.get('https://graph.facebook.com/debug_token?input_token='+x.access_token+'&access_token='+y.access_token)
+        z=z.json()
+
+        user_id=z.user_id
+
+        token=x.access_token
+        mon = Profile.objects.get(Q(name=request.session['profile']) & Q(user=request.user.username))
+        if mon.facebook:
+            get = Facebook.objects.get(Q(profile=request.session['profile']) & Q(user=request.user.username))
+            get.access_token = token
+            get.page_id=user_id
+            get.save()
+        else:
+            LinkD.objects.create(user=request.user.username, profile=request.session['profile'],
+                                 access_token=token, page_id=user_id)
+            mon.facebook = True
+            mon.save()
+
+    return redirect('project')
 
 @login_required
 def linkd(request):
