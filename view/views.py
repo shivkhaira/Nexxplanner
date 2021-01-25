@@ -841,7 +841,7 @@ def facebook(request):
         z=requests.get('https://graph.facebook.com/debug_token?input_token='+str(x['access_token'])+'&access_token='+str(y['access_token']))
         z=z.json()
 
-        user_id=z.user_id
+        user_id=z['user_id']
 
         token=x.access_token
         mon = Profile.objects.get(Q(name=request.session['profile']) & Q(user=request.user.username))
