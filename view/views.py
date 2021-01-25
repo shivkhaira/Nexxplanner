@@ -700,6 +700,7 @@ def delete(request, name):
         make = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
         make.instagram = False
         make.save()
+
     if name == 'facebook':
         Facebook.objects.get(Q(user=request.user) & Q(profile=request.session['profile'])).delete()
         make = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))

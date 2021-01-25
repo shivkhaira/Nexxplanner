@@ -94,7 +94,7 @@
                                     <li class="rowwidth " >
                                         <a
                                                 {% if facebook == 0 %}
-                                                href="#"
+                                                href="https://www.facebook.com/v9.0/dialog/oauth?client_id=1779923508824403&redirect_uri=https://nexxplanner.com/twit/"
                                                 {% else %}
                                                 onclick="return confirm('Are you sure?')"
                                                 href="{% url 'delete' 'facebook' %}"
@@ -106,9 +106,7 @@
                                             {% endif %}
                                             >
                                                 <i class="iconsminds-facebook size"></i>
-                 <div class="fb-login-button" style="display:block" data-width="" data-size="medium" data-button-type="login_with" data-layout="default" data-auto-logout-link="true" data-use-continue-as="true"></div>
-
-                                            </div>
+                                                <p class="card-text mb-0">Facebook</p></div>
                                         </a>
                                     </li>
 										</div>
