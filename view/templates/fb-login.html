@@ -6,59 +6,18 @@
 </head>
 <body>
 <script>
-
-  function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
-    console.log('statusChangeCallback');
-    console.log(response);                   // The current login status of the person.
-    console.log(response.authResponse.accessToken);
-    console.log(response.authResponse.userID);
-   // window.location.href = "/"+response.authResponse.accessToken+"/"+response.authResponse.userID
-    if (response.status === 'connected') {   // Logged into your webpage and Facebook.
-      testAPI();
-    } else {                                 // Not logged into your webpage or we are unable to tell.
-    }
-  }
-
-
-  function checkLoginState() {               // Called when a person is finished with the Login Button.
-    FB.getLoginStatus(function(response) {   // See the onlogin handler
-      statusChangeCallback(response);
-    });
-  }
-
-
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '1779923508824403',
-      cookie     : true,                     // Enable cookies to allow the server to access the session.
-      xfbml      : true,                     // Parse social plugins on this webpage.
-      version    : 'v8.0'           // Use this Graph API version for this call.
-    });
-
-
-    FB.getLoginStatus(function(response) {   // Called after the JS SDK has been initialized.
-      console.log(response);
-      statusChangeCallback(response);        // Returns the login status.
-
-    });
-  };
-
-  function testAPI() {                      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
-    console.log('Welcome!  Fetching your information.... ');
-   // console.log(response)
-    FB.api('/me', function(response) {
-
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.token + '!';
-    },{scope:'pages_manage_posts,pages_show_list,pages_read_engagement,pages_manage_metadata'});
-  }
-
+    function login(){
+    FB.login(function(response){
+  console.log(response);
+},{scope: 'pages_manage_posts,pages_show_list,pages_read_engagement,pages_manage_metadata'});
+}
 </script>
 
 
 <!-- The JS SDK Login Button -->
 
-<div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="true" data-use-continue-as="true"></div>
+<button onclick="login()">LOGIN</button>
+
 <div id="status">
 </div>
 
