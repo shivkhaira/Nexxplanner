@@ -847,12 +847,11 @@ def facebook(request):
         mon = Profile.objects.get(Q(name=request.session['profile']) & Q(user=request.user.username))
         if mon.facebook:
             get = Facebook.objects.get(Q(profile=request.session['profile']) & Q(user=request.user.username))
-            get.access_token = token
+            get.token = token
             get.page_id=user_id
             get.save()
         else:
-            Facebook.objects.create(user=request.user.username, profile=request.session['profile'],
-                                 access_token=token, page_id=user_id)
+            Facebook.objects.create(user=request.user.username, profile=request.session['profile'],token=token, page_id=user_id)
             mon.facebook = True
             mon.save()
 
