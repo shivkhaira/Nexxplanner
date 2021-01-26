@@ -706,10 +706,7 @@ def delete(request, name):
         make = Profile.objects.get(Q(user=request.user) & Q(name=request.session['profile']))
         make.facebook = False
         make.save()
-        response=redirect('project')
-        #response.delete_cookie(domain='www.facebook.com')
-        response.delete_cookie(domain='facebook.com')
-        return response
+        return redirect('project')
 
     if name == 'twitter':
         Twitter.objects.get(Q(user=request.user) & Q(profile=request.session['profile'])).delete()
