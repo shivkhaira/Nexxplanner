@@ -104,7 +104,7 @@ class Iupload(models.Model):
             #im = im.resize((100, 100))
 
             # after modifications, save it to the output
-            im.save(output, format='JPEG', quality=70)
+            im.save(output, format='JPEG', quality=50)
             output.seek(0)
 
             # change the imagefield value to be the newley modifed image value
