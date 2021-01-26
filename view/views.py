@@ -707,8 +707,8 @@ def delete(request, name):
         make.facebook = False
         make.save()
         response=redirect('project')
-        response.delete_cookie(domain='www.facebook.com')
-        #response.delete_cookie(domain='facebook.com')
+        #response.delete_cookie(domain='www.facebook.com')
+        response.delete_cookie(domain='facebook.com')
         return response
 
     if name == 'twitter':
